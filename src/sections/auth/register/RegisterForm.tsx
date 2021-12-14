@@ -37,14 +37,14 @@ type initialValues = {
   phoneNumber: string,
   address: string,
   country: string,
-  state:string,
-  city:string,
-  zipCode:string,
-  avatarUrl:string,
-  isVerified:string,
+  state: string,
+  city: string,
+  zipCode: string,
+  avatarUrl: string,
+  isVerified: string,
   status: string,
-  company:string,
-  role:string
+  company: string,
+  role: string
 }
 
 export default function UserNewForm() {

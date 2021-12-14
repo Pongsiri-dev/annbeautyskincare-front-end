@@ -96,39 +96,8 @@ export default function Register() {
 
         <Container>
           <ContentStyle>
-            <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" gutterBottom>
-                  Get started absolutely free.
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>
-                  Free forever. No credit card needed.
-                </Typography>
-              </Box>
-              <Tooltip title={capitalCase(method)}>
-                <>
-                  <Image
-                    disabledEffect
-                    src={`https://minimal-assets-api.vercel.app/assets/icons/auth/ic_${method}.png`}
-                    sx={{ width: 32, height: 32 }}
-                  />
-                </>
-              </Tooltip>
-            </Box>
             {/* เรียกใช้ Form */}
             <UserNewForm />
-
-            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-              By registering, I agree to Minimal&nbsp;
-              <Link underline="always" color="text.primary" href="#">
-                Terms of Service
-              </Link>
-              {''}and{''}
-              <Link underline="always" color="text.primary" href="#">
-                Privacy Policy
-              </Link>
-              .
-            </Typography>
 
             {!smUp && (
               <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
