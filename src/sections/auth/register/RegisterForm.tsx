@@ -1,10 +1,12 @@
 import * as Yup from 'yup';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { Form, FormikProvider, useFormik } from 'formik';
 // @mui
 import { LoadingButton } from '@mui/lab';
+import { useTheme } from '@mui/material/styles';
+import SignatureCanvas from 'react-signature-canvas';
 import {
   Box,
   Card,
@@ -15,6 +17,7 @@ import {
   Typography,
   FormHelperText,
   FormControlLabel,
+  Checkbox
 } from '@mui/material';
 // utils
 import { fData } from '../../../utils/formatNumber';
@@ -29,57 +32,77 @@ import Label from '../../../components/Label';
 import { UploadAvatar } from '../../../components/upload';
 import { string } from 'yup/lib/locale';
 import { type } from 'os';
+import ReactSignatureCanvas from 'react-signature-canvas';
 
 // ----------------------------------------------------------------------
 type initialValues = {
-  name: string,
+  imgCardID: string,
+  imgProfile: string,
+  firstName: string,
+  lastName: string,
+  birthDay: string,
+  cardID: string,
   email: string,
-  phoneNumber: string,
+  Tel: string,
   address: string,
-  country: string,
-  state: string,
-  city: string,
-  zipCode: string,
-  avatarUrl: string,
-  isVerified: string,
-  status: string,
-  company: string,
-  role: string
+  provinceCode: string,
+  provinceName: string,
+  amphurCode: string,
+  amphurName: string,
+  tumbonCode: string,
+  tumbonName: string,
+  postCode: string,
+  signID: string,
+  allow: boolean
 }
 
 export default function UserNewForm() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const theme = useTheme();
+  const sigPadRef = useRef<ReactSignatureCanvas>(null);
 
   const NewUserSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required').email(),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    role: Yup.string().required('Role Number is required'),
-    avatarUrl: Yup.mixed().required('Avatar is required'),
+    imgCardID: Yup.string().required('กรุณาใส่รูปบัตรประชาชน'),
+    imgProfile: Yup.string().required('กรุณาใส่รูปประจำตัว'),
+    firstName: Yup.string().required('กรุณากรอกชื่อ'),
+    lastName: Yup.string().required('กรุณากรอกนามสกุล'),
+    birthDay: Yup.string().required('กรุณากรอกวัน/เดือน/ปีเกิด'),
+    cardID: Yup.string().required('กรุณากรอกเลขบัตรประชาชน'),
+    email: Yup.string().required('กรุณากรอกอีเมลล์').email(),
+    Tel: Yup.string().required('กรุณากรอกเบอร์โทรศัพท์'),
+    address: Yup.string().required('กรุณากรอกที่อยู่'),
+    provinceCode: Yup.string().required('กรุณากรอกจังหวัด'),
+    provinceName: Yup.string().required('กรุณากรอกจังหวัด'),
+    amphurCode: Yup.string().required('กรุณากรอกอำเภอ'),
+    amphurName: Yup.string().required('กรุณากรอกอำเภอ'),
+    tumbonCode: Yup.string().required('กรุณากรอกตำบล'),
+    tumbonName: Yup.string().required('กรุณากรอกตำบล'),
+    postCode: Yup.string().required('กรุณากรอกรหัสไปรษณีย์'),
+    signID: Yup.string().required('กรุณากรอกลายเซ็น')
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: '',
+      imgCardID: '',
+      imgProfile: '',
+      firstName: '',
+      lastName: '',
+      birthDay: '',
+      cardID: '',
       email: '',
-      phoneNumber: '',
+      Tel: '',
       address: '',
-      country: '',
-      state: '',
-      city: '',
-      zipCode: '',
-      avatarUrl: '',
-      isVerified: '',
-      status: '',
-      company: '',
-      role: ''
+      provinceCode: '',
+      provinceName: '',
+      amphurCode: '',
+      amphurName: '',
+      tumbonCode: '',
+      tumbonName: '',
+      postCode: '',
+      signID: '',
+      allow: false
     },
     validationSchema: NewUserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
@@ -101,10 +124,10 @@ export default function UserNewForm() {
     formik;
 
   const handleDrop = useCallback(
-    (acceptedFiles) => {
+    (acceptedFiles, type) => {
       const file = acceptedFiles[0];
       if (file) {
-        setFieldValue('avatarUrl', {
+        setFieldValue(type, {
           ...file,
           preview: URL.createObjectURL(file),
         });
@@ -113,11 +136,19 @@ export default function UserNewForm() {
     [setFieldValue]
   );
 
+  const onSubmit = async () => {
+    const {current} = sigPadRef
+    if (current) {
+      await setFieldValue('signID', current.getTrimmedCanvas().toDataURL('image/png'))
+    }
+    console.info(values)
+  }
+
   return (
     <FormikProvider value={formik}>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+        <Grid container spacing={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Grid item xs={12} sm={8} md={4}>
             <Card sx={{ py: 10, px: 3 }}>
               {/* {isEdit && (
                 <Label
@@ -131,10 +162,10 @@ export default function UserNewForm() {
               <Box sx={{ mb: 5 }}>
                 <UploadAvatar
                   accept="image/*"
-                  file={values.avatarUrl}
+                  file={values.imgProfile}
                   maxSize={3145728}
-                  onDrop={handleDrop}
-                  error={Boolean(touched.avatarUrl && errors.avatarUrl)}
+                  onDrop={(file) => handleDrop(file, 'imgProfile')}
+                  error={Boolean(touched.imgProfile && errors.imgProfile)}
                   caption={
                     <Typography
                       variant="caption"
@@ -152,7 +183,7 @@ export default function UserNewForm() {
                   }
                 />
                 <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
-                  {touched.avatarUrl && errors.avatarUrl}
+                  {touched.imgProfile && errors.imgProfile}
                 </FormHelperText>
               </Box>
 
@@ -181,61 +212,128 @@ export default function UserNewForm() {
                 />
               )} */}
 
-              <FormControlLabel
-                labelPlacement="start"
-                control={<Switch {...getFieldProps('isVerified')} />}
-                label={
-                  <>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Email Verified
+              <Typography
+                component="span"
+                variant="body1"
+                sx={{ color: theme.palette.grey[800] }}
+                style={{ textAlign: 'center', display: 'block' }}
+              >
+                รูปประจำตัว
+              </Typography>
+            </Card>
+
+            <Card sx={{ py: 10, px: 3, mt: 3 }}>
+              <Box sx={{ mb: 5 }}>
+                <UploadAvatar
+                  accept="image/*"
+                  file={values.imgCardID}
+                  maxSize={3145728}
+                  onDrop={(file) => handleDrop(file, 'imgCardID')}
+                  error={Boolean(touched.imgCardID && errors.imgCardID)}
+                  caption={
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        mt: 2,
+                        mx: 'auto',
+                        display: 'block',
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      Allowed *.jpeg, *.jpg, *.png, *.gif
+                      <br /> max size of {fData(3145728)}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Disabling this will automatically send the user a verification email
-                    </Typography>
-                  </>
-                }
-                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-              />
+                  }
+                />
+                <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
+                  {touched.imgCardID && errors.imgCardID}
+                </FormHelperText>
+              </Box>
+
+              <Typography
+                component="span"
+                variant="body1"
+                sx={{ color: theme.palette.grey[800] }}
+                style={{ textAlign: 'center', display: 'block' }}
+              >
+                รูปบัตรประชาชน
+              </Typography>
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={8}>
-            <Card sx={{ p: 3 }}>
+          <Grid item xs={12} sm={8} md={8}>
+            <Card sx={{ p: 3 }} style={{ height: '100%' }}>
               <Stack spacing={3}>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Full Name"
-                    {...getFieldProps('name')}
-                    error={Boolean(touched.name && errors.name)}
-                    helperText={touched.name && errors.name}
+                    label="ชื่อจริง"
+                    {...getFieldProps('firstName')}
+                    error={Boolean(touched.firstName && errors.firstName)}
+                    helperText={touched.firstName && errors.firstName}
                   />
                   <TextField
                     fullWidth
-                    label="Email Address"
-                    {...getFieldProps('email')}
-                    error={Boolean(touched.email && errors.email)}
-                    helperText={touched.email && errors.email}
+                    label="นามสกุล"
+                    {...getFieldProps('lastName')}
+                    error={Boolean(touched.lastName && errors.lastName)}
+                    helperText={touched.lastName && errors.lastName}
                   />
                 </Stack>
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Phone Number"
-                    {...getFieldProps('phoneNumber')}
-                    error={Boolean(touched.phoneNumber && errors.phoneNumber)}
-                    helperText={touched.phoneNumber && errors.phoneNumber}
+                    label="วัน/เดือน/ปีเกิด"
+                    {...getFieldProps('birthDay')}
+                    error={Boolean(touched.birthDay && errors.birthDay)}
+                    helperText={touched.birthDay && errors.birthDay}
                   />
+                  <TextField
+                    fullWidth
+                    label="เลขบัตรประชาชน"
+                    {...getFieldProps('cardID')}
+                    error={Boolean(touched.cardID && errors.cardID)}
+                    helperText={touched.cardID && errors.cardID}
+                  />
+                </Stack>
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Email ติดต่อ"
+                    {...getFieldProps('email')}
+                    error={Boolean(touched.email && errors.email)}
+                    helperText={touched.email && errors.email}
+                  />
+                  <TextField
+                    fullWidth
+                    label="เบอร์โทรศัพท์"
+                    {...getFieldProps('Tel')}
+                    error={Boolean(touched.Tel && errors.Tel)}
+                    helperText={touched.Tel && errors.Tel}
+                  />
+                </Stack>
+
+                <TextField
+                  fullWidth
+                  label="Address"
+                  {...getFieldProps('address')}
+                  error={Boolean(touched.address && errors.address)}
+                  helperText={touched.address && errors.address}
+                />
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     select
                     fullWidth
-                    label="Country"
-                    placeholder="Country"
-                    {...getFieldProps('country')}
+                    label="จังหวัด"
+                    placeholder="provinceName"
+                    {...getFieldProps('provinceName')}
                     SelectProps={{ native: true }}
-                    error={Boolean(touched.country && errors.country)}
-                    helperText={touched.country && errors.country}
+                    error={Boolean(touched.provinceName && errors.provinceName)}
+                    helperText={touched.provinceName && errors.provinceName}
                   >
                     <option value="" />
                     {countries.map((option) => (
@@ -244,58 +342,53 @@ export default function UserNewForm() {
                       </option>
                     ))}
                   </TextField>
-                </Stack>
-
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="State/Region"
-                    {...getFieldProps('state')}
-                    error={Boolean(touched.state && errors.state)}
-                    helperText={touched.state && errors.state}
-                  />
-                  <TextField
-                    fullWidth
-                    label="City"
-                    {...getFieldProps('city')}
-                    error={Boolean(touched.city && errors.city)}
-                    helperText={touched.city && errors.city}
+                    label="อำเภอ"
+                    {...getFieldProps('amphurName')}
+                    error={Boolean(touched.amphurName && errors.amphurName)}
+                    helperText={touched.amphurName && errors.amphurName}
                   />
                 </Stack>
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Address"
-                    {...getFieldProps('address')}
-                    error={Boolean(touched.address && errors.address)}
-                    helperText={touched.address && errors.address}
-                  />
-                  <TextField fullWidth label="Zip/Code" {...getFieldProps('zipCode')} />
-                </Stack>
-
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Company"
-                    {...getFieldProps('company')}
-                    error={Boolean(touched.company && errors.company)}
-                    helperText={touched.company && errors.company}
+                    label="ตำบล"
+                    {...getFieldProps('tumbonName')}
+                    error={Boolean(touched.tumbonName && errors.tumbonName)}
+                    helperText={touched.tumbonName && errors.tumbonName}
                   />
                   <TextField
                     fullWidth
-                    label="Role"
-                    {...getFieldProps('role')}
-                    error={Boolean(touched.role && errors.role)}
-                    helperText={touched.role && errors.role}
+                    label="รหัสไปรษณีย์"
+                    {...getFieldProps('postCode')}
+                    error={Boolean(touched.postCode && errors.postCode)}
+                    helperText={touched.postCode && errors.postCode}
                   />
                 </Stack>
 
-                <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {/* {!isEdit ? 'Create User' : 'Save Changes'} */}
-                  </LoadingButton>
-                </Box>
+                <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                  <div style={{ width: 320, border: '1px solid rgba(0, 0, 0, 0.18)' }}>
+                    <SignatureCanvas
+                      canvasProps={{ width: 320, height: 200, className: 'sigCanvas' }} ref={sigPadRef} />
+                  </div>
+                  <Typography
+                    component="span"
+                    variant="body1"
+                    sx={{ color: theme.palette.grey[800], mt: 1 }}
+                    style={{ textAlign: 'center', display: 'block' }}
+                  >
+                    ลายเซ็นต์ผู้สมัครตัวแทนขาย
+                  </Typography>
+                  <FormControlLabel sx={{ mt: 1 }} control={<Checkbox defaultChecked checked={values.allow} onChange={(e) => setFieldValue('allow', e.target.checked)} />} label="ข้าพเจ้าได้ตรวจสอบข้อมูลครบถ้วนแล้ว และยืนยันว่าเป็นข้อมูลจริง" />
+                  <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                    <LoadingButton type="submit" variant="contained" loading={isSubmitting} onClick={onSubmit}>
+                      {/* {!isEdit ? 'Create User' : 'Save Changes'} */}
+                      Create User
+                    </LoadingButton>
+                  </Box>
+                </div>
               </Stack>
             </Card>
           </Grid>
