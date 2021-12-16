@@ -1,12 +1,12 @@
-import * as Yup from 'yup';
-import { useCallback, useRef } from 'react';
-import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
-import { Form, FormikProvider, useFormik } from 'formik';
+import * as Yup from "yup";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
+import { Form, FormikProvider, useFormik } from "formik";
 // @mui
-import { LoadingButton } from '@mui/lab';
-import { useTheme } from '@mui/material/styles';
-import SignatureCanvas from 'react-signature-canvas';
+import { LoadingButton } from "@mui/lab";
+import { useTheme } from "@mui/material/styles";
+import SignatureCanvas from "react-signature-canvas";
 import {
   Box,
   Card,
@@ -17,43 +17,61 @@ import {
   Typography,
   FormHelperText,
   FormControlLabel,
-  Checkbox
-} from '@mui/material';
+  Checkbox,
+} from "@mui/material";
 // utils
-import { fData } from '../../../utils/formatNumber';
+import { fData } from "../../../utils/formatNumber";
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_DASHBOARD } from "../../../routes/paths";
 // @types
-import { UserManager } from '../../../@types/user';
+import { UserManager } from "../../../@types/user";
 // _mock
-import { countries } from '../../../_mock';
+import { province, amphur, tombon } from "../../../_mock";
 // components
-import Label from '../../../components/Label';
-import { UploadAvatar } from '../../../components/upload';
-import { string } from 'yup/lib/locale';
-import { type } from 'os';
-import ReactSignatureCanvas from 'react-signature-canvas';
+import Label from "../../../components/Label";
+import { UploadAvatar } from "../../../components/upload";
+import { string } from "yup/lib/locale";
+import { type } from "os";
+import ReactSignatureCanvas from "react-signature-canvas";
 
 // ----------------------------------------------------------------------
 type initialValues = {
-  imgCardID: string,
-  imgProfile: string,
-  firstName: string,
-  lastName: string,
-  birthDay: string,
-  cardID: string,
-  email: string,
-  Tel: string,
-  address: string,
-  provinceCode: string,
-  provinceName: string,
-  amphurCode: string,
-  amphurName: string,
-  tumbonCode: string,
-  tumbonName: string,
-  postCode: string,
-  signID: string,
-  allow: boolean
+  imgCardID: string;
+  imgProfile: string;
+  firstName: string;
+  lastName: string;
+  birthDay: string;
+  cardid: number;
+  username?: string;
+  password?: string;
+  email: string;
+  telephone: number;
+  address: string;
+  provinceCode: string;
+  province: string;
+  amphurCode: string;
+  amphur: string;
+  tombonCode: string;
+  tombon: string;
+  postCode: string;
+  signID: string;
+};
+
+interface IAmphurList {
+  id: number;
+  amphurCode: string;
+  amphurName: string;
+  geoId: number;
+  provinceId: number;
+}
+
+interface ITumbonList {
+  id: number;
+  districtCode: string;
+  districtName: string;
+  amphurId: number;
+  provinceId: number;
+  geoId: number;
 }
 
 export default function UserNewForm() {
@@ -61,67 +79,118 @@ export default function UserNewForm() {
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const sigPadRef = useRef<ReactSignatureCanvas>(null);
+  const [amphurList, setAmphurList] = useState<IAmphurList[]>([]);
+  const [tumbonList, setTumbonList] = useState<ITumbonList[]>([]);
 
   const NewUserSchema = Yup.object().shape({
-    imgCardID: Yup.string().required('กรุณาใส่รูปบัตรประชาชน'),
-    imgProfile: Yup.string().required('กรุณาใส่รูปประจำตัว'),
-    firstName: Yup.string().required('กรุณากรอกชื่อ'),
-    lastName: Yup.string().required('กรุณากรอกนามสกุล'),
-    birthDay: Yup.string().required('กรุณากรอกวัน/เดือน/ปีเกิด'),
-    cardID: Yup.string().required('กรุณากรอกเลขบัตรประชาชน'),
-    email: Yup.string().required('กรุณากรอกอีเมลล์').email(),
-    Tel: Yup.string().required('กรุณากรอกเบอร์โทรศัพท์'),
-    address: Yup.string().required('กรุณากรอกที่อยู่'),
-    provinceCode: Yup.string().required('กรุณากรอกจังหวัด'),
-    provinceName: Yup.string().required('กรุณากรอกจังหวัด'),
-    amphurCode: Yup.string().required('กรุณากรอกอำเภอ'),
-    amphurName: Yup.string().required('กรุณากรอกอำเภอ'),
-    tumbonCode: Yup.string().required('กรุณากรอกตำบล'),
-    tumbonName: Yup.string().required('กรุณากรอกตำบล'),
-    postCode: Yup.string().required('กรุณากรอกรหัสไปรษณีย์'),
-    signID: Yup.string().required('กรุณากรอกลายเซ็น')
+    imgCardID: Yup.object().required("กรุณาใส่รูปบัตรประชาชน"),
+    imgProfile: Yup.object().required("กรุณาใส่รูปประจำตัว"),
+    firstName: Yup.string().required("กรุณากรอกชื่อ"),
+    lastName: Yup.string().required("กรุณากรอกนามสกุล"),
+    birthDay: Yup.string().required("กรุณากรอกวัน/เดือน/ปีเกิด"),
+    cardid: Yup.string().required("กรุณากรอกเลขบัตรประชาชน"),
+    email: Yup.string().required("กรุณากรอกอีเมลล์").email(),
+    telephone: Yup.string().required("กรุณากรอกเบอร์โทรศัพท์"),
+    address: Yup.string().required("กรุณากรอกที่อยู่"),
+    provinceCode: Yup.string().required("กรุณากรอกจังหวัด"),
+    amphurCode: Yup.string().required("กรุณากรอกอำเภอ"),
+    // tombonCode: Yup.string().required("กรุณากรอกตำบล"),
+    postCode: Yup.string().required("กรุณากรอกรหัสไปรษณีย์"),
+    signID: Yup.string().required("กรุณากรอกลายเซ็น"),
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      imgCardID: '',
-      imgProfile: '',
-      firstName: '',
-      lastName: '',
-      birthDay: '',
-      cardID: '',
-      email: '',
-      Tel: '',
-      address: '',
-      provinceCode: '',
-      provinceName: '',
-      amphurCode: '',
-      amphurName: '',
-      tumbonCode: '',
-      tumbonName: '',
-      postCode: '',
-      signID: '',
-      allow: false
+      imgCardID: "",
+      imgProfile: "",
+      firstName: "",
+      lastName: "",
+      birthDay: "",
+      cardid: "",
+      username: "",
+      password: "",
+      email: "",
+      telephone: "",
+      address: "",
+      provinceCode: "",
+      province: "",
+      amphurCode: "",
+      amphur: "",
+      tombonCode: "",
+      tombon: "",
+      postCode: "",
+      signID: "",
+      allow: false,
     },
     validationSchema: NewUserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        resetForm();
-        setSubmitting(false);
-        // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        navigate(PATH_DASHBOARD.user.list);
-      } catch (error) {
-        console.error(error);
-        setSubmitting(false);
-        setErrors(error.message);
+      const res = province.find((o) => String(o.id) === values.provinceCode);
+      if (res) {
+        values.province = res.provinceName
+      } else {
+        values.province = ""
       }
+
+      const res2 = amphur.find(
+        (o) => String(o.amphurCode) === values.amphurCode
+      );
+      if (res2) {
+        values.amphur = res2?.amphurName
+      } else {
+        values.amphur = ""
+      }
+
+      const res3 = tombon.find(
+        (o) => String(o.districtCode) === values.tombonCode
+      );
+      if (res3) {
+        values.tombon = res3?.districtName
+      } else {
+        values.tombon = ""
+      }
+      values.username = values.cardid
+      values.password = values.cardid
+
+      console.log(JSON.stringify(values));
+
+      // try {
+      //   await new Promise((resolve) => setTimeout(resolve, 500));
+      //   resetForm();
+      //   setSubmitting(false);
+      //   // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+      //   navigate(PATH_DASHBOARD.user.list);
+      // } catch (error) {
+      //   console.error(error);
+      //   setSubmitting(false);
+      //   setErrors(error.message);
+      // }
     },
   });
 
-  const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } =
-    formik;
+  const {
+    errors,
+    values,
+    touched,
+    handleSubmit,
+    isSubmitting,
+    setFieldValue,
+    getFieldProps,
+  } = formik;
+
+  useEffect(() => {
+    const list = amphur.filter(
+      (o) => String(o.provinceId) === values.provinceCode
+    );
+    setAmphurList(list);
+    setFieldValue("amphurCode", "");
+  }, [values.provinceCode]);
+
+  useEffect(() => {
+    const list = tombon.filter((o) => String(o.amphurId) === values.amphurCode);
+    setTumbonList(list);
+    setFieldValue("tombonCode", "");
+  }, [values.amphurCode]);
 
   const handleDrop = useCallback(
     (acceptedFiles, type) => {
@@ -136,18 +205,24 @@ export default function UserNewForm() {
     [setFieldValue]
   );
 
-  const onSubmit = async () => {
-    const {current} = sigPadRef
-    if (current) {
-      await setFieldValue('signID', current.getTrimmedCanvas().toDataURL('image/png'))
+  const setSignature = () => {
+    const { current } = sigPadRef;
+    if (!current?.isEmpty()) {
+      setFieldValue(
+        "signID",
+        current?.getTrimmedCanvas().toDataURL("image/png")
+      );
     }
-    console.info(values)
-  }
+  };
 
   return (
     <FormikProvider value={formik}>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <Grid container spacing={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid
+          container
+          spacing={3}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           <Grid item xs={12} sm={8} md={4}>
             <Card sx={{ py: 10, px: 3 }}>
               {/* {isEdit && (
@@ -164,17 +239,17 @@ export default function UserNewForm() {
                   accept="image/*"
                   file={values.imgProfile}
                   maxSize={3145728}
-                  onDrop={(file) => handleDrop(file, 'imgProfile')}
+                  onDrop={(file) => handleDrop(file, "imgProfile")}
                   error={Boolean(touched.imgProfile && errors.imgProfile)}
                   caption={
                     <Typography
                       variant="caption"
                       sx={{
                         mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
+                        mx: "auto",
+                        display: "block",
+                        textAlign: "center",
+                        color: "text.secondary",
                       }}
                     >
                       Allowed *.jpeg, *.jpg, *.png, *.gif
@@ -182,7 +257,7 @@ export default function UserNewForm() {
                     </Typography>
                   }
                 />
-                <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
+                <FormHelperText error sx={{ px: 2, textAlign: "center" }}>
                   {touched.imgProfile && errors.imgProfile}
                 </FormHelperText>
               </Box>
@@ -216,7 +291,7 @@ export default function UserNewForm() {
                 component="span"
                 variant="body1"
                 sx={{ color: theme.palette.grey[800] }}
-                style={{ textAlign: 'center', display: 'block' }}
+                style={{ textAlign: "center", display: "block" }}
               >
                 รูปประจำตัว
               </Typography>
@@ -228,17 +303,17 @@ export default function UserNewForm() {
                   accept="image/*"
                   file={values.imgCardID}
                   maxSize={3145728}
-                  onDrop={(file) => handleDrop(file, 'imgCardID')}
+                  onDrop={(file) => handleDrop(file, "imgCardID")}
                   error={Boolean(touched.imgCardID && errors.imgCardID)}
                   caption={
                     <Typography
                       variant="caption"
                       sx={{
                         mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
+                        mx: "auto",
+                        display: "block",
+                        textAlign: "center",
+                        color: "text.secondary",
                       }}
                     >
                       Allowed *.jpeg, *.jpg, *.png, *.gif
@@ -246,7 +321,7 @@ export default function UserNewForm() {
                     </Typography>
                   }
                 />
-                <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
+                <FormHelperText error sx={{ px: 2, textAlign: "center" }}>
                   {touched.imgCardID && errors.imgCardID}
                 </FormHelperText>
               </Box>
@@ -255,7 +330,7 @@ export default function UserNewForm() {
                 component="span"
                 variant="body1"
                 sx={{ color: theme.palette.grey[800] }}
-                style={{ textAlign: 'center', display: 'block' }}
+                style={{ textAlign: "center", display: "block" }}
               >
                 รูปบัตรประชาชน
               </Typography>
@@ -263,127 +338,217 @@ export default function UserNewForm() {
           </Grid>
 
           <Grid item xs={12} sm={8} md={8}>
-            <Card sx={{ p: 3 }} style={{ height: '100%' }}>
+            <Card sx={{ p: 3 }} style={{ height: "100%" }}>
               <Stack spacing={3}>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 3, sm: 2 }}
+                >
                   <TextField
                     fullWidth
                     label="ชื่อจริง"
-                    {...getFieldProps('firstName')}
+                    {...getFieldProps("firstName")}
                     error={Boolean(touched.firstName && errors.firstName)}
                     helperText={touched.firstName && errors.firstName}
                   />
                   <TextField
                     fullWidth
                     label="นามสกุล"
-                    {...getFieldProps('lastName')}
+                    {...getFieldProps("lastName")}
                     error={Boolean(touched.lastName && errors.lastName)}
                     helperText={touched.lastName && errors.lastName}
                   />
                 </Stack>
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 3, sm: 2 }}
+                >
                   <TextField
                     fullWidth
                     label="วัน/เดือน/ปีเกิด"
-                    {...getFieldProps('birthDay')}
+                    {...getFieldProps("birthDay")}
                     error={Boolean(touched.birthDay && errors.birthDay)}
                     helperText={touched.birthDay && errors.birthDay}
                   />
                   <TextField
                     fullWidth
                     label="เลขบัตรประชาชน"
-                    {...getFieldProps('cardID')}
-                    error={Boolean(touched.cardID && errors.cardID)}
-                    helperText={touched.cardID && errors.cardID}
+                    type="number"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      target.value = target.value.toString().slice(0, 13);
+                    }}
+                    {...getFieldProps("cardid")}
+                    error={Boolean(touched.cardid && errors.cardid)}
+                    helperText={touched.cardid && errors.cardid}
                   />
                 </Stack>
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 3, sm: 2 }}
+                >
                   <TextField
                     fullWidth
                     label="Email ติดต่อ"
-                    {...getFieldProps('email')}
+                    {...getFieldProps("email")}
                     error={Boolean(touched.email && errors.email)}
                     helperText={touched.email && errors.email}
                   />
                   <TextField
                     fullWidth
                     label="เบอร์โทรศัพท์"
-                    {...getFieldProps('Tel')}
-                    error={Boolean(touched.Tel && errors.Tel)}
-                    helperText={touched.Tel && errors.Tel}
+                    type="number"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      target.value = target.value.toString().slice(0, 10);
+                    }}
+                    {...getFieldProps("telephone")}
+                    error={Boolean(touched.telephone && errors.telephone)}
+                    helperText={touched.telephone && errors.telephone}
                   />
                 </Stack>
 
                 <TextField
                   fullWidth
                   label="Address"
-                  {...getFieldProps('address')}
+                  {...getFieldProps("address")}
                   error={Boolean(touched.address && errors.address)}
                   helperText={touched.address && errors.address}
                 />
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 3, sm: 2 }}
+                >
                   <TextField
                     select
                     fullWidth
                     label="จังหวัด"
-                    placeholder="provinceName"
-                    {...getFieldProps('provinceName')}
+                    placeholder="provinceCode"
+                    {...getFieldProps("provinceCode")}
                     SelectProps={{ native: true }}
-                    error={Boolean(touched.provinceName && errors.provinceName)}
-                    helperText={touched.provinceName && errors.provinceName}
+                    error={Boolean(touched.provinceCode && errors.provinceCode)}
+                    helperText={touched.provinceCode && errors.provinceCode}
                   >
-                    <option value="" />
-                    {countries.map((option) => (
-                      <option key={option.code} value={option.label}>
-                        {option.label}
+                    <option value={""} />
+                    {province.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.provinceName}
+                      </option>
+                    ))}
+                  </TextField>
+                  <TextField
+                    select
+                    fullWidth
+                    label="อำเภอ"
+                    placeholder="amphurCode"
+                    {...getFieldProps("amphurCode")}
+                    SelectProps={{ native: true }}
+                    error={Boolean(touched.amphurCode && errors.amphurCode)}
+                    helperText={touched.amphurCode && errors.amphurCode}
+                  >
+                    <option value={""} />
+                    {amphurList.map((option) => (
+                      <option key={option.amphurCode} value={option.amphurCode}>
+                        {option.amphurName}
+                      </option>
+                    ))}
+                  </TextField>
+                </Stack>
+
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 3, sm: 2 }}
+                >
+                  <TextField
+                    select
+                    fullWidth
+                    label="ตำบล"
+                    placeholder="tombonCode"
+                    {...getFieldProps("tombonCode")}
+                    SelectProps={{ native: true }}
+                    error={Boolean(touched.tombonCode && errors.tombonCode)}
+                    helperText={touched.tombonCode && errors.tombonCode}
+                  >
+                    <option value={""} />
+                    {tumbonList.map((option) => (
+                      <option
+                        key={option.districtCode}
+                        value={option.districtCode}
+                      >
+                        {option.districtName}
                       </option>
                     ))}
                   </TextField>
                   <TextField
                     fullWidth
-                    label="อำเภอ"
-                    {...getFieldProps('amphurName')}
-                    error={Boolean(touched.amphurName && errors.amphurName)}
-                    helperText={touched.amphurName && errors.amphurName}
-                  />
-                </Stack>
-
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="ตำบล"
-                    {...getFieldProps('tumbonName')}
-                    error={Boolean(touched.tumbonName && errors.tumbonName)}
-                    helperText={touched.tumbonName && errors.tumbonName}
-                  />
-                  <TextField
-                    fullWidth
                     label="รหัสไปรษณีย์"
-                    {...getFieldProps('postCode')}
+                    {...getFieldProps("postCode")}
                     error={Boolean(touched.postCode && errors.postCode)}
                     helperText={touched.postCode && errors.postCode}
                   />
                 </Stack>
 
-                <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                  <div style={{ width: 320, border: '1px solid rgba(0, 0, 0, 0.18)' }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 320,
+                      border: "1px solid rgba(0, 0, 0, 0.18)",
+                    }}
+                  >
                     <SignatureCanvas
-                      canvasProps={{ width: 320, height: 200, className: 'sigCanvas' }} ref={sigPadRef} />
+                      canvasProps={{
+                        width: 320,
+                        height: 200,
+                        className: "sigCanvas",
+                      }}
+                      ref={sigPadRef}
+                      onEnd={setSignature}
+                    />
                   </div>
+                  <FormHelperText error sx={{ px: 2, textAlign: "center" }}>
+                    {touched.signID && errors.signID}
+                  </FormHelperText>
                   <Typography
                     component="span"
                     variant="body1"
                     sx={{ color: theme.palette.grey[800], mt: 1 }}
-                    style={{ textAlign: 'center', display: 'block' }}
+                    style={{ textAlign: "center", display: "block" }}
                   >
                     ลายเซ็นต์ผู้สมัครตัวแทนขาย
                   </Typography>
-                  <FormControlLabel sx={{ mt: 1 }} control={<Checkbox defaultChecked checked={values.allow} onChange={(e) => setFieldValue('allow', e.target.checked)} />} label="ข้าพเจ้าได้ตรวจสอบข้อมูลครบถ้วนแล้ว และยืนยันว่าเป็นข้อมูลจริง" />
-                  <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    <LoadingButton type="submit" variant="contained" loading={isSubmitting} onClick={onSubmit}>
+                  <FormControlLabel
+                    sx={{ mt: 1 }}
+                    control={
+                      <Checkbox
+                        defaultChecked
+                        checked={values.allow}
+                        onChange={(e) =>
+                          setFieldValue("allow", e.target.checked)
+                        }
+                      />
+                    }
+                    label="ข้าพเจ้าได้ตรวจสอบข้อมูลครบถ้วนแล้ว และยืนยันว่าเป็นข้อมูลจริง"
+                  />
+                  <Box
+                    sx={{ mt: 1, display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <LoadingButton
+                      type="submit"
+                      variant="contained"
+                      loading={isSubmitting}
+                      disabled={!values.allow}
+                    >
                       {/* {!isEdit ? 'Create User' : 'Save Changes'} */}
                       Create User
                     </LoadingButton>
@@ -397,7 +562,6 @@ export default function UserNewForm() {
     </FormikProvider>
   );
 }
-
 
 // import * as Yup from 'yup';
 // import { useState } from 'react';
