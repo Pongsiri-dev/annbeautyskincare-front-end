@@ -94,7 +94,7 @@ export default function UserNewForm() {
     address: Yup.string().required("กรุณากรอกที่อยู่"),
     provinceCode: Yup.string().required("กรุณากรอกจังหวัด"),
     amphurCode: Yup.string().required("กรุณากรอกอำเภอ"),
-    // tombonCode: Yup.string().required("กรุณากรอกตำบล"),
+    tombonCode: Yup.string().required("กรุณากรอกตำบล"),
     postCode: Yup.string().required("กรุณากรอกรหัสไปรษณีย์"),
     signID: Yup.string().required("กรุณากรอกลายเซ็น"),
   });
@@ -127,30 +127,30 @@ export default function UserNewForm() {
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       const res = province.find((o) => String(o.id) === values.provinceCode);
       if (res) {
-        values.province = res.provinceName
+        values.province = res.provinceName;
       } else {
-        values.province = ""
+        values.province = "";
       }
 
       const res2 = amphur.find(
         (o) => String(o.amphurCode) === values.amphurCode
       );
       if (res2) {
-        values.amphur = res2?.amphurName
+        values.amphur = res2?.amphurName;
       } else {
-        values.amphur = ""
+        values.amphur = "";
       }
 
       const res3 = tombon.find(
         (o) => String(o.districtCode) === values.tombonCode
       );
       if (res3) {
-        values.tombon = res3?.districtName
+        values.tombon = res3?.districtName;
       } else {
-        values.tombon = ""
+        values.tombon = "";
       }
-      values.username = values.cardid
-      values.password = values.cardid
+      values.username = values.cardid;
+      values.password = values.cardid;
 
       console.log(JSON.stringify(values));
 
@@ -188,6 +188,7 @@ export default function UserNewForm() {
 
   useEffect(() => {
     const list = tombon.filter((o) => String(o.amphurId) === values.amphurCode);
+    console.log(values.amphurCode);
     setTumbonList(list);
     setFieldValue("tombonCode", "");
   }, [values.amphurCode]);
@@ -453,7 +454,7 @@ export default function UserNewForm() {
                   >
                     <option value={""} />
                     {amphurList.map((option) => (
-                      <option key={option.amphurCode} value={option.amphurCode}>
+                      <option key={option.id} value={option.id}>
                         {option.amphurName}
                       </option>
                     ))}
@@ -477,8 +478,8 @@ export default function UserNewForm() {
                     <option value={""} />
                     {tumbonList.map((option) => (
                       <option
-                        key={option.districtCode}
-                        value={option.districtCode}
+                        key={option.id}
+                        value={option.id}
                       >
                         {option.districtName}
                       </option>

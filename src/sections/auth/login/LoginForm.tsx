@@ -27,7 +27,7 @@ import { IconButtonAnimate } from '../../../components/animate';
 // ----------------------------------------------------------------------
 
 type InitialValues = {
-  email: string;
+  username: string;
   password: string;
   remember: boolean;
   afterSubmit?: string;
@@ -40,20 +40,20 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    username: Yup.string().required('กรุณากรอกเลขบัตรประชาชน'),
+    password: Yup.string().required('กรุณากรอกรหัสผ่าน'),
   });
 
   const formik = useFormik<InitialValues>({
     initialValues: {
-      email: '',
+      username: '',
       password: '',
       remember: true,
     },
     validationSchema: LoginSchema,
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
       try {
-        await login(values.email, values.password);
+        await login(values.username, values.password);
         enqueueSnackbar('Login success', {
           variant: 'success',
           action: (key) => (
@@ -91,18 +91,18 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            type="text"
+            label="เลขบัตรประชาชน"
+            {...getFieldProps('username')}
+            error={Boolean(touched.username && errors.username)}
+            helperText={touched.username && errors.username}
           />
 
           <TextField
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
-            label="Password"
+            label="รหัสผ่าน"
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
@@ -124,9 +124,9 @@ export default function LoginForm() {
             label="Remember me"
           />
 
-          <Link component={RouterLink} variant="subtitle2" to={PATH_AUTH.resetPassword}>
+          {/* <Link component={RouterLink} variant="subtitle2" to={PATH_AUTH.resetPassword}>
             Forgot password?
-          </Link>
+          </Link> */}
         </Stack>
 
         <LoadingButton

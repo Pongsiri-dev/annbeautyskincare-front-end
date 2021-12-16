@@ -1,18 +1,18 @@
 @font-face {
-  font-family: 'CircularStd';
+  font-family: 'Kanit';
+  font-weight: 300;
+  font-style: normal;
+  src: local('Kanit'), url('Kanit-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Kanit';
   font-weight: 400;
   font-style: normal;
-  src: local('CircularStd'), url('CircularStd-Book.otf') format('opentype');
+  src: local('Kanit'), url('Kanit-Regular.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'CircularStd';
-  font-weight: 500;
+  font-family: 'Kanit';
+  font-weight: 600;
   font-style: normal;
-  src: local('CircularStd'), url('CircularStd-Medium.otf') format('opentype');
-}
-@font-face {
-  font-family: 'CircularStd';
-  font-weight: 700;
-  font-style: normal;
-  src: local('CircularStd'), url('CircularStd-Bold.otf') format('opentype');
+  src: local('Kanit'), url('Kanit-Medium.ttf') format('truetype');
 }
