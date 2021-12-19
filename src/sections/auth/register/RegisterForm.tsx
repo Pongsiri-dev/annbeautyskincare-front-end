@@ -21,12 +21,11 @@ import {
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
+import axios from "src/utils/axios";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
 // @types
 import { UserManager } from "../../../@types/user";
-// _mock
-import { province, amphur, tombon } from "../../../_mock";
 // components
 import Label from "../../../components/Label";
 import { UploadAvatar } from "../../../components/upload";
@@ -36,14 +35,14 @@ import ReactSignatureCanvas from "react-signature-canvas";
 
 // ----------------------------------------------------------------------
 type initialValues = {
-  imgCardID: string;
-  imgProfile: string;
+  imgCardID: object;
+  imgProfile: object;
   firstName: string;
   lastName: string;
   birthDay: string;
   cardid: number;
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
   email: string;
   telephone: number;
   address: string;
@@ -57,7 +56,14 @@ type initialValues = {
   signID: string;
 };
 
-interface IAmphurList {
+interface IProvince {
+  id: number;
+  provinceCode: string;
+  provinceName: string;
+  geoId: number;
+}
+
+interface IAmphur {
   id: number;
   amphurCode: string;
   amphurName: string;
@@ -65,7 +71,16 @@ interface IAmphurList {
   provinceId: number;
 }
 
-interface ITumbonList {
+interface ITumbon {
+  id: number;
+  districtCode: string;
+  districtName: string;
+  amphurId: number;
+  provinceId: number;
+  geoId: number;
+}
+
+interface IFile {
   id: number;
   districtCode: string;
   districtName: string;
@@ -79,8 +94,12 @@ export default function UserNewForm() {
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const sigPadRef = useRef<ReactSignatureCanvas>(null);
-  const [amphurList, setAmphurList] = useState<IAmphurList[]>([]);
-  const [tumbonList, setTumbonList] = useState<ITumbonList[]>([]);
+  const [amphurList, setAmphurList] = useState<IAmphur[]>([]);
+  const [tumbonList, setTumbonList] = useState<ITumbon[]>([]);
+
+  const [province, setProvince] = useState<IProvince[]>([])
+  const [amphur, setAmphur] = useState<IAmphur[]>([])
+  const [tombon, setTombon] = useState<ITumbon[]>([])
 
   const NewUserSchema = Yup.object().shape({
     imgCardID: Yup.object().required("กรุณาใส่รูปบัตรประชาชน"),
@@ -101,23 +120,45 @@ export default function UserNewForm() {
 
   const formik = useFormik({
     enableReinitialize: true,
+    // initialValues: {
+    //   imgCardID: "",
+    //   imgProfile: "",
+    //   firstName: "",
+    //   lastName: "",
+    //   birthDay: "",
+    //   cardid: "",
+    //   username: "",
+    //   password: "",
+    //   email: "",
+    //   telephone: "",
+    //   address: "",
+    //   provinceCode: "",
+    //   province: "",
+    //   amphurCode: "",
+    //   amphur: "",
+    //   tombonCode: "",
+    //   tombon: "",
+    //   postCode: "",
+    //   signID: "",
+    //   allow: false,
+    // },
     initialValues: {
       imgCardID: "",
       imgProfile: "",
-      firstName: "",
-      lastName: "",
-      birthDay: "",
-      cardid: "",
+      firstName: "test1",
+      lastName: "test2",
+      birthDay: "02100250",
+      cardid: "16543216512642",
       username: "",
       password: "",
-      email: "",
-      telephone: "",
-      address: "",
+      email: "aaweofij@test.com",
+      telephone: "07518621583",
+      address: "105/888",
       provinceCode: "",
-      province: "",
-      amphurCode: "",
+      province: "3",
+      amphurCode: "58",
       amphur: "",
-      tombonCode: "",
+      tombonCode: "301",
       tombon: "",
       postCode: "",
       signID: "",
@@ -132,18 +173,14 @@ export default function UserNewForm() {
         values.province = "";
       }
 
-      const res2 = amphur.find(
-        (o) => String(o.amphurCode) === values.amphurCode
-      );
+      const res2 = amphur.find((o) => String(o.id) === values.amphurCode);
       if (res2) {
         values.amphur = res2?.amphurName;
       } else {
         values.amphur = "";
       }
 
-      const res3 = tombon.find(
-        (o) => String(o.districtCode) === values.tombonCode
-      );
+      const res3 = tombon.find((o) => String(o.id) === values.tombonCode);
       if (res3) {
         values.tombon = res3?.districtName;
       } else {
@@ -152,7 +189,36 @@ export default function UserNewForm() {
       values.username = values.cardid;
       values.password = values.cardid;
 
-      console.log(JSON.stringify(values));
+      const imgCardID = values.imgCardID as any;
+      const imgProfile = values.imgProfile as any;
+
+      const formData = new FormData();
+      // formData.append("imgCardID", imgCardID.path);
+      // formData.append("imgProfile", imgProfile.path);
+      formData.append("imgCardID", imgCardID.path);
+      formData.append("imgProfile", imgProfile.path);
+      formData.append("firstName", values.firstName);
+      formData.append("lastName", values.lastName);
+      formData.append("birthDay", values.birthDay);
+      formData.append("cardid", values.cardid);
+      formData.append("username", values.username);
+      formData.append("password", values.password);
+      formData.append("email", values.email);
+      formData.append("telephone", values.telephone);
+      formData.append("address", values.address);
+      formData.append("provinceCode", values.provinceCode);
+      formData.append("province", values.province);
+      formData.append("amphurCode", values.amphurCode);
+      formData.append("amphur", values.amphur);
+      formData.append("tombonCode", values.tombonCode);
+      formData.append("tombon", values.tombon);
+      formData.append("postCode", values.postCode);
+      formData.append("signID", values.signID);
+
+      const { data } = await axios.post("api/auth/signup", formData);
+      // const { data } = await axios.get("api/province");
+
+      console.log(data);
 
       // try {
       //   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -179,6 +245,12 @@ export default function UserNewForm() {
   } = formik;
 
   useEffect(() => {
+    axios.get("api/province").then((res) => setProvince(res.data))
+    axios.get("api/amphur").then((res) => setAmphur(res.data))
+    axios.get("api/tombun").then((res) => setTombon(res.data))
+  }, []);
+
+  useEffect(() => {
     const list = amphur.filter(
       (o) => String(o.provinceId) === values.provinceCode
     );
@@ -188,7 +260,6 @@ export default function UserNewForm() {
 
   useEffect(() => {
     const list = tombon.filter((o) => String(o.amphurId) === values.amphurCode);
-    console.log(values.amphurCode);
     setTumbonList(list);
     setFieldValue("tombonCode", "");
   }, [values.amphurCode]);
@@ -477,10 +548,7 @@ export default function UserNewForm() {
                   >
                     <option value={""} />
                     {tumbonList.map((option) => (
-                      <option
-                        key={option.id}
-                        value={option.id}
-                      >
+                      <option key={option.id} value={option.id}>
                         {option.districtName}
                       </option>
                     ))}
