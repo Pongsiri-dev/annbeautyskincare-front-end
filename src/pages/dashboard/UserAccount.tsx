@@ -26,7 +26,7 @@ import {
 export default function UserAccount() {
   const { themeStretch } = useSettings();
 
-  const [currentTab, setCurrentTab] = useState('general');
+  const [currentTab, setCurrentTab] = useState('social_links');
 
   const ACCOUNT_TABS = [
     // {

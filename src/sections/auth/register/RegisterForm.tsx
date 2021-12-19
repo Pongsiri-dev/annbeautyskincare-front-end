@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
+import { useLocation } from "react-router-dom";
 // @mui
 import { LoadingButton } from "@mui/lab";
 import { useTheme } from "@mui/material/styles";
@@ -92,6 +93,9 @@ interface IFile {
 }
 
 export default function UserNewForm() {
+  const { pathname } = useLocation();
+  const isEdit = pathname.includes("edit");
+
   const { register } = useAuth();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -144,6 +148,7 @@ export default function UserNewForm() {
       postCode: "",
       signID: "",
       allow: false,
+      status: "active",
     },
     validationSchema: NewUserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
@@ -272,14 +277,19 @@ export default function UserNewForm() {
         >
           <Grid item xs={12} sm={8} md={4}>
             <Card sx={{ py: 10, px: 3 }}>
-              {/* {isEdit && (
+              {isEdit && (
                 <Label
-                  color={values.status !== 'active' ? 'error' : 'success'}
-                  sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
+                  color={values.status !== "active" ? "error" : "success"}
+                  sx={{
+                    textTransform: "uppercase",
+                    position: "absolute",
+                    top: 24,
+                    right: 24,
+                  }}
                 >
                   {values.status}
                 </Label>
-              )} */}
+              )}
 
               <Box sx={{ mb: 5 }}>
                 <UploadAvatar
@@ -309,31 +319,6 @@ export default function UserNewForm() {
                 </FormHelperText>
               </Box>
 
-              {/* {isEdit && (
-                <FormControlLabel
-                  labelPlacement="start"
-                  control={
-                    <Switch
-                      onChange={(event) =>
-                        setFieldValue('status', event.target.checked ? 'banned' : 'active')
-                      }
-                      checked={values.status !== 'active'}
-                    />
-                  }
-                  label={
-                    <>
-                      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                        Banned
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                        Apply disable account
-                      </Typography>
-                    </>
-                  }
-                  sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
-                />
-              )} */}
-
               <Typography
                 component="span"
                 variant="body1"
@@ -342,46 +327,84 @@ export default function UserNewForm() {
               >
                 รูปประจำตัว
               </Typography>
-            </Card>
 
-            <Card sx={{ py: 10, px: 3, mt: 3 }}>
-              <Box sx={{ mb: 5 }}>
-                <UploadAvatar
-                  accept="image/*"
-                  file={values.imgCardID}
-                  maxSize={3145728}
-                  onDrop={(file) => handleDrop(file, "imgCardID")}
-                  error={Boolean(touched.imgCardID && errors.imgCardID)}
-                  caption={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: "auto",
-                        display: "block",
-                        textAlign: "center",
-                        color: "text.secondary",
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
+              {isEdit && (
+                <FormControlLabel
+                  labelPlacement="start"
+                  control={
+                    <Switch
+                      onChange={(event) =>
+                        setFieldValue(
+                          "status",
+                          event.target.checked ? "banned" : "active"
+                        )
+                      }
+                      checked={values.status !== "active"}
+                    />
                   }
+                  label={
+                    <>
+                      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                        Banned
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        Apply disable account
+                      </Typography>
+                    </>
+                  }
+                  sx={{
+                    mx: 0,
+                    mt: 3,
+                    width: 1,
+                    justifyContent: "space-between",
+                  }}
                 />
-                <FormHelperText error sx={{ px: 2, textAlign: "center" }}>
-                  {touched.imgCardID && errors.imgCardID}
-                </FormHelperText>
-              </Box>
-
-              <Typography
-                component="span"
-                variant="body1"
-                sx={{ color: theme.palette.grey[800] }}
-                style={{ textAlign: "center", display: "block" }}
-              >
-                รูปบัตรประชาชน
-              </Typography>
+              )}
             </Card>
+
+            {!isEdit && (
+              <Card sx={{ py: 10, px: 3, mt: 3 }}>
+                <Box sx={{ mb: 5 }}>
+                  <UploadAvatar
+                    accept="image/*"
+                    file={values.imgCardID}
+                    maxSize={3145728}
+                    onDrop={(file) => handleDrop(file, "imgCardID")}
+                    error={Boolean(touched.imgCardID && errors.imgCardID)}
+                    caption={
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          mt: 2,
+                          mx: "auto",
+                          display: "block",
+                          textAlign: "center",
+                          color: "text.secondary",
+                        }}
+                      >
+                        Allowed *.jpeg, *.jpg, *.png, *.gif
+                        <br /> max size of {fData(3145728)}
+                      </Typography>
+                    }
+                  />
+                  <FormHelperText error sx={{ px: 2, textAlign: "center" }}>
+                    {touched.imgCardID && errors.imgCardID}
+                  </FormHelperText>
+                </Box>
+
+                <Typography
+                  component="span"
+                  variant="body1"
+                  sx={{ color: theme.palette.grey[800] }}
+                  style={{ textAlign: "center", display: "block" }}
+                >
+                  รูปบัตรประชาชน
+                </Typography>
+              </Card>
+            )}
           </Grid>
 
           <Grid item xs={12} sm={8} md={8}>
@@ -548,46 +571,51 @@ export default function UserNewForm() {
                     flexDirection: "column",
                   }}
                 >
-                  <div
-                    style={{
-                      width: 320,
-                      border: "1px solid rgba(0, 0, 0, 0.18)",
-                    }}
-                  >
-                    <SignatureCanvas
-                      canvasProps={{
-                        width: 320,
-                        height: 200,
-                        className: "sigCanvas",
-                      }}
-                      ref={sigPadRef}
-                      onEnd={setSignature}
-                    />
-                  </div>
-                  <FormHelperText error sx={{ px: 2, textAlign: "center" }}>
-                    {touched.signID && errors.signID}
-                  </FormHelperText>
-                  <Typography
-                    component="span"
-                    variant="body1"
-                    sx={{ color: theme.palette.grey[800], mt: 1 }}
-                    style={{ textAlign: "center", display: "block" }}
-                  >
-                    ลายเซ็นต์ผู้สมัครตัวแทนขาย
-                  </Typography>
-                  <FormControlLabel
-                    sx={{ mt: 1 }}
-                    control={
-                      <Checkbox
-                        defaultChecked
-                        checked={values.allow}
-                        onChange={(e) =>
-                          setFieldValue("allow", e.target.checked)
+                  {!isEdit && (
+                    <>
+                      <div
+                        style={{
+                          width: 320,
+                          border: "1px solid rgba(0, 0, 0, 0.18)",
+                        }}
+                      >
+                        <SignatureCanvas
+                          canvasProps={{
+                            width: 320,
+                            height: 200,
+                            className: "sigCanvas",
+                          }}
+                          ref={sigPadRef}
+                          onEnd={setSignature}
+                        />
+                      </div>
+                      <FormHelperText error sx={{ px: 2, textAlign: "center" }}>
+                        {touched.signID && errors.signID}
+                      </FormHelperText>
+                      <Typography
+                        component="span"
+                        variant="body1"
+                        sx={{ color: theme.palette.grey[800], mt: 1 }}
+                        style={{ textAlign: "center", display: "block" }}
+                      >
+                        ลายเซ็นต์ผู้สมัครตัวแทนขาย
+                      </Typography>
+                      <FormControlLabel
+                        sx={{ mt: 1 }}
+                        control={
+                          <Checkbox
+                            defaultChecked
+                            checked={values.allow}
+                            onChange={(e) =>
+                              setFieldValue("allow", e.target.checked)
+                            }
+                          />
                         }
+                        label="ข้าพเจ้าได้ตรวจสอบข้อมูลครบถ้วนแล้ว และยืนยันว่าเป็นข้อมูลจริง"
                       />
-                    }
-                    label="ข้าพเจ้าได้ตรวจสอบข้อมูลครบถ้วนแล้ว และยืนยันว่าเป็นข้อมูลจริง"
-                  />
+                    </>
+                  )}
+
                   <Box
                     sx={{ mt: 1, display: "flex", justifyContent: "flex-end" }}
                   >
@@ -597,8 +625,7 @@ export default function UserNewForm() {
                       loading={isSubmitting}
                       disabled={!values.allow}
                     >
-                      {/* {!isEdit ? 'Create User' : 'Save Changes'} */}
-                      Create User
+                      {!isEdit ? "Create User" : "Save Changes"}
                     </LoadingButton>
                   </Box>
                 </div>
