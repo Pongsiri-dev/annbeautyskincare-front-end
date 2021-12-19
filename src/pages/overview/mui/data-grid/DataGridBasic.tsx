@@ -41,8 +41,8 @@ const columns: GridColDef[] = [
     description: 'This column has a value getter and is not sortable.',
     flex: 1,
     valueGetter: (params) =>
-      `${params.getValue(params.id, 'firstName') || ''} ${
-        params.getValue(params.id, 'lastName') || ''
+      `${params?.getValue(params.id, 'firstName') || ''} ${
+        params?.getValue(params.id, 'lastName') || ''
       }`,
   },
   {
