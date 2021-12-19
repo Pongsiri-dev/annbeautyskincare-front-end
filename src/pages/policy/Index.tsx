@@ -15,6 +15,8 @@ import useResponsive from "../../hooks/useResponsive";
 import Page from "../../components/Page";
 import { useState } from "react";
 import { LoadingButton } from "@mui/lab";
+import { PATH_AUTH } from "src/routes/paths";
+import { useNavigate } from "react-router";
 // sections
 
 // ----------------------------------------------------------------------
@@ -47,12 +49,17 @@ const actionsContainer = {
 
 export default function Policy() {
   const { method } = useAuth();
+  const navigate = useNavigate();
 
   const [isAccept, setIsAccept] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const smUp = useResponsive("up", "sm");
   const mdUp = useResponsive("up", "md");
+
+  const onSubmit = () => {
+    navigate(PATH_AUTH.register);
+  };
 
   return (
     <Page title="Policy">
@@ -235,6 +242,7 @@ export default function Policy() {
                 variant="contained"
                 loading={isLoading}
                 disabled={!isAccept}
+                onClick={onSubmit}
                 sx={{ mt: 2 }}
               >
                 ยอมรับเงื่อนไข

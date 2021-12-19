@@ -169,7 +169,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                 />
               )}
 
-              <FormControlLabel
+              {/* <FormControlLabel
                 labelPlacement="start"
                 control={<Switch {...getFieldProps('isVerified')} checked={values.isVerified} />}
                 label={
@@ -183,7 +183,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   </>
                 }
                 sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-              />
+              /> */}
             </Card>
           </Grid>
 

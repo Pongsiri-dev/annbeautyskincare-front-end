@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { Link as RouterLink } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
+import { useNavigate } from "react-router-dom";
 // @mui
 import {
   Link,
@@ -16,13 +17,15 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
-import { PATH_AUTH } from '../../../routes/paths';
+import { PATH_AUTH, PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
 import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import Iconify from '../../../components/Iconify';
 import { IconButtonAnimate } from '../../../components/animate';
+// utils
+import axios from "src/utils/axios";
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +41,7 @@ export default function LoginForm() {
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate()
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required('กรุณากรอกเลขบัตรประชาชน'),
@@ -65,6 +69,7 @@ export default function LoginForm() {
         if (isMountedRef.current) {
           setSubmitting(false);
         }
+        navigate(PATH_DASHBOARD.user.profile);
       } catch (error) {
         console.error(error);
         resetForm();

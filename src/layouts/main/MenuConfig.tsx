@@ -1,7 +1,12 @@
 // routes
-import { PATH_AUTH, PATH_DOCS, PATH_PAGE, PATH_DASHBOARD } from '../../routes/paths';
+import {
+  PATH_AUTH,
+  PATH_DOCS,
+  PATH_PAGE,
+  PATH_DASHBOARD,
+} from "../../routes/paths";
 // components
-import Iconify from '../../components/Iconify';
+import Iconify from "../../components/Iconify";
 
 // ----------------------------------------------------------------------
 
@@ -12,47 +17,44 @@ const ICON_SIZE = {
 
 const menuConfig = [
   {
-    title: 'Home',
-    icon: <Iconify icon={'eva:home-fill'} {...ICON_SIZE} />,
-    path: '/',
+    title: "Home",
+    icon: <Iconify icon={"eva:home-fill"} {...ICON_SIZE} />,
+    path: "/",
   },
   {
-    title: 'About',
-    icon: <Iconify icon={'eva:book-open-fill'} {...ICON_SIZE} />,
+    title: "About",
+    icon: <Iconify icon={"eva:book-open-fill"} {...ICON_SIZE} />,
     path: PATH_DOCS,
   },
   {
-    title: 'เงื่อนไข',
-    icon: <Iconify icon={'eva:book-open-fill'} {...ICON_SIZE} />,
+    title: "เงื่อนไข",
+    icon: <Iconify icon={"eva:book-open-fill"} {...ICON_SIZE} />,
     path: PATH_DOCS,
   },
   {
-    title: 'เข้าสู่ระบบ',
-    path: '/pages',
-    icon: <Iconify icon={'eva:file-fill'} {...ICON_SIZE} />,
-    children:[
+    title: "เข้าสู่ระบบ",
+    path: "/pages",
+    icon: <Iconify icon={"eva:file-fill"} {...ICON_SIZE} />,
+    children: [
       {
-        subheader:'เข้าสู่ระบบ',
-        items:[
-          {title:'Login',path:PATH_AUTH.loginUnprotected}
-        ]
+        subheader: "เข้าสู่ระบบ",
+        items: [{ title: "Login", path: PATH_AUTH.login }],
       },
       {
-        subheader:'สมัครสมาชิก',
-        items:[
-          {title: 'Register',path:PATH_DASHBOARD.user.newUser},
+        subheader: "สมัครสมาชิก",
+        items: [
+          { title: "Register", path: PATH_PAGE.policy },
           // { title: 'Register', path: PATH_AUTH.registerUnprotected }
-        ]
+        ],
       },
       {
-        subheader:'ช่วยเหลือ',
-        items:[
-          { title: 'Reset password', path: PATH_AUTH.resetPassword },
-          { title: 'Verify code', path: PATH_AUTH.verify },
-        ]
-      }
-
-    ]
+        subheader: "ช่วยเหลือ",
+        items: [
+          { title: "Reset password", path: PATH_AUTH.resetPassword },
+          { title: "Verify code", path: PATH_AUTH.verify },
+        ],
+      },
+    ],
   },
   // {
   //   title: 'Components',

@@ -22,6 +22,8 @@ import {
 // utils
 import { fData } from "../../../utils/formatNumber";
 import axios from "src/utils/axios";
+//hook
+import useAuth from "../../../hooks/useAuth";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
 // @types
@@ -90,6 +92,7 @@ interface IFile {
 }
 
 export default function UserNewForm() {
+  const { register } = useAuth();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
@@ -97,9 +100,9 @@ export default function UserNewForm() {
   const [amphurList, setAmphurList] = useState<IAmphur[]>([]);
   const [tumbonList, setTumbonList] = useState<ITumbon[]>([]);
 
-  const [province, setProvince] = useState<IProvince[]>([])
-  const [amphur, setAmphur] = useState<IAmphur[]>([])
-  const [tombon, setTombon] = useState<ITumbon[]>([])
+  const [province, setProvince] = useState<IProvince[]>([]);
+  const [amphur, setAmphur] = useState<IAmphur[]>([]);
+  const [tombon, setTombon] = useState<ITumbon[]>([]);
 
   const NewUserSchema = Yup.object().shape({
     imgCardID: Yup.object().required("กรุณาใส่รูปบัตรประชาชน"),
@@ -120,45 +123,23 @@ export default function UserNewForm() {
 
   const formik = useFormik({
     enableReinitialize: true,
-    // initialValues: {
-    //   imgCardID: "",
-    //   imgProfile: "",
-    //   firstName: "",
-    //   lastName: "",
-    //   birthDay: "",
-    //   cardid: "",
-    //   username: "",
-    //   password: "",
-    //   email: "",
-    //   telephone: "",
-    //   address: "",
-    //   provinceCode: "",
-    //   province: "",
-    //   amphurCode: "",
-    //   amphur: "",
-    //   tombonCode: "",
-    //   tombon: "",
-    //   postCode: "",
-    //   signID: "",
-    //   allow: false,
-    // },
     initialValues: {
       imgCardID: "",
       imgProfile: "",
-      firstName: "test1",
-      lastName: "test2",
-      birthDay: "02100250",
-      cardid: "16543216512642",
+      firstName: "",
+      lastName: "",
+      birthDay: "",
+      cardid: "",
       username: "",
       password: "",
-      email: "aaweofij@test.com",
-      telephone: "07518621583",
-      address: "105/888",
+      email: "",
+      telephone: "",
+      address: "",
       provinceCode: "",
-      province: "3",
-      amphurCode: "58",
+      province: "",
+      amphurCode: "",
       amphur: "",
-      tombonCode: "301",
+      tombonCode: "",
       tombon: "",
       postCode: "",
       signID: "",
@@ -166,71 +147,65 @@ export default function UserNewForm() {
     },
     validationSchema: NewUserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
-      const res = province.find((o) => String(o.id) === values.provinceCode);
-      if (res) {
-        values.province = res.provinceName;
-      } else {
-        values.province = "";
+      try {
+        const res = province.find((o) => String(o.id) === values.provinceCode);
+        if (res) {
+          values.province = res.provinceName;
+        } else {
+          values.province = "";
+        }
+
+        const res2 = amphur.find((o) => String(o.id) === values.amphurCode);
+        if (res2) {
+          values.amphur = res2?.amphurName;
+        } else {
+          values.amphur = "";
+        }
+
+        const res3 = tombon.find((o) => String(o.id) === values.tombonCode);
+        if (res3) {
+          values.tombon = res3?.districtName;
+        } else {
+          values.tombon = "";
+        }
+        values.username = values.cardid;
+        values.password = values.cardid;
+
+        const imgCardID = values.imgCardID as any;
+        const imgProfile = values.imgProfile as any;
+
+        const formData = new FormData();
+        formData.append("imgCardID", imgCardID.path);
+        formData.append("imgProfile", imgProfile.path);
+        formData.append("firstName", values.firstName);
+        formData.append("lastName", values.lastName);
+        formData.append("birthDay", values.birthDay);
+        formData.append("cardid", values.cardid);
+        formData.append("username", values.username);
+        formData.append("password", values.password);
+        formData.append("email", values.email);
+        formData.append("telephone", values.telephone);
+        formData.append("address", values.address);
+        formData.append("provinceCode", values.provinceCode);
+        formData.append("province", values.province);
+        formData.append("amphurCode", values.amphurCode);
+        formData.append("amphur", values.amphur);
+        formData.append("tombonCode", values.tombonCode);
+        formData.append("tombon", values.tombon);
+        formData.append("postCode", values.postCode);
+        formData.append("signID", values.signID);
+
+        await register(formData);
+
+        resetForm();
+        setSubmitting(false);
+        // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+        navigate(PATH_DASHBOARD.user.profile);
+      } catch (error) {
+        console.error(error);
+        setSubmitting(false);
+        setErrors(error.message);
       }
-
-      const res2 = amphur.find((o) => String(o.id) === values.amphurCode);
-      if (res2) {
-        values.amphur = res2?.amphurName;
-      } else {
-        values.amphur = "";
-      }
-
-      const res3 = tombon.find((o) => String(o.id) === values.tombonCode);
-      if (res3) {
-        values.tombon = res3?.districtName;
-      } else {
-        values.tombon = "";
-      }
-      values.username = values.cardid;
-      values.password = values.cardid;
-
-      const imgCardID = values.imgCardID as any;
-      const imgProfile = values.imgProfile as any;
-
-      const formData = new FormData();
-      // formData.append("imgCardID", imgCardID.path);
-      // formData.append("imgProfile", imgProfile.path);
-      formData.append("imgCardID", imgCardID.path);
-      formData.append("imgProfile", imgProfile.path);
-      formData.append("firstName", values.firstName);
-      formData.append("lastName", values.lastName);
-      formData.append("birthDay", values.birthDay);
-      formData.append("cardid", values.cardid);
-      formData.append("username", values.username);
-      formData.append("password", values.password);
-      formData.append("email", values.email);
-      formData.append("telephone", values.telephone);
-      formData.append("address", values.address);
-      formData.append("provinceCode", values.provinceCode);
-      formData.append("province", values.province);
-      formData.append("amphurCode", values.amphurCode);
-      formData.append("amphur", values.amphur);
-      formData.append("tombonCode", values.tombonCode);
-      formData.append("tombon", values.tombon);
-      formData.append("postCode", values.postCode);
-      formData.append("signID", values.signID);
-
-      const { data } = await axios.post("api/auth/signup", formData);
-      // const { data } = await axios.get("api/province");
-
-      console.log(data);
-
-      // try {
-      //   await new Promise((resolve) => setTimeout(resolve, 500));
-      //   resetForm();
-      //   setSubmitting(false);
-      //   // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-      //   navigate(PATH_DASHBOARD.user.list);
-      // } catch (error) {
-      //   console.error(error);
-      //   setSubmitting(false);
-      //   setErrors(error.message);
-      // }
     },
   });
 
@@ -245,9 +220,9 @@ export default function UserNewForm() {
   } = formik;
 
   useEffect(() => {
-    axios.get("api/province").then((res) => setProvince(res.data))
-    axios.get("api/amphur").then((res) => setAmphur(res.data))
-    axios.get("api/tombun").then((res) => setTombon(res.data))
+    axios.get("api/province").then((res) => setProvince(res.data));
+    axios.get("api/amphur").then((res) => setAmphur(res.data));
+    axios.get("api/tombun").then((res) => setTombon(res.data));
   }, []);
 
   useEffect(() => {
@@ -269,7 +244,7 @@ export default function UserNewForm() {
       const file = acceptedFiles[0];
       if (file) {
         setFieldValue(type, {
-          ...file,
+          path: file,
           preview: URL.createObjectURL(file),
         });
       }
@@ -439,6 +414,10 @@ export default function UserNewForm() {
                   <TextField
                     fullWidth
                     label="วัน/เดือน/ปีเกิด"
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      target.value = target.value.toString().slice(0, 10);
+                    }}
                     {...getFieldProps("birthDay")}
                     error={Boolean(touched.birthDay && errors.birthDay)}
                     helperText={touched.birthDay && errors.birthDay}
