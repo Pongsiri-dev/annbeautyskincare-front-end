@@ -108,8 +108,7 @@ export default function UserNewForm() {
   const [amphur, setAmphur] = useState<IAmphur[]>([]);
   const [tombon, setTombon] = useState<ITumbon[]>([]);
 
-  const NewUserSchema = Yup.object().shape({
-    imgCardID: Yup.object().required("กรุณาใส่รูปบัตรประชาชน"),
+  const EditUser = {
     imgProfile: Yup.object().required("กรุณาใส่รูปประจำตัว"),
     firstName: Yup.string().required("กรุณากรอกชื่อ"),
     lastName: Yup.string().required("กรุณากรอกนามสกุล"),
@@ -122,8 +121,15 @@ export default function UserNewForm() {
     amphurCode: Yup.string().required("กรุณากรอกอำเภอ"),
     tombonCode: Yup.string().required("กรุณากรอกตำบล"),
     postCode: Yup.string().required("กรุณากรอกรหัสไปรษณีย์"),
+  };
+
+  const CreateUser = {
+    ...EditUser,
+    imgCardID: Yup.object().required("กรุณาใส่รูปบัตรประชาชน"),
     signID: Yup.string().required("กรุณากรอกลายเซ็น"),
-  });
+  };
+
+  const UserSchema = Yup.object().shape(isEdit ? EditUser : CreateUser);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -150,73 +156,69 @@ export default function UserNewForm() {
       allow: false,
       status: "active",
     },
-    validationSchema: NewUserSchema,
+    validationSchema: UserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
-      try {
-        const res = province.find((o) => String(o.id) === values.provinceCode);
-        if (res) {
-          values.province = res.provinceName;
-        } else {
-          values.province = "";
-        }
-
-        const res2 = amphur.find((o) => String(o.id) === values.amphurCode);
-        if (res2) {
-          values.amphur = res2?.amphurName;
-        } else {
-          values.amphur = "";
-        }
-
-        const res3 = tombon.find((o) => String(o.id) === values.tombonCode);
-        if (res3) {
-          values.tombon = res3?.districtName;
-        } else {
-          values.tombon = "";
-        }
-        values.username = values.cardid;
-        values.password = values.cardid;
-
-        const imgCardID = values.imgCardID as any;
-        const imgProfile = values.imgProfile as any;
-
-        const formData = new FormData();
-        formData.append("imgCardID", imgCardID.path);
-        formData.append("imgProfile", imgProfile.path);
-        formData.append("firstName", values.firstName);
-        formData.append("lastName", values.lastName);
-        formData.append("birthDay", values.birthDay);
-        formData.append("cardid", values.cardid);
-        formData.append("username", values.username);
-        formData.append("password", values.password);
-        formData.append("email", values.email);
-        formData.append("telephone", values.telephone);
-        formData.append("address", values.address);
-        formData.append("provinceCode", values.provinceCode);
-        formData.append("province", values.province);
-        formData.append("amphurCode", values.amphurCode);
-        formData.append("amphur", values.amphur);
-        formData.append("tombonCode", values.tombonCode);
-        formData.append("tombon", values.tombon);
-        formData.append("postCode", values.postCode);
-        formData.append("signID", values.signID);
-
-        await register(formData);
-
-        resetForm();
-        setSubmitting(false);
-        // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        navigate(PATH_DASHBOARD.user.profile);
-      } catch (error) {
-        console.error(error);
-        setSubmitting(false);
-        setErrors(error.message);
-      }
+      // try {
+      //   const res = province.find((o) => String(o.id) === values.provinceCode);
+      //   if (res) {
+      //     values.province = res.provinceName;
+      //   } else {
+      //     values.province = "";
+      //   }
+      //   const res2 = amphur.find((o) => String(o.id) === values.amphurCode);
+      //   if (res2) {
+      //     values.amphur = res2?.amphurName;
+      //   } else {
+      //     values.amphur = "";
+      //   }
+      //   const res3 = tombon.find((o) => String(o.id) === values.tombonCode);
+      //   if (res3) {
+      //     values.tombon = res3?.districtName;
+      //   } else {
+      //     values.tombon = "";
+      //   }
+      //   values.username = values.cardid;
+      //   values.password = values.cardid;
+      //   const imgCardID = values.imgCardID as any;
+      //   const imgProfile = values.imgProfile as any;
+      //   const formData = new FormData();
+      //   formData.append("imgProfile", imgProfile.path);
+      //   formData.append("firstName", values.firstName);
+      //   formData.append("lastName", values.lastName);
+      //   formData.append("birthDay", values.birthDay);
+      //   formData.append("cardid", values.cardid);
+      //   formData.append("username", values.username);
+      //   formData.append("password", values.password);
+      //   formData.append("email", values.email);
+      //   formData.append("telephone", values.telephone);
+      //   formData.append("address", values.address);
+      //   formData.append("provinceCode", values.provinceCode);
+      //   formData.append("province", values.province);
+      //   formData.append("amphurCode", values.amphurCode);
+      //   formData.append("amphur", values.amphur);
+      //   formData.append("tombonCode", values.tombonCode);
+      //   formData.append("tombon", values.tombon);
+      //   formData.append("postCode", values.postCode);
+      //   if (isEdit) {
+      //   } else {
+      //     formData.append("signID", values.signID);
+      //     formData.append("imgCardID", imgCardID.path);
+      //     await register(formData);
+      //   }
+      //   resetForm();
+      //   setSubmitting(false);
+      //   // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+      //   navigate(PATH_DASHBOARD.user.profile);
+      // } catch (error) {
+      //   console.error(error);
+      //   setSubmitting(false);
+      //   setErrors(error.message);
+      // }
     },
   });
 
   const {
     errors,
-    values,
     touched,
     handleSubmit,
     isSubmitting,
@@ -224,10 +226,41 @@ export default function UserNewForm() {
     getFieldProps,
   } = formik;
 
+  let { values } = formik;
+
+  const fetchData = async () => {
+    await Promise.all([
+      axios.get("api/province").then((res) => setProvince(res.data)),
+      axios.get("api/amphur").then((res) => setAmphur(res.data)),
+      axios.get("api/tombun").then((res) => setTombon(res.data)),
+    ]);
+
+    if (isEdit) {
+      const ID = "2136514625163";
+      const { data } = await axios.get(`/api/user/username/${ID}`);
+      const list: any = [];
+      Object.keys(data).map((o) => {
+        if (
+          !["provinceCode", "amphurCode", "tombonCode", "image"].includes(o)
+        ) {
+          list.push(setFieldValue(o, data[o]));
+        }
+      });
+      await Promise.all(list);
+      const imgProfile = {
+        path: null,
+        preview: data.image.imgPath,
+      };
+      setFieldValue("imgProfile", imgProfile);
+      setFieldValue("provinceCode", data["provinceCode"]);
+      setFieldValue("amphurCode", data["amphurCode"]);
+      setFieldValue("tombonCode", data["tombonCode"]);
+      setFieldValue("allow", true);
+    }
+  };
+
   useEffect(() => {
-    axios.get("api/province").then((res) => setProvince(res.data));
-    axios.get("api/amphur").then((res) => setAmphur(res.data));
-    axios.get("api/tombun").then((res) => setTombon(res.data));
+    fetchData();
   }, []);
 
   useEffect(() => {
