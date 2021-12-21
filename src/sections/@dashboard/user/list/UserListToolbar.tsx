@@ -39,14 +39,14 @@ type Props = {
   numSelected: number;
   filterName: string;
   onFilterName: (value: string) => void;
-  onDeleteUsers: VoidFunction;
+  // onDeleteUsers: VoidFunction;
 };
 
 export default function UserListToolbar({
   numSelected,
   filterName,
   onFilterName,
-  onDeleteUsers,
+  // onDeleteUsers,
 }: Props) {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
@@ -77,7 +77,7 @@ export default function UserListToolbar({
         />
       )}
 
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton onClick={onDeleteUsers}>
             <Iconify icon={'eva:trash-2-outline'} />
@@ -89,7 +89,7 @@ export default function UserListToolbar({
             <Iconify icon={'ic:round-filter-list'} />
           </IconButton>
         </Tooltip>
-      )}
+      )} */}
     </RootStyle>
   );
 }

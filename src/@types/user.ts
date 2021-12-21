@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-import { FormikProps } from 'formik';
+import { FormikProps } from "formik";
 
 export type UserInvoice = {
   id: string;
@@ -59,20 +59,33 @@ export type Profile = {
 };
 
 export type UserManager = {
-  id: string;
-  avatarUrl: string;
   name: string;
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  firstName: string | null;
+  lastName: string | null;
+  cardid: string | null;
   email: string;
-  phoneNumber: string;
-  address: string;
-  country: string;
-  state: string;
-  city: string;
-  zipCode: string;
-  company: string;
-  isVerified: boolean;
-  status: string;
-  role: string;
+  birthDay: string | null;
+  address: string | null;
+  telephone: string | null;
+  provinceCode: string | null;
+  province: string | null;
+  amphurCode: string | null;
+  amphur: string | null;
+  tombonCode: string | null;
+  tombon: string | null;
+  postCode: string | null;
+  username: string;
+  password: string;
+  signID: string | null;
+  roles: {
+    id: number;
+    name: string;
+  }[];
+  level: number | null;
+  status: number;
 };
 
 export type UserData = {

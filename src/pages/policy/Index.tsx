@@ -65,7 +65,7 @@ export default function Policy() {
     <Page title="Policy">
       <RootStyle>
         <Container maxWidth="md" style={flex}>
-          <Grid sm={10} md={12}>
+          <Grid item sm={10} md={12}>
             <Typography variant="h4" sx={{ mt: 3, textAlign: "center" }}>
               กฎและข้อบังคับสำหรับตัวแทนจำหน่ายแบรนด์
             </Typography>
@@ -231,7 +231,6 @@ export default function Policy() {
                 sx={{ mt: 1 }}
                 control={
                   <Checkbox
-                    defaultChecked
                     checked={isAccept}
                     onChange={(e) => setIsAccept(e.target.checked)}
                   />

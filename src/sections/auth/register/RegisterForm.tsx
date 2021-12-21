@@ -234,7 +234,6 @@ export default function UserNewForm() {
       axios.get("api/amphur").then((res) => setAmphur(res.data)),
       axios.get("api/tombun").then((res) => setTombon(res.data)),
     ]);
-
     if (isEdit) {
       const ID = "2136514625163";
       const { data } = await axios.get(`/api/user/username/${ID}`);
@@ -637,7 +636,6 @@ export default function UserNewForm() {
                         sx={{ mt: 1 }}
                         control={
                           <Checkbox
-                            defaultChecked
                             checked={values.allow}
                             onChange={(e) =>
                               setFieldValue("allow", e.target.checked)
