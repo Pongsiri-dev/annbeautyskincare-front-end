@@ -11,6 +11,7 @@ import {
   Stack,
   StackProps,
 } from "@mui/material";
+import FacebookSharpIcon from '@mui/material/Icon';
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // components
@@ -19,6 +20,7 @@ import Iconify from "../../components/Iconify";
 import TextIconLabel from "../../components/TextIconLabel";
 import { MotionContainer, varFade } from "../../components/animate";
 
+// Icon
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(m.div)(({ theme }) => ({
@@ -95,90 +97,32 @@ export default function HomeHero() {
         <Container>
           <ContentStyle>
             <m.div variants={varFade().inRight}>
-              <Typography variant="h1" sx={{ color: "common.white" }}>
-                Start a aaa
+              <Typography variant="h2" sx={{ color: "common.white" }}>
+                ระบบตัวแทนขาย 
                 <br />
-                new project <br /> with
                 <Typography
                   component="span"
                   variant="h1"
                   sx={{ color: "primary.main" }}
                 >
-                  &nbsp;Minimal
+                Ann Beautiful Skincare
                 </Typography>
               </Typography>
             </m.div>
 
             <m.div variants={varFade().inRight}>
               <Typography sx={{ color: "common.white" }}>
-                The starting point for your next project based on
-                easy-to-customize MUI helps you build apps faster and better.
+                ระบบตัวแทนขายผลิตภัณฑ์ภายใต้แบรนด์ของ Ann Beautiful Skincare
               </Typography>
             </m.div>
-
-            <Stack
-              spacing={2.5}
-              alignItems="center"
-              direction={{ xs: "column", md: "row" }}
-            >
-              <m.div variants={varFade().inRight}>
-                <TextIconLabel
-                  icon={
-                    <Image
-                      alt="sketch icon"
-                      src="https://minimal-assets-api.vercel.app/assets/images/home/ic_sketch_small.svg"
-                      sx={{ width: 20, height: 20, mr: 1 }}
-                    />
-                  }
-                  value={
-                    <Link
-                      href="https://www.sketch.com/s/0fa4699d-a3ff-4cd5-a3a7-d851eb7e17f0"
-                      target="_blank"
-                      rel="noopener"
-                      color="common.white"
-                      sx={{ typography: "body2" }}
-                    >
-                      Preview Sketch
-                    </Link>
-                  }
-                />
-              </m.div>
-
-              <m.div variants={varFade().inRight}>
-                <TextIconLabel
-                  icon={
-                    <Image
-                      alt="sketch icon"
-                      src="https://minimal-assets-api.vercel.app/assets/images/home/ic_figma_small.svg"
-                      sx={{ width: 20, height: 20, mr: 1 }}
-                    />
-                  }
-                  value={
-                    <Link
-                      href="https://www.figma.com/file/x7earqGD0VGFjFdk5v2DgZ/%5BPreview%5D-Minimal-Web?node-id=866%3A55474"
-                      target="_blank"
-                      rel="noopener"
-                      color="common.white"
-                      sx={{ typography: "body2" }}
-                    >
-                      Preview Figma
-                    </Link>
-                  }
-                />
-              </m.div>
-            </Stack>
-
             <m.div variants={varFade().inRight}>
               <Button
                 size="large"
                 variant="contained"
                 component={RouterLink}
                 to={PATH_DASHBOARD.root}
-                startIcon={
-                  <Iconify icon={"eva:flash-fill"} width={20} height={20} />
-                }
               >
-                Live Preview
+                @ LINE OFFICIAL
               </Button>
             </m.div>
 
@@ -196,19 +140,15 @@ export default function HomeHero() {
               >
                 <m.img
                   variants={varFade().inRight}
-                  src="https://minimal-assets-api.vercel.app/assets/images/home/ic_sketch.svg"
+                  src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
                 />
                 <m.img
                   variants={varFade().inRight}
-                  src="https://minimal-assets-api.vercel.app/assets/images/home/ic_figma.svg"
+                  src="https://img.icons8.com/fluency/48/000000/instagram-new.png"
                 />
                 <m.img
                   variants={varFade().inRight}
-                  src="https://minimal-assets-api.vercel.app/assets/images/home/ic_js.svg"
-                />
-                <m.img
-                  variants={varFade().inRight}
-                  src="https://minimal-assets-api.vercel.app/assets/images/home/ic_ts.svg"
+                  src="https://img.icons8.com/fluency/48/000000/youtube-play.png"
                 />
               </Stack>
             </Stack>

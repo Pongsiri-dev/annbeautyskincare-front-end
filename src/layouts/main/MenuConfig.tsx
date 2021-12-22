@@ -4,6 +4,8 @@ import {
   PATH_DOCS,
   PATH_PAGE,
   PATH_DASHBOARD,
+  PATH_MAIN_PAGES,
+  PATH_ABOUT
 } from "../../routes/paths";
 // components
 import Iconify from "../../components/Iconify";
@@ -17,40 +19,40 @@ const ICON_SIZE = {
 
 const menuConfig = [
   {
-    title: "Home",
+    title: "หน้าแรก",
     icon: <Iconify icon={"eva:home-fill"} {...ICON_SIZE} />,
     path: "/",
   },
   {
-    title: "About",
+    title: "เกี่ยวกับ",
     icon: <Iconify icon={"eva:book-open-fill"} {...ICON_SIZE} />,
     path: PATH_DOCS,
   },
   {
     title: "เงื่อนไข",
-    icon: <Iconify icon={"eva:book-open-fill"} {...ICON_SIZE} />,
-    path: PATH_DOCS,
+    icon: <Iconify icon={"eva:alert-circle-fill"} {...ICON_SIZE} />,
+    path: '/policy',
   },
   {
     title: "เข้าสู่ระบบ",
-    path: "/pages",
-    icon: <Iconify icon={"eva:file-fill"} {...ICON_SIZE} />,
+    path: PATH_MAIN_PAGES,
+    icon: <Iconify icon={"eva:log-in-fill"} {...ICON_SIZE} />,
     children: [
       {
         subheader: "เข้าสู่ระบบ",
-        items: [{ title: "Login", path: PATH_AUTH.login }],
+        items: [{ title: "เข้าสู่ระบบ", path: PATH_AUTH.login }],
       },
       {
         subheader: "สมัครสมาชิก",
         items: [
-          { title: "Register", path: PATH_PAGE.policy },
+          { title: "สมัครสมาชิกตัวแทนขาย", path: PATH_PAGE.policy },
           // { title: 'Register', path: PATH_AUTH.registerUnprotected }
         ],
       },
       {
         subheader: "ช่วยเหลือ",
         items: [
-          { title: "Reset password", path: PATH_AUTH.resetPassword },
+          { title: "เปลี่ยนรหัสผ่าน", path: PATH_AUTH.resetPassword },
           { title: "Verify code", path: PATH_AUTH.verify },
         ],
       },
