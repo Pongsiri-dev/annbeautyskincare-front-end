@@ -4,23 +4,22 @@ import { Box, Card, Container, Typography } from '@mui/material';
 // components
 import Image from '../../components/Image';
 import { MotionInView, varFade } from '../../components/animate';
-
 // ----------------------------------------------------------------------
 
 const CARDS = [
   {
-    icon: 'https://minimal-assets-api.vercel.app/assets/icons/ic_design.svg',
+    icon: 'https://live.staticflickr.com/65535/51758657201_73bc57b631_z.jpg',
     title: 'UI & UX Design',
     description:
       'The set is built on the principles of the atomic design system. It helps you to create projects fastest and easily customized packages for your projects.',
   },
   {
-    icon: 'https://minimal-assets-api.vercel.app/assets/icons/ic_code.svg',
+    icon: 'https://live.staticflickr.com/65535/51759307769_6fb7d27c36_z.jpg',
     title: 'Development',
     description: 'Easy to customize and extend each component, saving you time and money.',
   },
   {
-    icon: '/logo/logo_single.svg',
+    icon: 'https://live.staticflickr.com/65535/51759307754_37fddcd092_z.jpg',
     title: 'Branding',
     description: 'Consistent design in colors, fonts ... makes brand recognition easy.',
   },
@@ -98,11 +97,11 @@ export default function HomeMinimal() {
         >
           <MotionInView variants={varFade().inUp}>
             <Typography component="div" variant="overline" sx={{ mb: 2, color: 'text.disabled' }}>
-              Minimal
+            Ann Beauty Skin Care Product.
             </Typography>
           </MotionInView>
           <MotionInView variants={varFade().inDown}>
-            <Typography variant="h2">What minimal helps you?</Typography>
+            <Typography variant="h2">ผลิตภัณฑ์ของเรา</Typography>
           </MotionInView>
         </Box>
 
@@ -122,10 +121,10 @@ export default function HomeMinimal() {
                   src={card.icon}
                   alt={card.title}
                   sx={{
-                    mb: 10,
+                    mb: 3,
                     mx: 'auto',
-                    width: 40,
-                    height: 40,
+                    width: 290,
+                    height: 320,
                     filter: (theme) => shadowIcon(theme.palette.primary.main),
                     ...(index === 0 && {
                       filter: (theme) => shadowIcon(theme.palette.info.main),

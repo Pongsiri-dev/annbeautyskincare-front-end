@@ -73,9 +73,9 @@ export default function Register() {
           <Logo />
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Already have an account? {''}
+              เข้าสู่ระบบด้วยบัญชีที่มีอยู่แล้ว {''}
               <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.login}>
-                Login
+                เข้าสู่ระบบ
               </Link>
             </Typography>
           )}
@@ -100,9 +100,9 @@ export default function Register() {
 
             {!smUp && (
               <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
-                Already have an account?{' '}
+                เข้าสู่ระบบด้วยบัญชีที่มีอยู่แล้ว{' '}
                 <Link variant="subtitle2" to={PATH_AUTH.login} component={RouterLink}>
-                  Login
+                  เข้าสู่ระบบ
                 </Link>
               </Typography>
             )}

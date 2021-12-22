@@ -83,3 +83,6 @@ export const PATH_DASHBOARD = {
 };
 
 export const PATH_DOCS = '';
+//custom path
+export const PATH_MAIN_PAGES = '';
+export const PATH_ABOUT = '';

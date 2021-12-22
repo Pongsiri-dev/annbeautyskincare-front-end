@@ -128,18 +128,18 @@ function MenuMobileItem({ item, isOpen, onOpen }: MenuMobileItemProps) {
           <Box sx={{ display: 'flex', flexDirection: 'column-reverse' }}>
             <NavSection
               navConfig={children}
-              sx={{
-                '& .MuiList-root:last-of-type .MuiListItemButton-root': {
-                  height: 200,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  bgcolor: 'background.neutral',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundImage:
-                    'url(https://minimal-assets-api.vercel.app/assets/illustrations/illustration_dashboard.png)',
-                  '& > *:not(.MuiTouchRipple-root)': { display: 'none' },
-                },
-              }}
+              // sx={{
+              //   '& .MuiList-root:last-of-type .MuiListItemButton-root': {
+              //     height: 200,
+              //     backgroundSize: 'cover',
+              //     backgroundPosition: 'center',
+              //     bgcolor: 'background.neutral',
+              //     backgroundRepeat: 'no-repeat',
+              //     backgroundImage:
+              //       'url(https://minimal-assets-api.vercel.app/assets/illustrations/illustration_dashboard.png)',
+              //     '& > *:not(.MuiTouchRipple-root)': { display: 'none' },
+              //   },
+              // }}
             />
           </Box>
         </Collapse>
