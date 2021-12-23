@@ -28,6 +28,7 @@ export type JWTContextType = {
   method: 'jwt';
   login: (email: string, password: string) => Promise<void>;
   register: (formData: any) => Promise<void>;
+  update: (formData: any) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => void;
   updateProfile: VoidFunction;

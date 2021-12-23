@@ -12,6 +12,7 @@ enum Types {
   Login = "LOGIN",
   Logout = "LOGOUT",
   Register = "REGISTER",
+  Update = "UPDATE",
 }
 
 type JWTAuthPayload = {
@@ -24,6 +25,9 @@ type JWTAuthPayload = {
   };
   [Types.Logout]: undefined;
   [Types.Register]: {
+    user: AuthUser;
+  };
+  [Types.Update]: {
     user: AuthUser;
   };
 };
@@ -59,6 +63,13 @@ const JWTReducer = (state: AuthState, action: JWTActions) => {
       };
 
     case "REGISTER":
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: action.payload.user,
+      };
+
+    case "UPDATE":
       return {
         ...state,
         isAuthenticated: true,
@@ -151,6 +162,24 @@ function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const update = async (formData: any) => {
+    const response = await axios({
+      method: "put",
+      url: "api/auth/update",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    // const { accessToken, user } = response.data;
+
+    // window.localStorage.setItem("accessToken", accessToken);
+    // dispatch({
+    //   type: Types.Update,
+    //   payload: {
+    //     user,
+    //   },
+    // });
+  };
+
   const logout = async () => {
     setSession(null);
     dispatch({ type: Types.Logout });
@@ -168,6 +197,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         register,
+        update,
         resetPassword,
         updateProfile,
       }}

@@ -35,6 +35,7 @@ import { UploadAvatar } from "../../../components/upload";
 import { string } from "yup/lib/locale";
 import { type } from "os";
 import ReactSignatureCanvas from "react-signature-canvas";
+import Image from "src/components/Image";
 
 // ----------------------------------------------------------------------
 type initialValues = {
@@ -96,7 +97,7 @@ export default function UserNewForm() {
   const { pathname } = useLocation();
   const isEdit = pathname.includes("edit");
 
-  const { register } = useAuth();
+  const { register, update } = useAuth();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
@@ -154,66 +155,72 @@ export default function UserNewForm() {
       postCode: "",
       signID: "",
       allow: false,
-      status: "active",
+      status: 0,
     },
     validationSchema: UserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
-      // try {
-      //   const res = province.find((o) => String(o.id) === values.provinceCode);
-      //   if (res) {
-      //     values.province = res.provinceName;
-      //   } else {
-      //     values.province = "";
-      //   }
-      //   const res2 = amphur.find((o) => String(o.id) === values.amphurCode);
-      //   if (res2) {
-      //     values.amphur = res2?.amphurName;
-      //   } else {
-      //     values.amphur = "";
-      //   }
-      //   const res3 = tombon.find((o) => String(o.id) === values.tombonCode);
-      //   if (res3) {
-      //     values.tombon = res3?.districtName;
-      //   } else {
-      //     values.tombon = "";
-      //   }
-      //   values.username = values.cardid;
-      //   values.password = values.cardid;
-      //   const imgCardID = values.imgCardID as any;
-      //   const imgProfile = values.imgProfile as any;
-      //   const formData = new FormData();
-      //   formData.append("imgProfile", imgProfile.path);
-      //   formData.append("firstName", values.firstName);
-      //   formData.append("lastName", values.lastName);
-      //   formData.append("birthDay", values.birthDay);
-      //   formData.append("cardid", values.cardid);
-      //   formData.append("username", values.username);
-      //   formData.append("password", values.password);
-      //   formData.append("email", values.email);
-      //   formData.append("telephone", values.telephone);
-      //   formData.append("address", values.address);
-      //   formData.append("provinceCode", values.provinceCode);
-      //   formData.append("province", values.province);
-      //   formData.append("amphurCode", values.amphurCode);
-      //   formData.append("amphur", values.amphur);
-      //   formData.append("tombonCode", values.tombonCode);
-      //   formData.append("tombon", values.tombon);
-      //   formData.append("postCode", values.postCode);
-      //   if (isEdit) {
-      //   } else {
-      //     formData.append("signID", values.signID);
-      //     formData.append("imgCardID", imgCardID.path);
-      //     await register(formData);
-      //   }
-      //   resetForm();
-      //   setSubmitting(false);
-      //   // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-      //   navigate(PATH_DASHBOARD.user.profile);
-      // } catch (error) {
-      //   console.error(error);
-      //   setSubmitting(false);
-      //   setErrors(error.message);
-      // }
+      try {
+        const res = province.find((o) => String(o.id) === values.provinceCode);
+        if (res) {
+          values.province = res.provinceName;
+        } else {
+          values.province = "";
+        }
+        const res2 = amphur.find((o) => String(o.id) === values.amphurCode);
+        if (res2) {
+          values.amphur = res2?.amphurName;
+        } else {
+          values.amphur = "";
+        }
+        const res3 = tombon.find((o) => String(o.id) === values.tombonCode);
+        if (res3) {
+          values.tombon = res3?.districtName;
+        } else {
+          values.tombon = "";
+        }
+        values.username = values.cardid;
+        values.password = values.cardid;
+        const imgCardID = values.imgCardID as any;
+        const imgProfile = values.imgProfile as any;
+        const formData: any = new FormData();
+        formData.append("imgProfile", imgProfile.path);
+        formData.append("firstName", values.firstName);
+        formData.append("lastName", values.lastName);
+        formData.append("birthDay", values.birthDay);
+        formData.append("cardid", values.cardid);
+        formData.append("username", values.username);
+        formData.append("email", values.email);
+        formData.append("telephone", values.telephone);
+        formData.append("address", values.address);
+        formData.append("provinceCode", values.provinceCode);
+        formData.append("province", values.province);
+        formData.append("amphurCode", values.amphurCode);
+        formData.append("amphur", values.amphur);
+        formData.append("tombonCode", values.tombonCode);
+        formData.append("tombon", values.tombon);
+        formData.append("postCode", values.postCode);
+        if (isEdit) {
+          try {
+            formData.append("imgCardID", null);
+            await update(formData);
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          formData.append("password", values.password);
+          formData.append("signID", values.signID);
+          formData.append("imgCardID", imgCardID.path);
+          await register(formData);
+        }
+        resetForm();
+        setSubmitting(false);
+        // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+        navigate(PATH_DASHBOARD.user.profile);
+      } catch (error) {
+        console.error(error);
+        setSubmitting(false);
+        setErrors(error.message);
+      }
     },
   });
 
@@ -235,7 +242,7 @@ export default function UserNewForm() {
       axios.get("api/tombun").then((res) => setTombon(res.data)),
     ]);
     if (isEdit) {
-      const ID = "2136514625163";
+      const ID = "6504651406546";
       const { data } = await axios.get(`/api/user/username/${ID}`);
       const list: any = [];
       Object.keys(data).map((o) => {
@@ -248,7 +255,7 @@ export default function UserNewForm() {
       await Promise.all(list);
       const imgProfile = {
         path: null,
-        preview: data.image.imgPath,
+        preview: data.image.url,
       };
       setFieldValue("imgProfile", imgProfile);
       setFieldValue("provinceCode", data["provinceCode"]);
@@ -311,7 +318,7 @@ export default function UserNewForm() {
             <Card sx={{ py: 10, px: 3 }}>
               {isEdit && (
                 <Label
-                  color={values.status !== "active" ? "error" : "success"}
+                  color={values.status ? "error" : "success"}
                   sx={{
                     textTransform: "uppercase",
                     position: "absolute",
@@ -319,7 +326,7 @@ export default function UserNewForm() {
                     right: 24,
                   }}
                 >
-                  {values.status}
+                  {values.status ? "ไม่ใช้งาน" : "ใช้งาน"}
                 </Label>
               )}
 
@@ -366,12 +373,9 @@ export default function UserNewForm() {
                   control={
                     <Switch
                       onChange={(event) =>
-                        setFieldValue(
-                          "status",
-                          event.target.checked ? "banned" : "active"
-                        )
+                        setFieldValue("status", event.target.checked ? 1 : 0)
                       }
-                      checked={values.status !== "active"}
+                      checked={values.status === 1}
                     />
                   }
                   label={
