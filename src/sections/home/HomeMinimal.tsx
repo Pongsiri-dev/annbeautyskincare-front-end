@@ -9,19 +9,19 @@ import { MotionInView, varFade } from '../../components/animate';
 const CARDS = [
   {
     icon: 'https://live.staticflickr.com/65535/51758657201_73bc57b631_z.jpg',
-    title: 'UI & UX Design',
+    title: 'VALENTA THAITEA',
     description:
-      'The set is built on the principles of the atomic design system. It helps you to create projects fastest and easily customized packages for your projects.',
+      '',
   },
   {
     icon: 'https://live.staticflickr.com/65535/51759307769_6fb7d27c36_z.jpg',
-    title: 'Development',
-    description: 'Easy to customize and extend each component, saving you time and money.',
+    title: 'VALENTA COFFEE',
+    description: '',
   },
   {
     icon: 'https://live.staticflickr.com/65535/51759307754_37fddcd092_z.jpg',
-    title: 'Branding',
-    description: 'Consistent design in colors, fonts ... makes brand recognition easy.',
+    title: 'VALENTA COCOA',
+    description: '',
   },
 ];
 
