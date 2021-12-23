@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
@@ -94,7 +94,8 @@ interface IFile {
 }
 
 export default function UserNewForm() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const query = new URLSearchParams(search);
   const isEdit = pathname.includes("edit");
 
   const { register, update } = useAuth();
@@ -242,7 +243,10 @@ export default function UserNewForm() {
       axios.get("api/tombun").then((res) => setTombon(res.data)),
     ]);
     if (isEdit) {
-      const ID = "6504651406546";
+      let ID = query.get("id");
+      if (!ID) {
+        ID = "6510465146540";
+      }
       const { data } = await axios.get(`/api/user/username/${ID}`);
       const list: any = [];
       Object.keys(data).map((o) => {
@@ -318,7 +322,7 @@ export default function UserNewForm() {
             <Card sx={{ py: 10, px: 3 }}>
               {isEdit && (
                 <Label
-                  color={values.status ? "error" : "success"}
+                  color={values.status ? "success" : "error"}
                   sx={{
                     textTransform: "uppercase",
                     position: "absolute",
@@ -326,7 +330,7 @@ export default function UserNewForm() {
                     right: 24,
                   }}
                 >
-                  {values.status ? "ไม่ใช้งาน" : "ใช้งาน"}
+                  {values.status ? "ใช้งาน" : "ไม่ใช้งาน"}
                 </Label>
               )}
 
@@ -373,9 +377,9 @@ export default function UserNewForm() {
                   control={
                     <Switch
                       onChange={(event) =>
-                        setFieldValue("status", event.target.checked ? 1 : 0)
+                        setFieldValue("status", event.target.checked ? 0 : 1)
                       }
-                      checked={values.status === 1}
+                      checked={values.status === 0}
                     />
                   }
                   label={

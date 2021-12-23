@@ -42,7 +42,7 @@ export default function UserMoreMenu({ userName }: Props) {
 
         <MenuItem
           component={RouterLink}
-          to={`${PATH_DASHBOARD.user.root}/${paramCase(userName)}/edit`}
+          to={`${PATH_DASHBOARD.user.editById}/?id=${userName}`}
           sx={{ borderRadius: 1, typography: "body2" }}
         >
           <Iconify

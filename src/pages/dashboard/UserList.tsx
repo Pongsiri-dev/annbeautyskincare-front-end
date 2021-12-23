@@ -192,7 +192,7 @@ export default function UserList() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, email, telephone, level, status } = row;
+                      const { id, name, email, telephone, level, status, username } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
                       return (
@@ -234,7 +234,7 @@ export default function UserList() {
                           <TableCell align="right">
                             <UserMoreMenu
                               // onDelete={() => handleDeleteUser(id)}
-                              userName={name}
+                              userName={username}
                             />
                           </TableCell>
                         </TableRow>
