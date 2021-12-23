@@ -11,20 +11,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
-const Product = [
-  {
-    id: 1,
-    src: "https://live.staticflickr.com/65535/51759521225_2225cfc968_z.jpg",
-  },
-  {
-    id: 2,
-    src: "https://live.staticflickr.com/65535/51757821752_1ea1acc8f6_z.jpg",
-  },
-  {
-    id: 3,
-    src: "https://live.staticflickr.com/65535/51758657166_9213750dc7_z.jpg",
-  },
-];
 const RootStyle = styled("div")(({ theme }) => ({
   padding: theme.spacing(24, 0),
 }));
@@ -92,10 +78,6 @@ export default function HomeHugePackElements() {
   const screenLeftAnimate = variantScreenLeft;
   const screenCenterAnimate = variantScreenCenter;
   const screenRightAnimate = variantScreenRight;
-  const [province, setProfile] = useState();
-  useEffect(() => {
-    axios.get("api/filestest").then((res) => setProfile(res.data));
-  }, []);
 
   return (
     <RootStyle>
@@ -160,45 +142,38 @@ export default function HomeHugePackElements() {
                 justifyContent: "center",
               }}
             >
-              {Product.map((_, id,src) => (
+              {[...Array(3)].map((_, index) => (
                 <ScreenStyle
-                  key={id}
+                  key={index}
                   threshold={0.72}
                   variants={{
-                    ...(id === 0 && screenLeftAnimate),
-                    ...(id === 1 && screenCenterAnimate),
-                    ...(id === 2 && screenRightAnimate),
+                    ...(index === 0 && screenLeftAnimate),
+                    ...(index === 1 && screenCenterAnimate),
+                    ...(index === 2 && screenRightAnimate),
                   }}
-                  transition={{ duration: 0.72, ease: "easeOut" }}
+                  transition={{ duration: 0.72, ease: 'easeOut' }}
                   sx={{
                     boxShadow: `${isRTL ? -80 : 80}px -40px 80px ${alpha(
-                      isLight
-                        ? theme.palette.grey[600]
-                        : theme.palette.common.black,
+                      isLight ? theme.palette.grey[600] : theme.palette.common.black,
                       0.48
                     )}`,
-                    ...(id === 0 && {
+                    ...(index === 0 && {
                       zIndex: 3,
-                      position: "absolute",
+                      position: 'absolute',
                     }),
-                    ...(id === 1 && { zIndex: 2 }),
-                    ...(id === 2 && {
+                    ...(index === 1 && { zIndex: 2 }),
+                    ...(index === 2 && {
                       zIndex: 1,
-                      position: "absolute",
-                      boxShadow: "none",
+                      position: 'absolute',
+                      boxShadow: 'none',
                     }),
                   }}
                 >
-                  {/* <Image
-                    alt={`screen ${index + 1}`}
-                    src={`https://minimal-assets-api.vercel.app/assets/images/home/screen_${
-                      isLight ? "light" : "dark"
-                    }_1.png`}
-                  /> */}
-
                   <Image
-                    alt={`screen ${id + 1}`}
-                    src={province}
+                    alt={`screen ${index + 1}`}
+                    src={`https://app-server-skincare.herokuapp.com/api/file/profiler/screen_${
+                      isLight ? 'light' : 'dark'
+                    }_${index + 1}.jpg`}
                   />
                 </ScreenStyle>
               ))}
