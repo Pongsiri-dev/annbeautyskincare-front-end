@@ -33,7 +33,7 @@ import axios from "src/utils/axios";
 //hook
 import useAuth from "../../../hooks/useAuth";
 // routes
-import { PATH_DASHBOARD } from "../../../routes/paths";
+import { PATH_AUTH, PATH_DASHBOARD } from "../../../routes/paths";
 // @types
 import { UserManager } from "../../../@types/user";
 // components
@@ -225,7 +225,8 @@ export default function UserNewForm() {
         resetForm();
         setSubmitting(false);
         // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        navigate(PATH_DASHBOARD.user.profile);
+        // navigate(PATH_DASHBOARD.user.profile);
+        navigate(PATH_AUTH.login);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
