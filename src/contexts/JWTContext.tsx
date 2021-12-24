@@ -88,7 +88,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const initialize = async () => {
-      console.log('init')
       try {
         const accessToken = window.localStorage.getItem("accessToken");
 

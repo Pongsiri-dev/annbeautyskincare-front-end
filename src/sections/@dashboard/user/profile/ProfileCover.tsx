@@ -1,41 +1,41 @@
 // @mui
-import { styled } from '@mui/material/styles';
-import { Box, Typography } from '@mui/material';
+import { styled } from "@mui/material/styles";
+import { Box, Typography } from "@mui/material";
 // @mui
-import MyAvatar from '../../../../components/MyAvatar';
+import MyAvatar from "../../../../components/MyAvatar";
 // @types
-import { Profile } from '../../../../@types/user';
+import { Profile, UserAbout } from "../../../../@types/user";
 // utils
-import cssStyles from '../../../../utils/cssStyles';
+import cssStyles from "../../../../utils/cssStyles";
 // hooks
-import useAuth from '../../../../hooks/useAuth';
+import useAuth from "../../../../hooks/useAuth";
 // components
-import Image from '../../../../components/Image';
+import Image from "../../../../components/Image";
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')(({ theme }) => ({
-  '&:before': {
+const RootStyle = styled("div")(({ theme }) => ({
+  "&:before": {
     ...cssStyles().bgBlur({ blur: 2, color: theme.palette.primary.darker }),
     top: 0,
     zIndex: 9,
     content: "''",
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
+    width: "100%",
+    height: "100%",
+    position: "absolute",
   },
 }));
 
-const InfoStyle = styled('div')(({ theme }) => ({
+const InfoStyle = styled("div")(({ theme }) => ({
   left: 0,
   right: 0,
   zIndex: 99,
-  position: 'absolute',
+  position: "absolute",
   marginTop: theme.spacing(5),
-  [theme.breakpoints.up('md')]: {
-    right: 'auto',
-    display: 'flex',
-    alignItems: 'center',
+  [theme.breakpoints.up("md")]: {
+    right: "auto",
+    display: "flex",
+    alignItems: "center",
     left: theme.spacing(3),
     bottom: theme.spacing(3),
   },
@@ -44,22 +44,24 @@ const InfoStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 type Props = {
-  myProfile: Profile;
+  myProfile: UserAbout;
 };
 
 export default function ProfileCover({ myProfile }: Props) {
   const { user } = useAuth();
-  const { position, cover } = myProfile;
+  const { level, image, firstName } = myProfile;
 
   return (
     <RootStyle>
       <InfoStyle>
         <MyAvatar
+          image={image}
+          firstName={firstName}
           sx={{
-            mx: 'auto',
+            mx: "auto",
             borderWidth: 2,
-            borderStyle: 'solid',
-            borderColor: 'common.white',
+            borderStyle: "solid",
+            borderColor: "common.white",
             width: { xs: 80, md: 128 },
             height: { xs: 80, md: 128 },
           }}
@@ -68,18 +70,18 @@ export default function ProfileCover({ myProfile }: Props) {
           sx={{
             ml: { md: 3 },
             mt: { xs: 1, md: 0 },
-            color: 'common.white',
-            textAlign: { xs: 'center', md: 'left' },
+            color: "common.white",
+            textAlign: { xs: "center", md: "left" },
           }}
         >
           <Typography variant="h4">{user?.displayName}</Typography>
-          <Typography sx={{ opacity: 0.72 }}>{position}</Typography>
+          <Typography sx={{ opacity: 0.72 }}>{level}</Typography>
         </Box>
       </InfoStyle>
       <Image
         alt="profile cover"
-        src={cover}
-        sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        src={image?.url}
+        sx={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
       />
     </RootStyle>
   );

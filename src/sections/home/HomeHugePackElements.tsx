@@ -151,29 +151,31 @@ export default function HomeHugePackElements() {
                     ...(index === 1 && screenCenterAnimate),
                     ...(index === 2 && screenRightAnimate),
                   }}
-                  transition={{ duration: 0.72, ease: 'easeOut' }}
+                  transition={{ duration: 0.72, ease: "easeOut" }}
                   sx={{
                     boxShadow: `${isRTL ? -80 : 80}px -40px 80px ${alpha(
-                      isLight ? theme.palette.grey[600] : theme.palette.common.black,
+                      isLight
+                        ? theme.palette.grey[600]
+                        : theme.palette.common.black,
                       0.48
                     )}`,
                     ...(index === 0 && {
                       zIndex: 3,
-                      position: 'absolute',
+                      position: "absolute",
                     }),
                     ...(index === 1 && { zIndex: 2 }),
                     ...(index === 2 && {
                       zIndex: 1,
-                      position: 'absolute',
-                      boxShadow: 'none',
+                      position: "absolute",
+                      boxShadow: "none",
                     }),
                   }}
                 >
                   <Image
                     alt={`screen ${index + 1}`}
-                    src={`https://app-server-skincare.herokuapp.com/api/file/profiler/screen_${
-                      isLight ? 'light' : 'dark'
-                    }_${index + 1}.jpg`}
+                    src={`/landing/screen_${isLight ? "light" : "dark"}_${
+                      index + 1
+                    }.jpeg`}
                   />
                 </ScreenStyle>
               ))}

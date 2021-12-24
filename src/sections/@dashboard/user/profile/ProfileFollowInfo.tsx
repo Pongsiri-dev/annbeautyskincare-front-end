@@ -1,33 +1,29 @@
 // @mui
-import { Card, Stack, Typography, Divider } from '@mui/material';
+import { Card, Stack, Typography, Divider } from "@mui/material";
 // utils
-import { fNumber } from '../../../../utils/formatNumber';
+import { fNumber } from "../../../../utils/formatNumber";
 // @types
-import { Profile } from '../../../../@types/user';
+import { Profile, UserAbout } from "../../../../@types/user";
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  profile: Profile;
+  profile: UserAbout;
 };
 
 export default function ProfileFollowInfo({ profile }: Props) {
-  const { follower, following } = profile;
+  // const { follower } = profile;
 
   return (
     <Card sx={{ py: 3 }}>
-      <Stack direction="row" divider={<Divider orientation="vertical" flexItem />}>
+      <Stack
+        direction="row"
+        divider={<Divider orientation="vertical" flexItem />}
+      >
         <Stack width={1} textAlign="center">
-          <Typography variant="h4">{fNumber(follower)}</Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            Follower
-          </Typography>
-        </Stack>
-
-        <Stack width={1} textAlign="center">
-          <Typography variant="h4">{fNumber(following)}</Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            Following
+          <Typography variant="h4">{fNumber(652216)}</Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            ยอดซื้อ
           </Typography>
         </Stack>
       </Stack>

@@ -50,10 +50,10 @@ export default function SocialsButton({
       path: links.instagram || '#instagram-link',
     },
     {
-      name: 'Linkedin',
-      icon: 'eva:linkedin-fill',
-      socialColor: '#007EBB',
-      path: links.linkedin || '#linkedin-link',
+      name: 'Line',
+      icon: 'bi:line',
+      socialColor: '#06c755',
+      path: links.linkedin || '#line-link',
     },
     {
       name: 'Twitter',

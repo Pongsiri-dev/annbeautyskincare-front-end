@@ -84,9 +84,39 @@ export type UserManager = {
     id: number;
     name: string;
   }[];
-  level: number | null;
+  level: string | null;
   status: number;
 };
+export type UserAbout = {
+  id?: number;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  name?: string;
+  joinedAt?: Date;
+  level?: string;
+  status?: number;
+  image?: {
+    id?: number;
+    imgPath?: string;
+    imgName?: string;
+    imgType?: string;
+    userId?: number;
+    url?: string;
+  };
+  address?: string;
+  cardid?: string;
+  email?: string;
+  birthDay?: string;
+  telephone?: string;
+  provinceCode?: string;
+  province?: string;
+  amphurCode?: string;
+  amphur?: string;
+  tombonCode?: string;
+  tombon?: string;
+  postCode?: string;
+}
 
 export type UserData = {
   id: string;
