@@ -1,5 +1,12 @@
 import * as Yup from "yup";
-import { useCallback, useEffect, useRef, useState, useMemo } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+  useContext,
+} from "react";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
@@ -36,6 +43,7 @@ import { string } from "yup/lib/locale";
 import { type } from "os";
 import ReactSignatureCanvas from "react-signature-canvas";
 import Image from "src/components/Image";
+import { AuthContext } from "src/contexts/JWTContext";
 
 // ----------------------------------------------------------------------
 type initialValues = {
@@ -97,6 +105,7 @@ export default function UserNewForm() {
   const { pathname, search } = useLocation();
   const query = new URLSearchParams(search);
   const isEdit = pathname.includes("edit");
+  const context = useContext(AuthContext);
 
   const { register, update } = useAuth();
   const navigate = useNavigate();
@@ -237,15 +246,18 @@ export default function UserNewForm() {
   let { values } = formik;
 
   const fetchData = async () => {
-    await Promise.all([
-      axios.get("api/province").then((res) => setProvince(res.data)),
-      axios.get("api/amphur").then((res) => setAmphur(res.data)),
-      axios.get("api/tombun").then((res) => setTombon(res.data)),
-    ]);
+    if (!province.length) {
+      await Promise.all([
+        axios.get("api/province").then((res) => setProvince(res.data)),
+        axios.get("api/amphur").then((res) => setAmphur(res.data)),
+        axios.get("api/tombun").then((res) => setTombon(res.data)),
+      ]);
+    }
+
     if (isEdit) {
       let ID = query.get("id");
       if (!ID) {
-        ID = "6510465146540";
+        ID = context?.user?.username;
       }
       const { data } = await axios.get(`/api/user/username/${ID}`);
       const list: any = [];
@@ -271,7 +283,7 @@ export default function UserNewForm() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [context]);
 
   useEffect(() => {
     const list = amphur.filter(

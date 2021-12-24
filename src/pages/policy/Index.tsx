@@ -16,7 +16,8 @@ import Page from "../../components/Page";
 import { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import { PATH_AUTH } from "src/routes/paths";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { Link as RouterLink } from "react-router-dom";
 // sections
 
 // ----------------------------------------------------------------------
@@ -50,6 +51,9 @@ const actionsContainer = {
 export default function Policy() {
   const { method } = useAuth();
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const isRegister = query.get("p");
 
   const [isAccept, setIsAccept] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -227,25 +231,38 @@ export default function Policy() {
             </ol>
 
             <div style={actionsContainer as React.CSSProperties}>
-              <FormControlLabel
-                sx={{ mt: 1 }}
-                control={
-                  <Checkbox
-                    checked={isAccept}
-                    onChange={(e) => setIsAccept(e.target.checked)}
+              {isRegister ? (
+                <LoadingButton
+                  variant="contained"
+                  component={RouterLink}
+                  to={"/"}
+                  sx={{ mt: 2 }}
+                >
+                  กลับหน้าหลัก
+                </LoadingButton>
+              ) : (
+                <>
+                  <FormControlLabel
+                    sx={{ mt: 1 }}
+                    control={
+                      <Checkbox
+                        checked={isAccept}
+                        onChange={(e) => setIsAccept(e.target.checked)}
+                      />
+                    }
+                    label="ข้าพเจ้าได้อ่านและยอมรับเงือนไขทั้งหมด"
                   />
-                }
-                label="ข้าพเจ้าได้อ่านและยอมรับเงือนไขทั้งหมด"
-              />
-              <LoadingButton
-                variant="contained"
-                loading={isLoading}
-                disabled={!isAccept}
-                onClick={onSubmit}
-                sx={{ mt: 2 }}
-              >
-                ยอมรับเงื่อนไข
-              </LoadingButton>
+                  <LoadingButton
+                    variant="contained"
+                    loading={isLoading}
+                    disabled={!isAccept}
+                    onClick={onSubmit}
+                    sx={{ mt: 2 }}
+                  >
+                    ยอมรับเงื่อนไข
+                  </LoadingButton>
+                </>
+              )}
             </div>
           </Grid>
         </Container>

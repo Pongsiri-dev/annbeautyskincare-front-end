@@ -88,14 +88,15 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const initialize = async () => {
+      console.log('init')
       try {
         const accessToken = window.localStorage.getItem("accessToken");
 
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get("/api/auth/my-account");
-          const { user } = response.data;
+          const response = await axios.get("/api/user/me");
+          const user = response.data;
 
           dispatch({
             type: Types.Initial,
@@ -133,7 +134,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
       usernameOrEmail: email,
       password,
     });
-    const { accessToken, user } = response.data;
+    const { accessToken } = response.data;
+
+    setSession(accessToken);
+
+    const res = await axios.get("/api/user/me");
+    const user = res.data;
 
     setSession(accessToken);
     dispatch({
@@ -151,15 +157,15 @@ function AuthProvider({ children }: { children: ReactNode }) {
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     });
-    const { accessToken, user } = response.data;
+    // const { accessToken, user } = response.data;
 
-    window.localStorage.setItem("accessToken", accessToken);
-    dispatch({
-      type: Types.Register,
-      payload: {
-        user,
-      },
-    });
+    // window.localStorage.setItem("accessToken", accessToken);
+    // dispatch({
+    //   type: Types.Register,
+    //   payload: {
+    //     user,
+    //   },
+    // });
   };
 
   const update = async (formData: any) => {

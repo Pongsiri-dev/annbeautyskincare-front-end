@@ -31,7 +31,7 @@ const menuConfig = [
   {
     title: "เงื่อนไข",
     icon: <Iconify icon={"eva:alert-circle-fill"} {...ICON_SIZE} />,
-    path: '/policy',
+    path: '/policy?p=1',
   },
   {
     title: "เข้าสู่ระบบ",
