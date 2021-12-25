@@ -86,6 +86,7 @@ export type UserManager = {
   }[];
   level: string | null;
   status: number;
+  avatarUrl?: string
 };
 export type UserAbout = {
   id?: number;

@@ -62,8 +62,11 @@ export default function UserProfile() {
 
   async function fetchUser() {
     const { data } = await axios.get("/api/user/userlist");
-    data.forEach((o: UserManager) => {
+    data.forEach((o: UserManager, index: number) => {
       o.name = `${o.firstName} ${o.lastName}`;
+      o.avatarUrl = `https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_${
+        index + 1
+      }.jpg`;
     });
     setUserFriend(data);
   }
