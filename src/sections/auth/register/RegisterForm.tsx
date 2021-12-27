@@ -132,6 +132,7 @@ export default function UserNewForm() {
     amphurCode: Yup.string().required("กรุณากรอกอำเภอ"),
     tombonCode: Yup.string().required("กรุณากรอกตำบล"),
     postCode: Yup.string().required("กรุณากรอกรหัสไปรษณีย์"),
+    bill: Yup.string().required("กรุณากรอกเงิน"),
   };
 
   const CreateUser = {
@@ -164,6 +165,8 @@ export default function UserNewForm() {
       tombon: "",
       postCode: "",
       signID: "",
+      team: "",
+      bill: "",
       allow: false,
       status: 0,
     },
@@ -209,18 +212,26 @@ export default function UserNewForm() {
         formData.append("tombonCode", values.tombonCode);
         formData.append("tombon", values.tombon);
         formData.append("postCode", values.postCode);
+        formData.append("team", values.team);
+        formData.append("bill", values.bill);
         if (isEdit) {
           try {
             formData.append("imgCardID", null);
             await update(formData);
           } catch (error) {
             console.log(error);
+            return;
           }
         } else {
           formData.append("password", values.password);
           formData.append("signID", values.signID);
           formData.append("imgCardID", imgCardID.path);
-          await register(formData);
+          try {
+            await register(formData);
+          } catch (error) {
+            console.log(error);
+            return;
+          }
         }
         resetForm();
         setSubmitting(false);
@@ -611,9 +622,47 @@ export default function UserNewForm() {
                   <TextField
                     fullWidth
                     label="รหัสไปรษณีย์"
+                    type="number"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      target.value = target.value.toString().slice(0, 5);
+                    }}
                     {...getFieldProps("postCode")}
                     error={Boolean(touched.postCode && errors.postCode)}
                     helperText={touched.postCode && errors.postCode}
+                  />
+                </Stack>
+
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 3, sm: 2 }}
+                >
+                  <TextField
+                    fullWidth
+                    label="รหัสแม่ทีม"
+                    type="number"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      target.value = target.value.toString().slice(0, 9);
+                    }}
+                    {...getFieldProps("team")}
+                    error={Boolean(touched.team && errors.team)}
+                    helperText={touched.team && errors.team}
+                  />
+                  <TextField
+                    fullWidth
+                    label="กรอกเงิน"
+                    type="number"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      target.value = target.value.toString().slice(0, 9);
+                    }}
+                    {...getFieldProps("bill")}
+                    error={Boolean(touched.bill && errors.bill)}
+                    helperText={touched.bill && errors.bill}
                   />
                 </Stack>
 

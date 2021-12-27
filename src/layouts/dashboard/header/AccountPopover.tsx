@@ -83,7 +83,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <MyAvatar />
+        <MyAvatar image={user?.image} firstName={user?.firstName} />
       </IconButtonAnimate>
 
       <MenuPopover

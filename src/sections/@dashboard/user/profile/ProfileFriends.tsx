@@ -92,7 +92,7 @@ export default function ProfileFriends({
 // ----------------------------------------------------------------------
 
 function FriendCard({ friend }: { friend: UserManager }) {
-  const { name, level, avatarUrl } = friend;
+  const { name, level, img } = friend;
 
   return (
     <Card
@@ -104,11 +104,7 @@ function FriendCard({ friend }: { friend: UserManager }) {
         flexDirection: "column",
       }}
     >
-      <Avatar
-        alt={name}
-        src={avatarUrl}
-        sx={{ width: 64, height: 64, mb: 3 }}
-      />
+      <Avatar alt={name} src={img?.url} sx={{ width: 64, height: 64, mb: 3 }} />
       <Link
         to="#"
         variant="subtitle1"

@@ -86,7 +86,10 @@ export type UserManager = {
   }[];
   level: string | null;
   status: number;
-  avatarUrl?: string
+  avatarUrl?: string;
+  img?: {
+    url?: string;
+  };
 };
 export type UserAbout = {
   id?: number;
@@ -117,7 +120,7 @@ export type UserAbout = {
   tombonCode?: string;
   tombon?: string;
   postCode?: string;
-}
+};
 
 export type UserData = {
   id: string;
