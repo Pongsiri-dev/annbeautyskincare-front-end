@@ -6,6 +6,7 @@ import {
   Grid,
   FormControlLabel,
   Checkbox,
+  Stack,
 } from "@mui/material";
 
 // hooks
@@ -18,6 +19,7 @@ import { LoadingButton } from "@mui/lab";
 import { PATH_AUTH } from "src/routes/paths";
 import { useLocation, useNavigate } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
+import Image from "src/components/Image";
 // sections
 
 // ----------------------------------------------------------------------
@@ -70,7 +72,14 @@ export default function Policy() {
       <RootStyle>
         <Container maxWidth="md" style={flex}>
           <Grid item sm={10} md={12}>
-            <Typography variant="h4" sx={{ mt: 3, textAlign: "center" }}>
+            <Stack alignItems="center" sx={{mt: 5}}>
+              <Image
+                style={{ width: "100px", height: "100px" }}
+                src="/company/IMG-3075.png"
+              />
+            </Stack>
+
+            <Typography variant="h4" sx={{ mt: 1, textAlign: "center" }}>
               กฎและข้อบังคับสำหรับตัวแทนจำหน่ายแบรนด์
             </Typography>
             <Typography variant="h4" sx={{ textAlign: "center" }}>

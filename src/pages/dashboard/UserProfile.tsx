@@ -90,11 +90,11 @@ export default function UserProfile() {
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
       component: <Profile myProfile={userAbout} />,
     },
-    {
-      value: "followers",
-      icon: <Iconify icon={"eva:heart-fill"} width={20} height={20} />,
-      component: <ProfileFollowers followers={_userFollowers} />,
-    },
+    // {
+    //   value: "followers",
+    //   icon: <Iconify icon={"eva:heart-fill"} width={20} height={20} />,
+    //   component: <ProfileFollowers followers={_userFollowers} />,
+    // },
     {
       value: "ลูกทีม",
       icon: <Iconify icon={"eva:people-fill"} width={20} height={20} />,

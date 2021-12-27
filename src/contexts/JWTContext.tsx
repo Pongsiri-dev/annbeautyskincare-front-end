@@ -95,7 +95,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
           setSession(accessToken);
 
           const response = await axios.get("/api/user/me");
-          const user = response.data;
+          const { username } = response.data;
+
+          const { data } = await axios.get(`/api/user/username/${username}`);
+          const user = data;
 
           dispatch({
             type: Types.Initial,
