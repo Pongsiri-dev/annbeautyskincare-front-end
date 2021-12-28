@@ -483,53 +483,7 @@ export default function EmployeeCard({ profile }: Props) {
 
   return (
     <WrapperStyle>
-      <div className="col bg-card">
-        <div className="card platinum front">
-          <img src="/company/IMG-3075.png" className="logo" />
-          <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ่านเดอะคอนเนค </h5>
-          <h6>
-            โทร <span>0955542399, 0886659142</span>
-          </h6>
-        </div>
-
-        <br />
-
-        <div className="card platinum back">
-          <h2>super dealer</h2>
-          <h3>ชุปเปอร์ ดีลเลอร์ วาเลนต้า คอฟฟี่ </h3>
-          <div className="card-text">
-            <h5>
-              Name
-              <span>
-                {firstName} {lastName}
-              </span>
-            </h5>
-            <h5>
-              รหัส <span> xxxx xxxxxx</span>
-            </h5>
-            <h5>
-              สายงาน <span> xxxx xxxxxx</span>
-            </h5>
-            <h5>
-              เบอร์โทร <span> {telephone}</span>
-            </h5>
-          </div>
-          <div className="card-text">
-            <h6>
-              <img src="/company/facebook.png" alt="" />{" "}
-              <span> xxxx xxxxxx</span>
-            </h6>
-            <h6>
-              <img src="/company/line1.png" alt="" /> <span> xxxx xxxxxx</span>
-            </h6>
-            <h6>
-              <img src="/company/instagram.png" alt="" />{" "}
-              <span> xxxx xxxxxx</span>
-            </h6>
-          </div>
-        </div>
-      </div>
-      {/* {level === "Platinum" ? (
+      {level === "Platinum" ? (
         <div className="col bg-card">
           <div className="card platinum front">
             <img src="/company/IMG-3075.png" className="logo" />
@@ -626,7 +580,7 @@ export default function EmployeeCard({ profile }: Props) {
             </ul>
           </div>
         </div>
-      )} */}
+      )}
     </WrapperStyle>
   );
 }
