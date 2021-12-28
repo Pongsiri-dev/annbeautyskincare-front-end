@@ -192,7 +192,6 @@ export default function UserNewForm() {
           values.tombon = "";
         }
         values.username = values.cardid;
-        values.password = values.cardid;
         const imgCardID = values.imgCardID as any;
         const imgProfile = values.imgProfile as any;
         const formData: any = new FormData();
@@ -212,8 +211,9 @@ export default function UserNewForm() {
         formData.append("tombonCode", values.tombonCode);
         formData.append("tombon", values.tombon);
         formData.append("postCode", values.postCode);
-        formData.append("team", values.team);
+        formData.append("team", +values.team || 0);
         formData.append("bill", values.bill);
+        formData.append("password", values.password);
         if (isEdit) {
           try {
             formData.append("imgCardID", null);
@@ -223,7 +223,6 @@ export default function UserNewForm() {
             return;
           }
         } else {
-          formData.append("password", values.password);
           formData.append("signID", values.signID);
           formData.append("imgCardID", imgCardID.path);
           try {
@@ -500,10 +499,10 @@ export default function UserNewForm() {
                 >
                   <TextField
                     fullWidth
-                    label="วัน/เดือน/ปีเกิด"
+                    label="วัน/เดือน/ปีเกิด Ex. ววดดปปปป"
                     onInput={(e) => {
                       const target = e.target as HTMLInputElement;
-                      target.value = target.value.toString().slice(0, 10);
+                      target.value = target.value.toString().slice(0, 8);
                     }}
                     {...getFieldProps("birthDay")}
                     error={Boolean(touched.birthDay && errors.birthDay)}
@@ -663,6 +662,28 @@ export default function UserNewForm() {
                     {...getFieldProps("bill")}
                     error={Boolean(touched.bill && errors.bill)}
                     helperText={touched.bill && errors.bill}
+                  />
+                </Stack>
+
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 3, sm: 2 }}
+                >
+                  <TextField
+                    fullWidth
+                    label="ชื่อเข้าใช้งาน"
+                    disabled
+                    {...getFieldProps("cardid")}
+                    error={Boolean(touched.cardid && errors.cardid)}
+                    helperText={touched.cardid && errors.cardid}
+                  />
+                  <TextField
+                    fullWidth
+                    label="รหัสผ่าน"
+                    type="password"
+                    {...getFieldProps("password")}
+                    error={Boolean(touched.password && errors.password)}
+                    helperText={touched.password && errors.password}
                   />
                 </Stack>
 

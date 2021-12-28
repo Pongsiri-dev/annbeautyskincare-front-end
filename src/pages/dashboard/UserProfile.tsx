@@ -116,7 +116,7 @@ export default function UserProfile() {
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "User", href: PATH_DASHBOARD.user.root },
-            { name: user?.firstName || "" },
+            { name: `${user?.firstName} ${user?.lastName}` || "" },
           ]}
         />
         <Card

@@ -1,32 +1,32 @@
-import { useSnackbar } from 'notistack';
-import { useRef, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useSnackbar } from "notistack";
+import { useRef, useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 // @mui
-import { alpha } from '@mui/material/styles';
-import { Box, Divider, MenuItem, Typography, Stack } from '@mui/material';
+import { alpha } from "@mui/material/styles";
+import { Box, Divider, MenuItem, Typography, Stack } from "@mui/material";
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_DASHBOARD } from "../../../routes/paths";
 // hooks
-import useAuth from '../../../hooks/useAuth';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import useAuth from "../../../hooks/useAuth";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // components
-import MyAvatar from '../../../components/MyAvatar';
-import MenuPopover from '../../../components/MenuPopover';
-import { IconButtonAnimate } from '../../../components/animate';
+import MyAvatar from "../../../components/MyAvatar";
+import MenuPopover from "../../../components/MenuPopover";
+import { IconButtonAnimate } from "../../../components/animate";
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    linkTo: '/',
+    label: "Home",
+    linkTo: "/",
   },
   {
-    label: 'Profile',
+    label: "Profile",
     linkTo: PATH_DASHBOARD.user.profile,
   },
   {
-    label: 'Settings',
+    label: "Settings",
     linkTo: PATH_DASHBOARD.user.account,
   },
 ];
@@ -52,12 +52,12 @@ export default function AccountPopover() {
     try {
       await logout?.();
       if (isMountedRef.current) {
-        navigate('/');
+        navigate("/");
         handleClose();
       }
     } catch (error) {
       console.error(error);
-      enqueueSnackbar('Unable to logout', { variant: 'error' });
+      enqueueSnackbar("Unable to logout", { variant: "error" });
     }
   };
 
@@ -71,13 +71,13 @@ export default function AccountPopover() {
           width: 44,
           height: 44,
           ...(open && {
-            '&:before': {
+            "&:before": {
               zIndex: 1,
               content: "''",
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              position: 'absolute',
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%",
+              position: "absolute",
               bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
             },
           }),
@@ -93,11 +93,11 @@ export default function AccountPopover() {
         sx={{ width: 220 }}
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle1" noWrap>
+          {/* <Typography variant="subtitle1" noWrap>
             {user?.displayName}
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {user?.email}
+          </Typography> */}
+          <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
+            คุณ {user?.firstName} {user?.lastName}
           </Typography>
         </Box>
 
@@ -109,7 +109,7 @@ export default function AccountPopover() {
               to={option.linkTo}
               component={RouterLink}
               onClick={handleClose}
-              sx={{ typography: 'body2', py: 1, px: 2, borderRadius: 1 }}
+              sx={{ typography: "body2", py: 1, px: 2, borderRadius: 1 }}
             >
               {option.label}
             </MenuItem>
@@ -119,7 +119,7 @@ export default function AccountPopover() {
 
         <MenuItem
           onClick={handleLogout}
-          sx={{ typography: 'body2', py: 1, px: 2, borderRadius: 1, m: 1 }}
+          sx={{ typography: "body2", py: 1, px: 2, borderRadius: 1, m: 1 }}
         >
           Logout
         </MenuItem>

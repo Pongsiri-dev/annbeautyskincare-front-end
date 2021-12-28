@@ -186,7 +186,7 @@ img-fluid d-block mx-auto
   .card.platinum.back h5 span {
     padding-left: 15px;
     padding-right: 15px;
-    font-size: 22px;
+    font-size: 17px;
     color: #000;
     font-family: DB-Heavent-Cond;
     border-bottom: 1px solid #f0e68d;
@@ -256,7 +256,7 @@ img-fluid d-block mx-auto
     background-position: center center, 100%;
     background-repeat: no-repeat, no-repeat;
     background-size: 100% 100%, 100%;
-    border-radius: 0px !important;
+    border-radius: 20px !important;
   }
   .card.card-type.front .logo {
     max-height: 220px;
@@ -281,7 +281,7 @@ img-fluid d-block mx-auto
     background-position: center center, 100%;
     background-repeat: no-repeat, no-repeat;
     background-size: 100% 100%, 100%;
-    border-radius: 0px !important;
+    border-radius: 20px !important;
   }
 
   .card.card-type.back {
@@ -378,7 +378,7 @@ img-fluid d-block mx-auto
       margin-bottom: 5px;
     }
     .card.platinum.back h5 span {
-      font-size: 16px;
+      font-size: 14px;
       padding-left: 10px;
       padding-right: 5px;
     }
@@ -542,7 +542,7 @@ export default function EmployeeCard({ profile }: Props) {
             <img src="/company/IMG-5218.png" className="logo" />
             <h2>
               <span>
-                คุณ{firstName} {lastName}
+                คุณ {firstName} {lastName}
               </span>
             </h2>
             <h6>ชุปเปอร์ ดีลเลอร์ โกล วาเลนต้า คอฟฟี่ </h6>

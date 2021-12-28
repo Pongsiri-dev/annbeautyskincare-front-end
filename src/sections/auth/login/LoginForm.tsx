@@ -95,7 +95,7 @@ export default function LoginForm() {
 
           <TextField
             fullWidth
-            autoComplete="username"
+            autoComplete="off"
             type="text"
             label="เลขบัตรประชาชน"
             {...getFieldProps('username')}
