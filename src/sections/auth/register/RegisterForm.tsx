@@ -510,6 +510,7 @@ export default function UserNewForm() {
                   />
                   <TextField
                     fullWidth
+                    disabled={isEdit}
                     label="เลขบัตรประชาชน"
                     type="number"
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
@@ -677,14 +678,16 @@ export default function UserNewForm() {
                     error={Boolean(touched.cardid && errors.cardid)}
                     helperText={touched.cardid && errors.cardid}
                   />
-                  <TextField
-                    fullWidth
-                    label="รหัสผ่าน"
-                    type="password"
-                    {...getFieldProps("password")}
-                    error={Boolean(touched.password && errors.password)}
-                    helperText={touched.password && errors.password}
-                  />
+                  {!isEdit && (
+                    <TextField
+                      fullWidth
+                      label="รหัสผ่าน"
+                      type="password"
+                      {...getFieldProps("password")}
+                      error={Boolean(touched.password && errors.password)}
+                      helperText={touched.password && errors.password}
+                    />
+                  )}
                 </Stack>
 
                 <div
