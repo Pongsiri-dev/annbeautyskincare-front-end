@@ -90,6 +90,7 @@ export type UserManager = {
   img?: {
     url?: string;
   };
+  url?:string;
 };
 export type UserAbout = {
   id?: number;

@@ -64,7 +64,7 @@ export default function ProfileFriends({
       <SearchStyle
         value={findFriends}
         onChange={(e) => onFindFriends(e.target.value)}
-        placeholder="Find friends..."
+        placeholder="ค้นหาลูกทีม"
         startAdornment={
           <InputAdornment position="start">
             <Iconify icon={"eva:search-fill"} sx={{ color: "text.disabled" }} />
@@ -92,8 +92,9 @@ export default function ProfileFriends({
 // ----------------------------------------------------------------------
 
 function FriendCard({ friend }: { friend: UserManager }) {
-  const { name, level, img } = friend;
-
+  const { name, level, img, url } = friend;
+  console.log(url);
+  
   return (
     <Card
       sx={{
@@ -104,7 +105,7 @@ function FriendCard({ friend }: { friend: UserManager }) {
         flexDirection: "column",
       }}
     >
-      <Avatar alt={name} src={img?.url} sx={{ width: 64, height: 64, mb: 3 }} />
+      <Avatar alt={name} src={url} sx={{ width: 64, height: 64, mb: 3 }} />
       <Link
         to="#"
         variant="subtitle1"

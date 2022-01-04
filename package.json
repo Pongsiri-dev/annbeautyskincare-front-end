@@ -3,6 +3,7 @@
   "author": "minimals.cc",
   "version": "2.7.0",
   "private": true,
+  "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
