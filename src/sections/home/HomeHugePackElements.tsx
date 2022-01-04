@@ -96,14 +96,13 @@ export default function HomeHugePackElements() {
                   variant="overline"
                   sx={{ mb: 2, color: "text.disabled" }}
                 >
-                  Interface Starter Kit
+                  ผลิตภัณฑ์ของเรา
                 </Typography>
               </MotionInView>
 
               <MotionInView variants={varFade().inUp}>
                 <Typography variant="h2" sx={{ mb: 3 }}>
-                  Huge pack <br />
-                  of elements
+                  Best Seller
                 </Typography>
               </MotionInView>
 
@@ -114,21 +113,8 @@ export default function HomeHugePackElements() {
                     color: isLight ? "text.secondary" : "common.white",
                   }}
                 >
-                  We collected most popular elements. Menu, sliders, buttons,
-                  inputs etc. are all here. Just dive in!
+                  สินค้าที่ได้รับความนิยม และเป็นที่ยอมรับอย่างมากกมาย
                 </Typography>
-              </MotionInView>
-
-              <MotionInView variants={varFade().inUp}>
-                <Button
-                  size="large"
-                  color="inherit"
-                  variant="outlined"
-                  component={RouterLink}
-                  to={PATH_PAGE.components}
-                >
-                  View All Components
-                </Button>
               </MotionInView>
             </ContentStyle>
           </Grid>

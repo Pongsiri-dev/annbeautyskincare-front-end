@@ -6,12 +6,7 @@ import Page from '../components/Page';
 import {
   HomeHero,
   HomeMinimal,
-  HomeDarkMode,
   HomeLookingFor,
-  HomeColorPresets,
-  HomePricingPlans,
-  HomeAdvertisement,
-  HomeCleanInterfaces,
   HomeHugePackElements,
 } from '../sections/home';
 
@@ -31,22 +26,13 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function HomePage() {
   return (
-    <Page title="The starting point for your next project">
+    <Page title="ระบบตัวแทนขาย Ann-BeautySkincare">
       <RootStyle>
         <HomeHero />
         <ContentStyle>
           <HomeMinimal />
           <HomeHugePackElements />
           <HomeLookingFor />
-          {/*<HomeDarkMode />
-
-           <HomeColorPresets />
-
-          <HomeCleanInterfaces />
-
-          <HomePricingPlans />
-
-           <HomeAdvertisement /> */}
         </ContentStyle>
       </RootStyle>
     </Page>

@@ -27,7 +27,7 @@ export default function HomeLookingFor() {
           justifyContent="space-between"
           spacing={{ xs: 8, md: 3 }}
         >
-          <Grid item xs={12} md={4} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Grid item xs={12} md={12} sx={{ textAlign: { xs: 'center', md: 'center' } }}>
             <MotionInView variants={varFade().inDown}>
               <Typography variant="overline" component="div" sx={{ color: 'text.disabled' }}>
                 Looking For a
@@ -35,27 +35,27 @@ export default function HomeLookingFor() {
             </MotionInView>
 
             <MotionInView variants={varFade().inDown}>
-              <Typography variant="h2" sx={{ mt: 2, mb: 5 }}>
-                Landing Page Template?
+              <Typography variant="h4" sx={{ mt: 2, mb: 5 }}>
+                สนใจสมัครเป็นตัวแทนขายกับเรา
               </Typography>
             </MotionInView>
 
             <MotionInView variants={varFade().inDown}>
               <Button
-                color="inherit"
+                color="primary"
                 size="large"
                 variant="outlined"
                 target="_blank"
                 rel="noopener"
-                href="https://material-ui.com/store/items/zone-landing-page/"
+                href="/policy"
                 endIcon={<Iconify icon={'ic:round-arrow-right-alt'} />}
               >
-                Visit Zone Landing
+                สมัครเป็นตัวแทนขาย
               </Button>
             </MotionInView>
           </Grid>
 
-          <Grid item xs={12} md={7}>
+          {/* <Grid item xs={12} md={7}>
             <MotionInView
               variants={varFade().inUp}
               sx={{
@@ -67,7 +67,7 @@ export default function HomeLookingFor() {
                 src="https://minimal-assets-api.vercel.app/assets/images/home/zone_screen.png"
               />
             </MotionInView>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </RootStyle>
