@@ -92,9 +92,7 @@ export default function ProfileFriends({
 // ----------------------------------------------------------------------
 
 function FriendCard({ friend }: { friend: UserManager }) {
-  const { name, level, img, url } = friend;
-  console.log(url);
-  
+  const { name, level, url } = friend;
   return (
     <Card
       sx={{

@@ -17,16 +17,12 @@ import { IconButtonAnimate } from "../../../components/animate";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
-  // {
-  //   label: "Home",
-  //   linkTo: "/",
-  // },
   {
-    label: "Profile",
+    label: "โปร์ไฟล์",
     linkTo: PATH_DASHBOARD.user.profile,
   },
   {
-    label: "Settings",
+    label: "ตั้งค่า",
     linkTo: PATH_DASHBOARD.user.account,
   },
 ];
@@ -121,7 +117,7 @@ export default function AccountPopover() {
           onClick={handleLogout}
           sx={{ typography: "body2", py: 1, px: 2, borderRadius: 1, m: 1 }}
         >
-          Logout
+          ออกจากระบบ
         </MenuItem>
       </MenuPopover>
     </>
