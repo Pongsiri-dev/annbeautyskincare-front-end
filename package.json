@@ -1,9 +1,8 @@
 {
-  "name": "@minimal/material-kit-react",
-  "author": "minimals.cc",
+  "name": "Ann-BeautySkincare",
+  "author": "devpranakhon.cc",
   "version": "2.7.0",
   "private": true,
-  "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
