@@ -137,6 +137,7 @@ export default function UserNewForm() {
 
   const CreateUser = {
     ...EditUser,
+    password: Yup.string().required("กรุณากรอกรหัสผ่าน"),
     imgCardID: Yup.object().required("กรุณาใส่รูปบัตรประชาชน"),
     signID: Yup.string().required("กรุณากรอกลายเซ็น"),
   };
