@@ -26,6 +26,7 @@ import {
   FormHelperText,
   FormControlLabel,
   Checkbox,
+  Button,
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
@@ -334,6 +335,11 @@ export default function UserNewForm() {
     }
   };
 
+  const clearSignature = () => {
+    const { current } = sigPadRef;
+    current?.clear();
+  };
+
   return (
     <FormikProvider value={formik}>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -501,6 +507,8 @@ export default function UserNewForm() {
                   <TextField
                     fullWidth
                     label="วัน/เดือน/ปีเกิด Ex. ววดดปปปป"
+                    type="number"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {
                       const target = e.target as HTMLInputElement;
                       target.value = target.value.toString().slice(0, 8);
@@ -684,6 +692,7 @@ export default function UserNewForm() {
                       fullWidth
                       label="รหัสผ่าน"
                       type="password"
+                      autoComplete="off"
                       {...getFieldProps("password")}
                       error={Boolean(touched.password && errors.password)}
                       helperText={touched.password && errors.password}
@@ -703,6 +712,7 @@ export default function UserNewForm() {
                       <div
                         style={{
                           width: 320,
+                          height: 200,
                           border: "1px solid rgba(0, 0, 0, 0.18)",
                         }}
                       >
@@ -716,13 +726,22 @@ export default function UserNewForm() {
                           onEnd={setSignature}
                         />
                       </div>
+                      <Button
+                        onClick={clearSignature}
+                        color="error"
+                        size="small"
+                        variant="contained"
+                        sx={{ mt: 1 }}
+                      >
+                        แก้ไขลายเซ็นต์
+                      </Button>
                       <FormHelperText error sx={{ px: 2, textAlign: "center" }}>
                         {touched.signID && errors.signID}
                       </FormHelperText>
                       <Typography
                         component="span"
                         variant="body1"
-                        sx={{ color: theme.palette.grey[800], mt: 1 }}
+                        sx={{ color: theme.palette.grey[800] }}
                         style={{ textAlign: "center", display: "block" }}
                       >
                         ลายเซ็นต์ผู้สมัครตัวแทนขาย
