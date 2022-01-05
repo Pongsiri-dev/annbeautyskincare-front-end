@@ -47,7 +47,7 @@ export default function AccountPopover() {
   const handleLogout = async () => {
     try {
       await logout?.();
-      if (isMountedRef.current) {
+      if (!isMountedRef.current) {
         navigate("/");
         handleClose();
       }
