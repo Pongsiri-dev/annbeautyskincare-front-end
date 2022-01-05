@@ -469,7 +469,7 @@ export default function EmployeeCard({ profile }: Props) {
   const [type, setType] = useState<string>("");
 
   useEffect(() => {
-    switch (type) {
+    switch (level) {
       case "Gold":
         setType("gd");
         break;
