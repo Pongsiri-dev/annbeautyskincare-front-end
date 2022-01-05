@@ -268,7 +268,19 @@ img-fluid d-block mx-auto
     font-size: 30px;
     position: absolute;
     bottom: 0;
-    margin-bottom: 30px;
+    margin-bottom: 45px;
+    color: #84673f;
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+    font-family: DB-Heavent-Cond;
+  }
+
+  .card.card-type.front h6 {
+    font-size: 26px;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 15px;
     color: #84673f;
     text-align: center;
     width: 100%;
@@ -487,7 +499,7 @@ export default function EmployeeCard({ profile }: Props) {
         <div className="col bg-card">
           <div className="card platinum front">
             <img src="/company/IMG-3075.png" className="logo" />
-            <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ่านเดอะคอนเนค </h5>
+            <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
             <h6>
               โทร <span>0955542399, 0886659142</span>
             </h6>
@@ -535,7 +547,10 @@ export default function EmployeeCard({ profile }: Props) {
         <div className="col bg-card">
           <div className={type + " card card-type front"}>
             <img src="/company/IMG-3075.png" className="logo" />
-            <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ่านเดอะคอนเนค </h5>
+            <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
+            <h6>
+              โทร <span>0955542399, 0886659142</span>
+            </h6>
           </div>
           <br />
           <div className={type + " card card-type back"}>
