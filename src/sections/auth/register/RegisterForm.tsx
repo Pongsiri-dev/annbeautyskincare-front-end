@@ -124,8 +124,10 @@ export default function UserNewForm() {
     imgProfile: Yup.object().required("กรุณาใส่รูปประจำตัว"),
     firstName: Yup.string().required("กรุณากรอกชื่อ"),
     lastName: Yup.string().required("กรุณากรอกนามสกุล"),
-    birthDay: Yup.string().required("กรุณากรอกวัน/เดือน/ปีเกิด"),
-    cardid: Yup.string().required("กรุณากรอกเลขบัตรประชาชน"),
+    birthDay: Yup.string().required("กรุณากรอกวันเกิด"),
+    cardid: Yup.string()
+      .min(13, "กรุณากรอกข้อมูลให้ถูกต้อง")
+      .required("กรุณากรอกเลขบัตรประชาชน"),
     email: Yup.string().required("กรุณากรอกอีเมลล์").email(),
     telephone: Yup.string().required("กรุณากรอกเบอร์โทรศัพท์"),
     address: Yup.string().required("กรุณากรอกที่อยู่"),
@@ -506,7 +508,7 @@ export default function UserNewForm() {
                 >
                   <TextField
                     fullWidth
-                    label="วัน/เดือน/ปีเกิด Ex. ววดดปปปป"
+                    label="วันเกิด Ex. ววดดปปปป"
                     type="number"
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {
