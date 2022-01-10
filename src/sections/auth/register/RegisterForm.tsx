@@ -3,12 +3,9 @@ import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useLocation } from "react-router-dom";
+import moment from "moment";
 // @mui
-import {
-  DatePicker,
-  LoadingButton,
-  LocalizationProvider,
-} from "@mui/lab";
+import { DatePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
 import { useTheme } from "@mui/material/styles";
 import SignatureCanvas from "react-signature-canvas";
 import {
@@ -193,13 +190,15 @@ export default function UserNewForm() {
           values.tombon = "";
         }
         values.username = values.cardid;
+
+        const birthDay = moment(values.birthDay).format("L").replace(/\//g, '');
         const imgCardID = values.imgCardID as any;
         const imgProfile = values.imgProfile as any;
         const formData: any = new FormData();
         formData.append("imgProfile", imgProfile.path);
         formData.append("firstName", values.firstName);
         formData.append("lastName", values.lastName);
-        formData.append("birthDay", values.birthDay);
+        formData.append("birthDay", birthDay);
         formData.append("cardid", values.cardid);
         formData.append("username", values.username);
         formData.append("email", values.email);
@@ -503,17 +502,25 @@ export default function UserNewForm() {
                   direction={{ xs: "column", sm: "row" }}
                   spacing={{ xs: 3, sm: 2 }}
                 >
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
-                      label="วันเกิด"
-                      inputFormat="dd/MM/yyyy"
-                      value={value}
-                      onChange={(newValue) => {
-                        setValue(newValue);
-                      }}
-                      renderInput={(params) => <TextField {...params} {...getFieldProps("birthDay")}/>}
-                    />
-                  </LocalizationProvider>
+                  <Stack style={{ width: "100%" }}>
+                    <LocalizationProvider
+                      dateAdapter={AdapterDateFns}
+                      style={{ width: "100%" }}
+                    >
+                      <DatePicker
+                        label="วันเกิด"
+                        maxDate={new Date()}
+                        inputFormat="dd/MM/yyyy"
+                        value={value}
+                        onChange={(newValue) => {
+                          setValue(newValue);
+                          setFieldValue("birthDay", newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </Stack>
+
                   {/* <DesktopDatePicker
                     label="วันเกิด"
                     inputFormat="dd/MM/yyyy"
