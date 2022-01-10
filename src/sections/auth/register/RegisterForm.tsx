@@ -1,18 +1,14 @@
 import * as Yup from "yup";
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-  useContext,
-} from "react";
-import { useSnackbar } from "notistack";
+import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useLocation } from "react-router-dom";
 // @mui
-import { LoadingButton } from "@mui/lab";
+import {
+  DatePicker,
+  LoadingButton,
+  LocalizationProvider,
+} from "@mui/lab";
 import { useTheme } from "@mui/material/styles";
 import SignatureCanvas from "react-signature-canvas";
 import {
@@ -34,17 +30,13 @@ import axios from "src/utils/axios";
 //hook
 import useAuth from "../../../hooks/useAuth";
 // routes
-import { PATH_AUTH, PATH_DASHBOARD } from "../../../routes/paths";
-// @types
-import { UserManager } from "../../../@types/user";
+import { PATH_AUTH } from "../../../routes/paths";
 // components
 import Label from "../../../components/Label";
 import { UploadAvatar } from "../../../components/upload";
-import { string } from "yup/lib/locale";
-import { type } from "os";
 import ReactSignatureCanvas from "react-signature-canvas";
-import Image from "src/components/Image";
 import { AuthContext } from "src/contexts/JWTContext";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
 // ----------------------------------------------------------------------
 type initialValues = {
@@ -110,7 +102,7 @@ export default function UserNewForm() {
 
   const { register, update } = useAuth();
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+
   const theme = useTheme();
   const sigPadRef = useRef<ReactSignatureCanvas>(null);
   const [amphurList, setAmphurList] = useState<IAmphur[]>([]);
@@ -137,7 +129,12 @@ export default function UserNewForm() {
     postCode: Yup.string().required("กรุณากรอกรหัสไปรษณีย์"),
     bill: Yup.string().required("กรุณากรอกเงิน"),
   };
+  // const [value, setValue] = useState(new Date("2014-08-18T21:11:54"));
+  const [value, setValue] = useState<Date | null>(null);
 
+  const handleChange = (newValue: any) => {
+    setValue(newValue);
+  };
   const CreateUser = {
     ...EditUser,
     password: Yup.string().required("กรุณากรอกรหัสผ่าน"),
@@ -506,7 +503,37 @@ export default function UserNewForm() {
                   direction={{ xs: "column", sm: "row" }}
                   spacing={{ xs: 3, sm: 2 }}
                 >
-                  <TextField
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      label="วันเกิด"
+                      inputFormat="dd/MM/yyyy"
+                      value={value}
+                      onChange={(newValue) => {
+                        setValue(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} {...getFieldProps("birthDay")}/>}
+                    />
+                  </LocalizationProvider>
+                  {/* <DesktopDatePicker
+                    label="วันเกิด"
+                    inputFormat="dd/MM/yyyy"
+                    value={value}
+                    onChange={handleChange}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        // inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        // onInput={(e) => {
+                        //   const target = e.target as HTMLInputElement;
+                        //   target.value = target.value.toString().slice(0, 8);
+                        // }}
+                        // {...getFieldProps("birthDay")}
+                        // error={Boolean(touched.birthDay && errors.birthDay)}
+                        // helperText={touched.birthDay && errors.birthDay}
+                      />
+                    )} 
+                  />*/}
+                  {/* <TextField
                     fullWidth
                     label="วันเกิด Ex. ววดดปปปป"
                     type="number"
@@ -518,7 +545,7 @@ export default function UserNewForm() {
                     {...getFieldProps("birthDay")}
                     error={Boolean(touched.birthDay && errors.birthDay)}
                     helperText={touched.birthDay && errors.birthDay}
-                  />
+                  /> */}
                   <TextField
                     fullWidth
                     disabled={isEdit}
