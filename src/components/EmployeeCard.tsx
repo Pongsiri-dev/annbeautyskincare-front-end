@@ -1,16 +1,9 @@
 // @mui
-import {
-  Link,
-  Card,
-  Typography,
-  CardHeader,
-  Stack,
-  Button,
-} from "@mui/material";
+import { Stack, Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { UserAbout } from "src/@types/user";
 import styled from "styled-components";
-import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
+import { PDFExport } from "@progress/kendo-react-pdf";
 // @types
 // components
 
