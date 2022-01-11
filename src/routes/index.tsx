@@ -147,7 +147,7 @@ export default function Router() {
     // Main Routes
     {
       path: "*",
-      element: <LogoOnlyLayout />,
+      // element: <LogoOnlyLayout />,
       children: [
         { path: "coming-soon", element: <ComingSoon /> },
         { path: "maintenance", element: <Maintenance /> },
