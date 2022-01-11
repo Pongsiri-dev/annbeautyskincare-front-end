@@ -105,6 +105,9 @@ export default function UserNewForm() {
   const [amphurList, setAmphurList] = useState<IAmphur[]>([]);
   const [tumbonList, setTumbonList] = useState<ITumbon[]>([]);
 
+  const [isFetchAmphur, setIsFetchAmphur] = useState<Boolean>(false);
+  const [isFetchTombon, setIsFetchTombon] = useState<Boolean>(false);
+
   const [province, setProvince] = useState<IProvince[]>([]);
   const [amphur, setAmphur] = useState<IAmphur[]>([]);
   const [tombon, setTombon] = useState<ITumbon[]>([]);
@@ -191,7 +194,7 @@ export default function UserNewForm() {
         }
         values.username = values.cardid;
 
-        const birthDay = moment(values.birthDay).format("L").replace(/\//g, '');
+        const birthDay = moment(values.birthDay).format("L").replace(/\//g, "");
         const imgCardID = values.imgCardID as any;
         const imgProfile = values.imgProfile as any;
         const formData: any = new FormData();
@@ -258,11 +261,9 @@ export default function UserNewForm() {
 
   const fetchData = async () => {
     if (!province.length) {
-      await Promise.all([
-        axios.get("api/province").then((res) => setProvince(res.data)),
-        axios.get("api/amphur").then((res) => setAmphur(res.data)),
-        axios.get("api/tombun").then((res) => setTombon(res.data)),
-      ]);
+      axios.get("api/province").then((res) => setProvince(res.data));
+      axios.get("api/amphur").then((res) => setAmphur(res.data));
+      axios.get("api/tombun").then((res) => setTombon(res.data));
     }
 
     if (isEdit) {
@@ -297,18 +298,36 @@ export default function UserNewForm() {
   }, [context]);
 
   useEffect(() => {
+    if (!amphur.length) return;
+    setIsFetchAmphur(true);
+  }, [amphur]);
+
+  useEffect(() => {
+    if (!tombon.length) return;
+    setIsFetchTombon(true);
+  }, [tombon]);
+
+  useEffect(() => {
+    if (!amphur.length) return;
     const list = amphur.filter(
       (o) => String(o.provinceId) === values.provinceCode
     );
     setAmphurList(list);
-    setFieldValue("amphurCode", "");
-  }, [values.provinceCode]);
+    const check = list.find((o) => String(o.id) === values.amphurCode);
+    if (!check) {
+      setFieldValue("amphurCode", "");
+    }
+  }, [values.provinceCode, isFetchAmphur]);
 
   useEffect(() => {
+    if (!tombon.length) return;
     const list = tombon.filter((o) => String(o.amphurId) === values.amphurCode);
     setTumbonList(list);
-    setFieldValue("tombonCode", "");
-  }, [values.amphurCode]);
+    const check = list.find((o) => String(o.id) === values.tombonCode);
+    if (!check) {
+      setFieldValue("tombonCode", "");
+    }
+  }, [values.amphurCode, isFetchTombon]);
 
   const handleDrop = useCallback(
     (acceptedFiles, type) => {
