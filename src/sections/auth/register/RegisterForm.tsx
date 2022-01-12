@@ -57,14 +57,12 @@ type initialValues = {
   postCode: string;
   signID: string;
 };
-
 interface IProvince {
   id: number;
   provinceCode: string;
   provinceName: string;
   geoId: number;
 }
-
 interface IAmphur {
   id: number;
   amphurCode: string;
@@ -72,7 +70,6 @@ interface IAmphur {
   geoId: number;
   provinceId: number;
 }
-
 interface ITumbon {
   id: number;
   districtCode: string;
@@ -81,7 +78,6 @@ interface ITumbon {
   provinceId: number;
   geoId: number;
 }
-
 interface IFile {
   id: number;
   districtCode: string;
@@ -92,6 +88,7 @@ interface IFile {
 }
 
 export default function UserNewForm() {
+  moment.locale("th");
   const { pathname, search } = useLocation();
   const query = new URLSearchParams(search);
   const isEdit = pathname.includes("edit");
@@ -130,11 +127,7 @@ export default function UserNewForm() {
     bill: Yup.string().required("กรุณากรอกเงิน"),
   };
   // const [value, setValue] = useState(new Date("2014-08-18T21:11:54"));
-  const [value, setValue] = useState<Date | null>(null);
-
-  const handleChange = (newValue: any) => {
-    setValue(newValue);
-  };
+  const [dateVal, setDateVal] = useState<Date | null>(null);
   const CreateUser = {
     ...EditUser,
     password: Yup.string().required("กรุณากรอกรหัสผ่าน"),
@@ -194,14 +187,13 @@ export default function UserNewForm() {
         }
         values.username = values.cardid;
 
-        const birthDay = moment(values.birthDay).format("L").replace(/\//g, "");
         const imgCardID = values.imgCardID as any;
         const imgProfile = values.imgProfile as any;
         const formData: any = new FormData();
         formData.append("imgProfile", imgProfile.path);
         formData.append("firstName", values.firstName);
         formData.append("lastName", values.lastName);
-        formData.append("birthDay", birthDay);
+        formData.append("birthDay", values.birthDay);
         formData.append("cardid", values.cardid);
         formData.append("username", values.username);
         formData.append("email", values.email);
@@ -270,26 +262,32 @@ export default function UserNewForm() {
       let ID = query.get("id");
       if (!ID) {
         ID = context?.user?.username;
-      }
-      const { data } = await axios.get(`/api/user/username/${ID}`);
-      const list: any = [];
-      Object.keys(data).map((o) => {
-        if (
-          !["provinceCode", "amphurCode", "tombonCode", "image"].includes(o)
-        ) {
-          list.push(setFieldValue(o, data[o]));
+        if(!!ID){
+          const { data } = await axios.get(`/api/user/username/${ID ?? ""}`);
+          const list: any = [];
+          setFieldValue("birthDay",data["birthDay"]);
+          let convertDate : any = moment(data["birthDay"],"DD-MM-YYYY");
+          setDateVal(convertDate);
+          Object.keys(data).map((o) => {
+            if (
+              !["provinceCode", "amphurCode", "tombonCode", "image"].includes(o)
+            ) {
+              list.push(setFieldValue(o, data[o]));
+            }
+          });
+          await Promise.all(list);
+          const imgProfile = {
+            path: null,
+            preview: data.image.url,
+          };
+          setFieldValue("imgProfile", imgProfile);
+          setFieldValue("provinceCode", data["provinceCode"]);
+          setFieldValue("amphurCode", data["amphurCode"]);
+          setFieldValue("tombonCode", data["tombonCode"]);
+          setFieldValue("allow", true);
         }
-      });
-      await Promise.all(list);
-      const imgProfile = {
-        path: null,
-        preview: data.image.url,
-      };
-      setFieldValue("imgProfile", imgProfile);
-      setFieldValue("provinceCode", data["provinceCode"]);
-      setFieldValue("amphurCode", data["amphurCode"]);
-      setFieldValue("tombonCode", data["tombonCode"]);
-      setFieldValue("allow", true);
+      }
+
     }
   };
 
@@ -530,48 +528,15 @@ export default function UserNewForm() {
                         label="วันเกิด"
                         maxDate={new Date()}
                         inputFormat="dd/MM/yyyy"
-                        value={value}
+                        value={dateVal}
                         onChange={(newValue) => {
-                          setValue(newValue);
-                          setFieldValue("birthDay", newValue);
+                          setDateVal(newValue);
+                          setFieldValue("birthDay", moment(newValue).format("DD/MM/YYYY"));
                         }}
                         renderInput={(params) => <TextField {...params} />}
                       />
                     </LocalizationProvider>
                   </Stack>
-
-                  {/* <DesktopDatePicker
-                    label="วันเกิด"
-                    inputFormat="dd/MM/yyyy"
-                    value={value}
-                    onChange={handleChange}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        // inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                        // onInput={(e) => {
-                        //   const target = e.target as HTMLInputElement;
-                        //   target.value = target.value.toString().slice(0, 8);
-                        // }}
-                        // {...getFieldProps("birthDay")}
-                        // error={Boolean(touched.birthDay && errors.birthDay)}
-                        // helperText={touched.birthDay && errors.birthDay}
-                      />
-                    )} 
-                  />*/}
-                  {/* <TextField
-                    fullWidth
-                    label="วันเกิด Ex. ววดดปปปป"
-                    type="number"
-                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                    onInput={(e) => {
-                      const target = e.target as HTMLInputElement;
-                      target.value = target.value.toString().slice(0, 8);
-                    }}
-                    {...getFieldProps("birthDay")}
-                    error={Boolean(touched.birthDay && errors.birthDay)}
-                    helperText={touched.birthDay && errors.birthDay}
-                  /> */}
                   <TextField
                     fullWidth
                     disabled={isEdit}
