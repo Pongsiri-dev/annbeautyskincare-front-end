@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // @mui
 import { DatePicker, LoadingButton, LocalizationProvider } from "@mui/lab";
 import { useTheme } from "@mui/material/styles";
@@ -20,6 +21,7 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
+  Alert
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
@@ -27,13 +29,16 @@ import axios from "src/utils/axios";
 //hook
 import useAuth from "../../../hooks/useAuth";
 // routes
-import { PATH_AUTH } from "../../../routes/paths";
+import { PATH_AUTH, PATH_DASHBOARD } from "../../../routes/paths";
 // components
 import Label from "../../../components/Label";
 import { UploadAvatar } from "../../../components/upload";
 import ReactSignatureCanvas from "react-signature-canvas";
 import { AuthContext } from "src/contexts/JWTContext";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { IconButtonAnimate } from "src/components/animate";
+import Iconify from "src/components/Iconify";
+import { useSnackbar } from "notistack";
 
 // ----------------------------------------------------------------------
 type initialValues = {
@@ -89,6 +94,8 @@ interface IFile {
 
 export default function UserNewForm() {
   moment.locale("th");
+  const isMountedRef = useIsMountedRef();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { pathname, search } = useLocation();
   const query = new URLSearchParams(search);
   const isEdit = pathname.includes("edit");
@@ -162,7 +169,8 @@ export default function UserNewForm() {
       team: "",
       bill: "",
       allow: false,
-      status: 0,
+      status: 1,
+      afterSubmit: ""
     },
     validationSchema: UserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
@@ -209,10 +217,23 @@ export default function UserNewForm() {
         formData.append("team", +values.team || 0);
         formData.append("bill", values.bill);
         formData.append("password", values.password);
+        formData.append("status", values.status);
         if (isEdit) {
           try {
             formData.append("imgCardID", null);
             await update(formData);
+            enqueueSnackbar("Update success", {
+              variant: "success",
+              action: (key) => (
+                <IconButtonAnimate
+                  size="small"
+                  onClick={() => closeSnackbar(key)}
+                >
+                  <Iconify icon={"eva:close-fill"} />
+                </IconButtonAnimate>
+              ),
+            });
+            navigate(PATH_DASHBOARD.user.profile);
           } catch (error) {
             console.log(error);
             return;
@@ -222,6 +243,18 @@ export default function UserNewForm() {
           formData.append("imgCardID", imgCardID.path);
           try {
             await register(formData);
+            enqueueSnackbar("Register success", {
+              variant: "success",
+              action: (key) => (
+                <IconButtonAnimate
+                  size="small"
+                  onClick={() => closeSnackbar(key)}
+                >
+                  <Iconify icon={"eva:close-fill"} />
+                </IconButtonAnimate>
+              ),
+            });
+            navigate(PATH_AUTH.login);
           } catch (error) {
             console.log(error);
             return;
@@ -229,11 +262,17 @@ export default function UserNewForm() {
         }
         resetForm();
         setSubmitting(false);
-        // enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+        // enqueueSnackbar(!isEdit ? "Create success" : "Update success", {
+        //   variant: "success",
+        // });
         // navigate(PATH_DASHBOARD.user.profile);
-        navigate(PATH_AUTH.login);
+        // navigate(PATH_AUTH.login);
       } catch (error) {
         console.error(error);
+        if (isMountedRef.current) {
+          setErrors({ afterSubmit: error.message });
+          setSubmitting(false);
+        }
         setSubmitting(false);
         setErrors(error.message);
       }
@@ -262,11 +301,11 @@ export default function UserNewForm() {
       let ID = query.get("id");
       if (!ID) {
         ID = context?.user?.username;
-        if(!!ID){
+        if (!!ID) {
           const { data } = await axios.get(`/api/user/username/${ID ?? ""}`);
           const list: any = [];
-          setFieldValue("birthDay",data["birthDay"]);
-          let convertDate : any = moment(data["birthDay"],"DD-MM-YYYY");
+          setFieldValue("birthDay", data["birthDay"]);
+          let convertDate: any = moment(data["birthDay"], "DD-MM-YYYY");
           setDateVal(convertDate);
           Object.keys(data).map((o) => {
             if (
@@ -287,7 +326,6 @@ export default function UserNewForm() {
           setFieldValue("allow", true);
         }
       }
-
     }
   };
 
@@ -495,6 +533,7 @@ export default function UserNewForm() {
           <Grid item xs={12} sm={8} md={8}>
             <Card sx={{ p: 3 }} style={{ height: "100%" }}>
               <Stack spacing={3}>
+              {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
                 <Stack
                   direction={{ xs: "column", sm: "row" }}
                   spacing={{ xs: 3, sm: 2 }}
@@ -531,7 +570,10 @@ export default function UserNewForm() {
                         value={dateVal}
                         onChange={(newValue) => {
                           setDateVal(newValue);
-                          setFieldValue("birthDay", moment(newValue).format("DD/MM/YYYY"));
+                          setFieldValue(
+                            "birthDay",
+                            moment(newValue).format("DD/MM/YYYY")
+                          );
                         }}
                         renderInput={(params) => <TextField {...params} />}
                       />
