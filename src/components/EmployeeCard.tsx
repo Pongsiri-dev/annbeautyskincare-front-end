@@ -8,6 +8,11 @@ import { PDFExport } from "@progress/kendo-react-pdf";
 // components
 
 // ----------------------------------------------------------------------
+const customStylesLogo = {
+  margin: {
+    right: '4%',
+  },
+};
 
 const WrapperStyle = styled.div`
   width: 100%;
@@ -124,10 +129,10 @@ img-fluid d-block mx-auto
     background-size: 100% auto, 80px, 80px, 100% 100%;
   }
   .card.platinum.front .logo {
-    max-height: 150px;
     display: block;
-    margin: auto;
     margin-top: 30px;
+    margin-right: initial;
+    max-height: 120px;
   }
   .card.platinum.front h5 {
     font-size: 30px;
@@ -265,9 +270,9 @@ img-fluid d-block mx-auto
     border-radius: 20px !important;
   }
   .card.card-type.front .logo {
-    max-height: 220px;
+    margin-right: initial;
+    max-height: 120px;
     display: block;
-    margin: auto;
     margin-top: 20px;
   }
   .card.card-type.front h5 {
@@ -517,7 +522,7 @@ export default function EmployeeCard({ profile }: Props) {
         {level === "Platinum" ? (
           <div className="col bg-card">
             <div className="card platinum front">
-              <img src="/company/IMG-3075.png" className="logo" />
+              <img src="/company/IMG-3075.png" className="logo"/>
               <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
               <h6>
                 โทร <span>0955542399, 0886659142</span>
