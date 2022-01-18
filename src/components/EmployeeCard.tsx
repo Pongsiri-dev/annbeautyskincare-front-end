@@ -166,7 +166,7 @@ img-fluid d-block mx-auto
   }
 
   .card.platinum.back {
-    padding: 80px 30px 30px 45px;
+    padding: 65px 30px 30px 45px;
   }
   .card.platinum.back h2 {
     font-size: 30px;
@@ -182,7 +182,7 @@ img-fluid d-block mx-auto
     font-family: DB-Heavent-Cond;
     text-transform: uppercase;
     font-weight: bold;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
   }
   .card.platinum.back h5 {
     font-size: 22px;
@@ -192,7 +192,7 @@ img-fluid d-block mx-auto
     font-weight: bold;
     width: 50%;
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 7px;
   }
   .card.platinum.back h5 span {
     padding-left: 15px;
@@ -210,13 +210,13 @@ img-fluid d-block mx-auto
     font-family: DB-Heavent-Cond;
     text-transform: uppercase;
     font-weight: bold;
-    width: 33%;
+    width: 50%;
     display: flex;
     margin-bottom: 15px;
     padding: 0 5px;
 
     & > span {
-      max-width: 100%;
+      max-width: 70%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -320,12 +320,14 @@ img-fluid d-block mx-auto
     padding-bottom: 3px;
     border-bottom: 2px solid #84673f;
   }
+  .card.card-type.back .li {
+    display: flex;
+  }
   .card.card-type.back h6 {
     font-size: 20px;
-    margin-top: 10px;
+    margin-top: -10px;
     color: #84673f;
     font-family: DB-Heavent-Cond;
-    padding-bottom: 3px;
   }
 
   .card.card-type.back .logo {
@@ -519,7 +521,8 @@ export default function EmployeeCard({ profile }: Props) {
         <Button onClick={handleExportWithComponent}>Export Card</Button>
       </Stack>
       <PDFExport ref={pdfExportComponent} fileName="member-card">
-        {level === "Platinum" ? (
+        {/* {level === "Platinum" ? ( */}
+        {level !== "Platinum" ? (
           <div className="col bg-card">
             <div className="card platinum front">
               <img src="/company/IMG-3075.png" className="logo"/>
@@ -560,6 +563,13 @@ export default function EmployeeCard({ profile }: Props) {
                   <img src="/company/line1.png" alt="" />{" "}
                   <span> xxxx xxxxxx</span>
                 </h6>
+              </div>
+
+              <div className="card-text">
+                <h6>
+                  <img src="/company/instagram.png" alt="" />{" "}
+                  <span> xxxx xxxxxx</span>
+                </h6>
                 <h6>
                   <img src="/company/instagram.png" alt="" />{" "}
                   <span> xxxx xxxxxx</span>
@@ -584,7 +594,18 @@ export default function EmployeeCard({ profile }: Props) {
                   คุณ {firstName} {lastName}
                 </span>
               </h2>
-              <h6>ชุปเปอร์ ดีลเลอร์ โกล วาเลนต้า คอฟฟี่ </h6>
+              <ul>
+                <li>
+                  <h6>ชุปเปอร์ ดีลเลอร์ โกล วาเลนต้า คอฟฟี่ </h6>
+                </li>
+
+                <li>
+                  <p>
+                    <img src="/company/facebook.png" alt="" />{" "}
+                  </p>
+                  <span>xxxxx</span>
+                </li>
+              </ul>
               <ul>
                 <li>
                   <p>สายงาน </p>

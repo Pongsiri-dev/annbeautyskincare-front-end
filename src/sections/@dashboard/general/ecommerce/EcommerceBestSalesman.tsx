@@ -1,5 +1,5 @@
 // @mui
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Card,
@@ -12,15 +12,15 @@ import {
   CardHeader,
   Typography,
   TableContainer,
-} from '@mui/material';
+} from "@mui/material";
 // utils
-import { fCurrency } from '../../../../utils/formatNumber';
+import { fCurrency } from "../../../../utils/formatNumber";
 // _mock_
-import { _ecommerceBestSalesman } from '../../../../_mock';
+import { _ecommerceBestSalesman } from "../../../../_mock";
 // components
-import Label from '../../../../components/Label';
-import Image from '../../../../components/Image';
-import Scrollbar from '../../../../components/Scrollbar';
+import Label from "../../../../components/Label";
+import Image from "../../../../components/Image";
+import Scrollbar from "../../../../components/Scrollbar";
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +37,6 @@ export default function EcommerceBestSalesman() {
               <TableRow>
                 <TableCell>Seller</TableCell>
                 <TableCell>Product</TableCell>
-                <TableCell>Country</TableCell>
                 <TableCell>Total</TableCell>
                 <TableCell align="right">Rank</TableCell>
               </TableRow>
@@ -46,30 +45,37 @@ export default function EcommerceBestSalesman() {
               {_ecommerceBestSalesman.map((row) => (
                 <TableRow key={row.name}>
                   <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
                       <Avatar alt={row.name} src={row.avatar} />
                       <Box sx={{ ml: 2 }}>
                         <Typography variant="subtitle2"> {row.name}</Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "text.secondary" }}
+                        >
                           {row.email}
                         </Typography>
                       </Box>
                     </Box>
                   </TableCell>
-                  <TableCell>{row.category}</TableCell>
-                  <TableCell>
-                    <Image src={row.flag} alt="country flag" sx={{ maxWidth: 28 }} />
-                  </TableCell>
+                  <TableCell>Valenta</TableCell>
                   <TableCell>{fCurrency(row.total)}</TableCell>
                   <TableCell align="right">
                     <Label
-                      variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                      variant={
+                        theme.palette.mode === "light" ? "ghost" : "filled"
+                      }
                       color={
-                        (row.rank === 'Top 1' && 'primary') ||
-                        (row.rank === 'Top 2' && 'info') ||
-                        (row.rank === 'Top 3' && 'success') ||
-                        (row.rank === 'Top 4' && 'warning') ||
-                        'error'
+                        (row.rank === "Top 1" && "primary") ||
+                        (row.rank === "Top 2" && "info") ||
+                        (row.rank === "Top 3" && "warning") ||
+                        (row.rank === "Top 4" && "error") ||
+                        (row.rank === "Top 5" && "primary") ||
+                        (row.rank === "Top 6" && "info") ||
+                        (row.rank === "Top 7" && "warning") ||
+                        (row.rank === "Top 8" && "error") ||
+                        (row.rank === "Top 9" && "primary") ||
+                        "info"
                       }
                     >
                       {row.rank}

@@ -20,7 +20,7 @@ export const _ecommerceSalesOverview = [...Array(3)].map((_, index) => ({
   value: _mock.number.percent(index),
 }));
 
-export const _ecommerceBestSalesman = [...Array(5)].map((_, index) => ({
+export const _ecommerceBestSalesman = [...Array(10)].map((_, index) => ({
   id: _mock.id(index),
   name: _mock.name.fullName(index),
   email: _mock.email(index),
