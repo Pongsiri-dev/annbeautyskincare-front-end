@@ -72,7 +72,7 @@ export default function Router() {
           element: <Navigate to="/dashboard/analytics" replace />,
           index: true,
         },
-        { path: "ecommerce", element: <GeneralEcommerce /> },
+        { path: "ranking", element: <Ranking /> },
         { path: "analytics", element: <GeneralAnalytics /> },
 
         {
@@ -246,8 +246,8 @@ const VerifyCode = Loadable(lazy(() => import("../pages/auth/VerifyCode")));
 const GeneralApp = Loadable(
   lazy(() => import("../pages/dashboard/GeneralApp"))
 );
-const GeneralEcommerce = Loadable(
-  lazy(() => import("../pages/dashboard/GeneralEcommerce"))
+const Ranking = Loadable(
+  lazy(() => import("../pages/dashboard/Ranking"))
 );
 const GeneralAnalytics = Loadable(
   lazy(() => import("../pages/dashboard/GeneralAnalytics"))

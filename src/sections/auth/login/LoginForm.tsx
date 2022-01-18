@@ -98,6 +98,10 @@ export default function LoginForm() {
             autoComplete="off"
             type="text"
             label="เลขบัตรประชาชน"
+            onInput={(e) => {
+              const target = e.target as HTMLInputElement;
+              target.value = target.value.toString().slice(0, 13);
+            }}
             {...getFieldProps('username')}
             error={Boolean(touched.username && errors.username)}
             helperText={touched.username && errors.username}

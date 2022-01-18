@@ -736,7 +736,7 @@ export default function UserNewForm() {
                   />
                   <TextField
                     fullWidth
-                    label="กรอกเงิน"
+                    label="จำนวนสินค้า (ชิ้น)"
                     type="number"
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {
