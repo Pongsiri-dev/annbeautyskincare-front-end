@@ -12,6 +12,7 @@ import MainHeader from './MainHeader';
 export default function MainLayout() {
   const { pathname } = useLocation();
   const isHome = pathname === '/';
+  window.localStorage.removeItem("accessToken")
 
   return (
     <Stack sx={{ minHeight: 1 }}>
