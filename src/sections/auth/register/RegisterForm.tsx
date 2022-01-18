@@ -256,6 +256,18 @@ export default function UserNewForm() {
             });
             navigate(PATH_AUTH.login);
           } catch (error) {
+            enqueueSnackbar(`${error.message}`, {
+              variant: "error",
+              action: (key) => (
+                <IconButtonAnimate
+                  size="small"
+                  onClick={() => closeSnackbar(key)}
+                >
+                  <Iconify icon={"eva:close-fill"} />
+                </IconButtonAnimate>
+              ),
+            });
+            setErrors(error.message);
             console.log(error);
             return;
           }
