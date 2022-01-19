@@ -521,8 +521,8 @@ export default function EmployeeCard({ profile }: Props) {
         <Button onClick={handleExportWithComponent}>Export Card</Button>
       </Stack>
       <PDFExport ref={pdfExportComponent} fileName="member-card">
-        {/* {level === "Platinum" ? ( */}
-        {level !== "Platinum" ? (
+        {level === "Platinum" ? (
+        // {level !== "Platinum" ? (
           <div className="col bg-card">
             <div className="card platinum front">
               <img src="/company/IMG-3075.png" className="logo"/>
@@ -571,7 +571,7 @@ export default function EmployeeCard({ profile }: Props) {
                   <span> xxxx xxxxxx</span>
                 </h6>
                 <h6>
-                  <img src="/company/instagram.png" alt="" />{" "}
+                  <img src="/company/tiktok.png" alt="" />{" "}
                   <span> xxxx xxxxxx</span>
                 </h6>
               </div>
@@ -613,7 +613,7 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>
-                    <img src="/company/facebook.png" alt="" />{" "}
+                    <img src="/company/line1.png" alt="" />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
@@ -623,7 +623,7 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>
-                    <img src="/company/line1.png" alt="" />{" "}
+                    <img src="/company/instagram.png" alt="" />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
@@ -633,7 +633,7 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>
-                    <img src="/company/instagram.png" alt="" />{" "}
+                    <img src="/company/tiktok.png" alt="" />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
