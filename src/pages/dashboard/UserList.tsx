@@ -1,6 +1,6 @@
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import axios from "src/utils/axios";
 // @mui
@@ -38,6 +38,7 @@ import {
   UserListToolbar,
   UserMoreMenu,
 } from "../../sections/@dashboard/user/list";
+import { UserContext } from "src/contexts/UserContext";
 
 // ----------------------------------------------------------------------
 
@@ -56,7 +57,8 @@ export default function UserList() {
   const theme = useTheme();
   const { themeStretch } = useSettings();
 
-  const [userList, setUserList] = useState([]);
+  const { userList } = useContext(UserContext);
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [selected, setSelected] = useState<string[]>([]);
@@ -64,17 +66,17 @@ export default function UserList() {
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const fetchUsers = async () => {
-    const { data } = await axios.get("/api/user/userlist");
-    data.forEach((o: UserManager) => {
-      o.name = `${o.firstName} ${o.lastName}`;
-    });
-    setUserList(data);
-  };
+  // const fetchUsers = async () => {
+  //   const { data } = await axios.get("/api/user/userlist");
+  //   data.forEach((o: UserManager) => {
+  //     o.name = `${o.firstName} ${o.lastName}`;
+  //   });
+  //   setUserList(data);
+  // };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  // useEffect(() => {
+  //   fetchUsers();
+  // }, []);
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
@@ -192,7 +194,15 @@ export default function UserList() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, email, telephone, level, status, username } = row;
+                      const {
+                        id,
+                        name,
+                        email,
+                        telephone,
+                        level,
+                        status,
+                        username,
+                      } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
                       return (

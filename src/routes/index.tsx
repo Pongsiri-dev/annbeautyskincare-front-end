@@ -10,6 +10,7 @@ import AuthGuard from "../guards/AuthGuard";
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // components
 import LoadingScreen from "../components/LoadingScreen";
+import { UserProvider } from "../contexts/UserContext";
 
 // ----------------------------------------------------------------------
 
@@ -64,7 +65,9 @@ export default function Router() {
       path: "dashboard",
       element: (
         <AuthGuard>
-          <DashboardLayout />
+          <UserProvider>
+            <DashboardLayout />
+          </UserProvider>
         </AuthGuard>
       ),
       children: [
@@ -246,9 +249,7 @@ const VerifyCode = Loadable(lazy(() => import("../pages/auth/VerifyCode")));
 const GeneralApp = Loadable(
   lazy(() => import("../pages/dashboard/GeneralApp"))
 );
-const Ranking = Loadable(
-  lazy(() => import("../pages/dashboard/Ranking"))
-);
+const Ranking = Loadable(lazy(() => import("../pages/dashboard/Ranking")));
 const GeneralAnalytics = Loadable(
   lazy(() => import("../pages/dashboard/GeneralAnalytics"))
 );

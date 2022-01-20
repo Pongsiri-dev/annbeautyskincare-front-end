@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "src/utils/axios";
+import lodash from "lodash";
 // @mui
 import { styled } from "@mui/material/styles";
 import { Tab, Box, Card, Tabs, Container } from "@mui/material";
@@ -22,6 +23,7 @@ import {
   ProfileFollowers,
 } from "../../sections/@dashboard/user/profile";
 import { UserAbout, UserManager } from "src/@types/user";
+import { UserContext } from "src/contexts/UserContext";
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +48,9 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 export default function UserProfile() {
   const { themeStretch } = useSettings();
   const { user } = useAuth();
+
+  const { userList } = useContext(UserContext);
+
   const [userFriend, setUserFriend] = useState([]);
   const [userAbout, setUserAbout] = useState<UserAbout>({});
 
@@ -57,11 +62,7 @@ export default function UserProfile() {
   }, [user]);
 
   useEffect(() => {
-    fetchUser();
-  }, []);
-
-  async function fetchUser() {
-    const { data } = await axios.get("/api/user/userlist");
+    const data = lodash.cloneDeep(userList);
     data.forEach((o: UserManager, index: number) => {
       o.name = `${o.firstName} ${o.lastName}`;
       o.avatarUrl = `https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_${
@@ -69,7 +70,7 @@ export default function UserProfile() {
       }.jpg`;
     });
     setUserFriend(data);
-  }
+  }, [userList]);
 
   async function fetchAbout() {
     const { data } = await axios.get(`/api/user/username/${user?.username}`);
