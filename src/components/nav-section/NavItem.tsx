@@ -1,24 +1,25 @@
-import { ReactNode } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { ReactNode } from "react";
+import { NavLink as RouterLink } from "react-router-dom";
 // @mui
-import { alpha, styled } from '@mui/material/styles';
+import { alpha, styled } from "@mui/material/styles";
 import {
   Box,
   ListItemText,
   ListItemButton,
   ListItemIcon,
   ListItemButtonProps,
-} from '@mui/material';
+} from "@mui/material";
 // config
 import {
   DASHBOARD_NAVBAR_ROOT_ITEM_HEIGHT,
   DASHBOARD_NAVBAR_SUB_ITEM_HEIGHT,
   DASHBOARD_NAVBAR_ICON_ITEM_SIZE,
-} from '../../config';
+} from "../../config";
 //
-import Iconify from '../Iconify';
+import Iconify from "../Iconify";
 // type
-import { NavItemProps } from './type';
+import { NavItemProps } from "./type";
+import useAuth from "src/hooks/useAuth";
 
 // ----------------------------------------------------------------------
 
@@ -31,12 +32,13 @@ interface ListItemStyleProps extends ListItemButtonProps {
 }
 
 const ListItemStyle = styled(ListItemButton, {
-  shouldForwardProp: (prop) => prop !== 'activeRoot' && prop !== 'activeSub' && prop !== 'subItem',
+  shouldForwardProp: (prop) =>
+    prop !== "activeRoot" && prop !== "activeSub" && prop !== "subItem",
 })<ListItemStyleProps>(({ activeRoot, activeSub, subItem, theme }) => ({
   ...theme.typography.body2,
-  position: 'relative',
+  position: "relative",
   height: DASHBOARD_NAVBAR_ROOT_ITEM_HEIGHT,
-  textTransform: 'capitalize',
+  textTransform: "capitalize",
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(1.5),
   marginBottom: theme.spacing(0.5),
@@ -46,7 +48,10 @@ const ListItemStyle = styled(ListItemButton, {
   ...(activeRoot && {
     ...theme.typography.subtitle2,
     color: theme.palette.primary.main,
-    backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+    backgroundColor: alpha(
+      theme.palette.primary.main,
+      theme.palette.action.selectedOpacity
+    ),
   }),
   // activeSub
   ...(activeSub && {
@@ -64,10 +69,10 @@ interface ListItemTextStyleProps extends ListItemButtonProps {
 }
 
 const ListItemTextStyle = styled(ListItemText, {
-  shouldForwardProp: (prop) => prop !== 'isCollapse',
+  shouldForwardProp: (prop) => prop !== "isCollapse",
 })<ListItemTextStyleProps>(({ isCollapse, theme }) => ({
-  whiteSpace: 'nowrap',
-  transition: theme.transitions.create(['width', 'opacity'], {
+  whiteSpace: "nowrap",
+  transition: theme.transitions.create(["width", "opacity"], {
     duration: theme.transitions.duration.shorter,
   }),
   ...(isCollapse && {
@@ -79,21 +84,36 @@ const ListItemTextStyle = styled(ListItemText, {
 const ListItemIconStyle = styled(ListItemIcon)({
   width: DASHBOARD_NAVBAR_ICON_ITEM_SIZE,
   height: DASHBOARD_NAVBAR_ICON_ITEM_SIZE,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  '& svg': { width: '100%', height: '100%' },
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  "& svg": { width: "100%", height: "100%" },
 });
 
 // ----------------------------------------------------------------------
 
-export function NavItemRoot({ item, isCollapse, open = false, active, onOpen }: NavItemProps) {
+export function NavItemRoot({
+  item,
+  isCollapse,
+  open = false,
+  active,
+  onOpen,
+}: NavItemProps) {
   const { title, path, icon, info, children } = item;
 
+  const { user } = useAuth();
+
+  if (title == "approve" && user?.id != "2") {
+    return <></>;
+  }
   const renderContent = (
     <>
       {icon && <ListItemIconStyle>{icon}</ListItemIconStyle>}
-      <ListItemTextStyle disableTypography primary={title} isCollapse={isCollapse} />
+      <ListItemTextStyle
+        disableTypography
+        primary={title}
+        isCollapse={isCollapse}
+      />
       {!isCollapse && (
         <>
           {info && info}
@@ -120,9 +140,14 @@ export function NavItemRoot({ item, isCollapse, open = false, active, onOpen }: 
 
 // ----------------------------------------------------------------------
 
-type NavItemSubProps = Omit<NavItemProps, 'isCollapse'>;
+type NavItemSubProps = Omit<NavItemProps, "isCollapse">;
 
-export function NavItemSub({ item, open = false, active, onOpen }: NavItemSubProps) {
+export function NavItemSub({
+  item,
+  open = false,
+  active,
+  onOpen,
+}: NavItemSubProps) {
   const { title, path, info, children } = item;
 
   const renderContent = (
@@ -143,7 +168,13 @@ export function NavItemSub({ item, open = false, active, onOpen }: NavItemSubPro
   }
 
   return (
-    <ListItemStyle key={title} component={RouterLink} to={path} activeSub={active} subItem>
+    <ListItemStyle
+      key={title}
+      component={RouterLink}
+      to={path}
+      activeSub={active}
+      subItem
+    >
       {renderContent}
     </ListItemStyle>
   );
@@ -163,15 +194,15 @@ export function DotIcon({ active }: DotIconProps) {
         sx={{
           width: 4,
           height: 4,
-          borderRadius: '50%',
-          bgcolor: 'text.disabled',
+          borderRadius: "50%",
+          bgcolor: "text.disabled",
           transition: (theme) =>
-            theme.transitions.create('transform', {
+            theme.transitions.create("transform", {
               duration: theme.transitions.duration.shorter,
             }),
           ...(active && {
-            transform: 'scale(2)',
-            bgcolor: 'primary.main',
+            transform: "scale(2)",
+            bgcolor: "primary.main",
           }),
         }}
       />
@@ -188,7 +219,7 @@ type ArrowIconProps = {
 export function ArrowIcon({ open }: ArrowIconProps) {
   return (
     <Iconify
-      icon={open ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
+      icon={open ? "eva:arrow-ios-downward-fill" : "eva:arrow-ios-forward-fill"}
       sx={{ width: 16, height: 16, ml: 1 }}
     />
   );

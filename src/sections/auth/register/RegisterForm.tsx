@@ -21,7 +21,7 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Alert
+  Alert,
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
@@ -101,7 +101,7 @@ export default function UserNewForm() {
   const isEdit = pathname.includes("edit");
   const context = useContext(AuthContext);
 
-  const { register, update } = useAuth();
+  const { register, update, user } = useAuth();
   const navigate = useNavigate();
 
   const theme = useTheme();
@@ -170,7 +170,7 @@ export default function UserNewForm() {
       bill: "",
       allow: false,
       status: 1,
-      afterSubmit: ""
+      afterSubmit: "",
     },
     validationSchema: UserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
@@ -466,7 +466,7 @@ export default function UserNewForm() {
                 รูปประจำตัว
               </Typography>
 
-              {isEdit && (
+              {isEdit && user?.id == 2 && (
                 <FormControlLabel
                   labelPlacement="start"
                   control={
@@ -545,7 +545,9 @@ export default function UserNewForm() {
           <Grid item xs={12} sm={8} md={8}>
             <Card sx={{ p: 3 }} style={{ height: "100%" }}>
               <Stack spacing={3}>
-              {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
+                {errors.afterSubmit && (
+                  <Alert severity="error">{errors.afterSubmit}</Alert>
+                )}
                 <Stack
                   direction={{ xs: "column", sm: "row" }}
                   spacing={{ xs: 3, sm: 2 }}
@@ -724,7 +726,6 @@ export default function UserNewForm() {
                   <TextField
                     fullWidth
                     label="รหัสแม่ทีม"
-                    type="number"
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {
                       const target = e.target as HTMLInputElement;

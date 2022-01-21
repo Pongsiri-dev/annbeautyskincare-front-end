@@ -1,8 +1,8 @@
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_DASHBOARD } from "../../../routes/paths";
 // components
-import Label from '../../../components/Label';
-import SvgIconStyle from '../../../components/SvgIconStyle';
+import Label from "../../../components/Label";
+import SvgIconStyle from "../../../components/SvgIconStyle";
 
 // ----------------------------------------------------------------------
 
@@ -11,28 +11,36 @@ const getIcon = (name: string) => (
 );
 
 const ICONS = {
-  blog: getIcon('ic_blog'),
-  cart: getIcon('ic_cart'),
-  chat: getIcon('ic_chat'),
-  mail: getIcon('ic_mail'),
-  user: getIcon('ic_user'),
-  kanban: getIcon('ic_kanban'),
-  banking: getIcon('ic_banking'),
-  calendar: getIcon('ic_calendar'),
-  ecommerce: getIcon('ic_ecommerce'),
-  analytics: getIcon('ic_analytics'),
-  dashboard: getIcon('ic_dashboard'),
-  booking: getIcon('ic_booking'),
+  blog: getIcon("ic_blog"),
+  cart: getIcon("ic_cart"),
+  chat: getIcon("ic_chat"),
+  mail: getIcon("ic_mail"),
+  user: getIcon("ic_user"),
+  kanban: getIcon("ic_kanban"),
+  banking: getIcon("ic_banking"),
+  calendar: getIcon("ic_calendar"),
+  ecommerce: getIcon("ic_ecommerce"),
+  analytics: getIcon("ic_analytics"),
+  dashboard: getIcon("ic_dashboard"),
+  booking: getIcon("ic_booking"),
 };
 
 const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: 'general',
+    subheader: "general",
     items: [
-      { title: 'ranking', path: PATH_DASHBOARD.general.ranking, icon: ICONS.ecommerce },
-      { title: 'approve', path: PATH_DASHBOARD.general.approve, icon: ICONS.ecommerce },
+      {
+        title: "ranking",
+        path: PATH_DASHBOARD.general.ranking,
+        icon: ICONS.ecommerce,
+      },
+      {
+        title: "approve",
+        path: PATH_DASHBOARD.general.approve,
+        icon: ICONS.ecommerce,
+      },
       // { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics }
     ],
   },
@@ -40,20 +48,20 @@ const navConfig = [
   // MANAGEMENT
   // ----------------------------------------------------------------------
   {
-    subheader: 'management',
+    subheader: "management",
     items: [
       // MANAGEMENT : USER
       {
-        title: 'user',
+        title: "user",
         path: PATH_DASHBOARD.user.root,
         icon: ICONS.user,
         children: [
-          { title: 'profile', path: PATH_DASHBOARD.user.profile },
+          { title: "profile", path: PATH_DASHBOARD.user.profile },
           // { title: 'cards', path: PATH_DASHBOARD.user.cards },
-          { title: 'list', path: PATH_DASHBOARD.user.list },
+          { title: "list", path: PATH_DASHBOARD.user.list },
           // { title: 'create', path: PATH_DASHBOARD.user.newUser },
-          { title: 'edit', path: PATH_DASHBOARD.user.editById },
-          { title: 'account', path: PATH_DASHBOARD.user.account },
+          { title: "edit", path: PATH_DASHBOARD.user.editById },
+          { title: "account", path: PATH_DASHBOARD.user.account },
         ],
       },
 
