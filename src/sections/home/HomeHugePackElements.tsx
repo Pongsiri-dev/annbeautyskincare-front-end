@@ -159,7 +159,7 @@ export default function HomeHugePackElements() {
                 >
                   <Image
                     alt={`screen ${index + 1}`}
-                    src={`/landing/screen_light_${index + 1}.jpeg`}
+                    src={`https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/screen_light_${index + 1}.jpg`}
                   />
                 </ScreenStyle>
               ))}
