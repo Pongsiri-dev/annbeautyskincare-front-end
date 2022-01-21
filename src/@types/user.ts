@@ -122,6 +122,7 @@ export type UserAbout = {
   tombon?: string;
   postCode?: string;
   bill?:number;
+  url?: string;
 };
 
 export type UserData = {

@@ -5,9 +5,10 @@ import { UserAbout } from "src/@types/user";
 import styled from "styled-components";
 import { PDFExport } from "@progress/kendo-react-pdf";
 import MyAvatar from "./MyAvatar";
+
 // @types
 // components
-
+import Image from "./Image";
 // ----------------------------------------------------------------------
 const customStylesLogo = {
   margin: {
@@ -503,6 +504,7 @@ export default function EmployeeCard({ profile }: Props) {
     province,
     postCode,
     image,
+    url,
   } = profile;
 
   const pdfExportComponent = useRef(null);
@@ -536,7 +538,7 @@ export default function EmployeeCard({ profile }: Props) {
       </Stack>
       <PDFExport ref={pdfExportComponent} fileName="member-card">
         {level === "Platinum" ? (
-        // {level !== "Platinum" ? (
+          // {level !== "Platinum" ? (
           <div className="col bg-card">
             <div className="card platinum front">
               <img src="/company/IMG-3075.png" className="logo" />
@@ -598,8 +600,16 @@ export default function EmployeeCard({ profile }: Props) {
                 <li>
                   <img src="/company/IMG-3075.png" className="logo" />
                 </li>
-                <li className="proImg" style={{marginLeft: '25%',marginTop:'-22%',position:"relative"}}>
-                  <MyAvatar className="logo-profile"
+                <li
+                  className="proImg"
+                  style={{
+                    marginLeft: "25%",
+                    marginTop: "-22%",
+                    position: "relative",
+                  }}
+                >
+                  <MyAvatar
+                    className="logo-profile"
                     image={image}
                     firstName={firstName}
                     sx={{
@@ -618,6 +628,7 @@ export default function EmployeeCard({ profile }: Props) {
               <h6>
                 โทร <span>0955542399, 0886659142</span>
               </h6>
+              {/* <p>{url}</p> */}
             </div>
             <br />
             <div className={type + " card card-type back"}>

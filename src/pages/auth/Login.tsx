@@ -78,10 +78,11 @@ export default function Login() {
 
   //Product 
   const products = [
+    // 'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/annbeautiful-storage/7eefcedf-792b-4703-924f-edfcb5c0d4f4/avatar.jpeg,'
     'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547956.jpg',
     'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547960.jpg',
     'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547963.jpg',
-    'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547965.jpg',
+    'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547965.jpg'
   ]
 
   var item = _.sample(products);
@@ -89,18 +90,6 @@ export default function Login() {
   return (
     <Page title="Login">
       <RootStyle>
-        {/* <HeaderStyle>
-          <Logo />
-          {smUp && (
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {''}
-              <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
-                Get started
-              </Link>
-            </Typography>
-          )}
-        </HeaderStyle> */}
-
         {mdUp && (
           <SectionStyle>
             <Image src={item} alt="login" />
@@ -109,35 +98,14 @@ export default function Login() {
 
         <Container maxWidth="sm">
           <ContentStyle>
-            {/* <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" gutterBottom>
-                  Sign in to Minimal
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
-              </Box>
-
-              <Tooltip title={capitalCase(method)} placement="right">
-                <>
-                  <Image
-                    disabledEffect
-                    src={`https://minimal-assets-api.vercel.app/assets/icons/auth/ic_${method}.png`}
-                    sx={{ width: 32, height: 32 }}
-                  />
-                </>
-              </Tooltip>
-            </Stack> */}
-
             {/* <Alert severity="info" sx={{ mb: 3 }}>
               Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
             </Alert> */}
-
             <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
               <Typography variant="h4" gutterBottom>
                 เข้าสู่ระบบ
               </Typography>
             </Stack>
-
             <LoginForm />
 
             {/* {!smUp && (

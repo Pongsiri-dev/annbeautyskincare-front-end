@@ -6,10 +6,6 @@ import { Box, Link, Typography } from "@mui/material";
 import useAuth from "../../../hooks/useAuth";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
-// components
-import MyAvatar from "../../../components/MyAvatar";
-// types
-
 // ----------------------------------------------------------------------
 
 const RootStyle = styled("div")(({ theme }) => ({
@@ -22,16 +18,15 @@ const RootStyle = styled("div")(({ theme }) => ({
     duration: theme.transitions.duration.shorter,
   }),
 }));
-
 // ----------------------------------------------------------------------
 
 type Props = {
-  isCollapse: boolean | undefined;
+  isCollapse?: boolean | undefined;
 };
 
 export default function NavbarAccount({ isCollapse }: Props) {
   const { user } = useAuth();
-
+  
   return (
     <Link
       underline="none"
@@ -46,7 +41,12 @@ export default function NavbarAccount({ isCollapse }: Props) {
           }),
         }}
       >
-        <MyAvatar image={user?.image} firstName={user?.firstName} />
+        {/* <Image 
+        style={{width: '150px',height:'95px',borderRadius: '50%',objectFit:'cover',objectPosition:'center right' }}
+        alt="profile cover"
+        src={user?.url}
+        sx={{ position: "relative", top: 0, left: 0, right: 0, bottom: 0 }}/> */}
+        {/* <MyAvatar image={user?.url} firstName={user?.firstName} /> */}
 
         <Box
           sx={{
