@@ -11,9 +11,9 @@ import {
   Stack,
   StackProps,
 } from "@mui/material";
-import FacebookSharpIcon from '@mui/material/Icon';
+import FacebookSharpIcon from "@mui/material/Icon";
 // routes
-import { PATH_DASHBOARD } from "../../routes/paths";
+import { PATH_PAGE } from "../../routes/paths";
 // components
 import Image from "../../components/Image";
 import Iconify from "../../components/Iconify";
@@ -98,14 +98,14 @@ export default function HomeHero() {
           <ContentStyle>
             <m.div variants={varFade().inRight}>
               <Typography variant="h2" sx={{ color: "common.white" }}>
-                ระบบตัวแทนขาย 
+                ระบบตัวแทนขาย
                 <br />
                 <Typography
                   component="span"
                   variant="h1"
                   sx={{ color: "primary.main" }}
                 >
-                Ann Beautiful Skincare
+                  Ann Beautiful Skincare
                 </Typography>
               </Typography>
             </m.div>
@@ -120,7 +120,7 @@ export default function HomeHero() {
                 size="large"
                 variant="contained"
                 component={RouterLink}
-                to={PATH_DASHBOARD.root}
+                to={PATH_PAGE.lineOfficial}
               >
                 @ LINE OFFICIAL
               </Button>
@@ -138,10 +138,12 @@ export default function HomeHero() {
                 spacing={1.5}
                 justifyContent={{ xs: "center", md: "flex-start" }}
               >
-                <m.img
-                  variants={varFade().inRight}
-                  src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
-                />
+                <a href="https://www.facebook.com/ann.sirinapa.92">
+                  <m.img
+                    variants={varFade().inRight}
+                    src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
+                  />
+                </a>
                 <m.img
                   variants={varFade().inRight}
                   src="https://img.icons8.com/fluency/48/000000/instagram-new.png"

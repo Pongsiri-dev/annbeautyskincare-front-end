@@ -4,13 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { UserAbout } from "src/@types/user";
 import styled from "styled-components";
 import { PDFExport } from "@progress/kendo-react-pdf";
+import MyAvatar from "./MyAvatar";
 // @types
 // components
 
 // ----------------------------------------------------------------------
 const customStylesLogo = {
   margin: {
-    right: '4%',
+    right: "4%",
   },
 };
 
@@ -132,7 +133,7 @@ img-fluid d-block mx-auto
     display: block;
     margin-top: 30px;
     margin-right: initial;
-    max-height: 120px;
+    max-height: 80px;
   }
   .card.platinum.front h5 {
     font-size: 30px;
@@ -269,6 +270,10 @@ img-fluid d-block mx-auto
     background-size: 100% 100%, 100%;
     border-radius: 20px !important;
   }
+  .card.card-type.front .logo-profile {
+    margin-left: -120px;
+    max-height: 200px;
+  }
   .card.card-type.front .logo {
     margin-right: initial;
     max-height: 120px;
@@ -361,6 +366,10 @@ img-fluid d-block mx-auto
   }
 
   .card ul li img {
+    // max-height: 28px;
+  }
+
+  .card ul li .proImg {
     max-height: 28px;
   }
 
@@ -443,6 +452,10 @@ img-fluid d-block mx-auto
       margin-top: 0px;
     }
     .card ul li img {
+      // max-height: 16px;
+    }
+
+    .card ul li .proImg {
       max-height: 16px;
     }
     .card ul li p {
@@ -489,6 +502,7 @@ export default function EmployeeCard({ profile }: Props) {
     tombon,
     province,
     postCode,
+    image,
   } = profile;
 
   const pdfExportComponent = useRef(null);
@@ -525,7 +539,7 @@ export default function EmployeeCard({ profile }: Props) {
         // {level !== "Platinum" ? (
           <div className="col bg-card">
             <div className="card platinum front">
-              <img src="/company/IMG-3075.png" className="logo"/>
+              <img src="/company/IMG-3075.png" className="logo" />
               <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
               <h6>
                 โทร <span>0955542399, 0886659142</span>
@@ -548,10 +562,10 @@ export default function EmployeeCard({ profile }: Props) {
                   รหัส <span> xxxx xxxxxx</span>
                 </h5>
                 <h5>
-                  สายงาน <span> xxxx xxxxxx</span>
+                  สายงาน <span> xxxx</span>
                 </h5>
                 <h5>
-                  เบอร์โทร <span> {telephone}</span>
+                  เบอร์โทร <span> 0{telephone}</span>
                 </h5>
               </div>
               <div className="card-text">
@@ -580,7 +594,26 @@ export default function EmployeeCard({ profile }: Props) {
         ) : (
           <div className="col bg-card">
             <div className={type + " card card-type front"}>
-              <img src="/company/IMG-3075.png" className="logo" />
+              <ul>
+                <li>
+                  <img src="/company/IMG-3075.png" className="logo" />
+                </li>
+                <li className="proImg" style={{marginLeft: '25%',marginTop:'-22%',position:"relative"}}>
+                  <MyAvatar className="logo-profile"
+                    image={image}
+                    firstName={firstName}
+                    sx={{
+                      mx: "auto",
+                      borderWidth: 1,
+                      borderStyle: "none",
+                      borderColor: "common.white",
+                      width: { xs: 80, md: 190 },
+                      height: { xs: 80, md: 190 },
+                    }}
+                  />
+                  {/* <img src={image?.url} className="logo-profile" /> */}
+                </li>
+              </ul>
               <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
               <h6>
                 โทร <span>0955542399, 0886659142</span>
@@ -629,7 +662,7 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>เบอร์โทร </p>
-                  <span>{telephone}</span>
+                  <span>0{telephone}</span>
                 </li>
                 <li>
                   <p>

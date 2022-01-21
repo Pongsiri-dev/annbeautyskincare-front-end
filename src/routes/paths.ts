@@ -20,7 +20,7 @@ export const PATH_AUTH = {
 };
 
 export const PATH_PAGE = {
-  comingSoon: '/coming-soon',
+  lineOfficial: '/line-official',
   maintenance: '/maintenance',
   pricing: '/pricing',
   payment: '/payment',
