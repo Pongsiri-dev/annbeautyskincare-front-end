@@ -76,24 +76,25 @@ export default function Router() {
           index: true,
         },
         { path: "ranking", element: <Ranking /> },
+        { path: "approve", element: <Approve /> },
         { path: "analytics", element: <GeneralAnalytics /> },
 
-        {
-          path: "e-commerce",
-          children: [
-            {
-              element: <Navigate to="/dashboard/e-commerce/shop" replace />,
-              index: true,
-            },
-            { path: "shop", element: <EcommerceShop /> },
-            { path: "product/:name", element: <EcommerceProductDetails /> },
-            { path: "list", element: <EcommerceProductList /> },
-            { path: "product/new", element: <EcommerceProductCreate /> },
-            { path: "product/:name/edit", element: <EcommerceProductCreate /> },
-            { path: "checkout", element: <EcommerceCheckout /> },
-            { path: "invoice", element: <EcommerceInvoice /> },
-          ],
-        },
+        // {
+        //   path: "e-commerce",
+        //   children: [
+        //     {
+        //       element: <Navigate to="/dashboard/e-commerce/shop" replace />,
+        //       index: true,
+        //     },
+        //     { path: "shop", element: <EcommerceShop /> },
+        //     { path: "product/:name", element: <EcommerceProductDetails /> },
+        //     { path: "list", element: <EcommerceProductList /> },
+        //     { path: "product/new", element: <EcommerceProductCreate /> },
+        //     { path: "product/:name/edit", element: <EcommerceProductCreate /> },
+        //     { path: "checkout", element: <EcommerceCheckout /> },
+        //     { path: "invoice", element: <EcommerceInvoice /> },
+        //   ],
+        // },
         {
           path: "user",
           children: [
@@ -250,6 +251,7 @@ const GeneralApp = Loadable(
   lazy(() => import("../pages/dashboard/GeneralApp"))
 );
 const Ranking = Loadable(lazy(() => import("../pages/dashboard/Ranking")));
+const Approve = Loadable(lazy(() => import("../pages/dashboard/Approve")));
 const GeneralAnalytics = Loadable(
   lazy(() => import("../pages/dashboard/GeneralAnalytics"))
 );

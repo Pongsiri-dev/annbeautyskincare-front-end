@@ -38,6 +38,7 @@ export const PATH_DASHBOARD = {
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
     ranking: path(ROOTS_DASHBOARD, '/ranking'),
+    approve: path(ROOTS_DASHBOARD, '/approve'),
     analytics: path(ROOTS_DASHBOARD, '/analytics'),
     banking: path(ROOTS_DASHBOARD, '/banking'),
     booking: path(ROOTS_DASHBOARD, '/booking')

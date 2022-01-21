@@ -666,7 +666,7 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>
-                    <img src="/company/tiktok.png" alt="" />{" "}
+                    <img src="/company/tiktok.png" width={36} alt="" />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
