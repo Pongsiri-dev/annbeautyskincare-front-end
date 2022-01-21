@@ -103,7 +103,7 @@ export function NavItemRoot({
 
   const { user } = useAuth();
 
-  if (title == "approve" && user?.id != "2") {
+  if (title == "approve" && user?.role[0].id != "2") {
     return <></>;
   }
   const renderContent = (

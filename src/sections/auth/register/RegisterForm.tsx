@@ -466,7 +466,7 @@ export default function UserNewForm() {
                 รูปประจำตัว
               </Typography>
 
-              {isEdit && user?.id == 2 && (
+              {isEdit && user?.role[0].id === 2 && (
                 <FormControlLabel
                   labelPlacement="start"
                   control={
