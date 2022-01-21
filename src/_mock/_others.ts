@@ -23,7 +23,7 @@ export const _invoice = {
   id: `${Date.now()}`,
   taxes: 5,
   discount: 10,
-  status: 'paid',
+  status: 'Invoice',
   invoiceFrom: {
     name: _mock.name.fullName(1),
     address: _mock.address.fullAddress(1),

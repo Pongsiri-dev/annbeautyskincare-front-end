@@ -149,7 +149,7 @@ export default function Router() {
       path: "*",
       // element: <LogoOnlyLayout />,
       children: [
-        { path: "coming-soon", element: <ComingSoon /> },
+        { path: "line-official", element: <ComingSoon /> },
         { path: "maintenance", element: <Maintenance /> },
         { path: "pricing", element: <Pricing /> },
         { path: "payment", element: <Payment /> },

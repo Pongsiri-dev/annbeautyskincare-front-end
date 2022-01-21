@@ -12,8 +12,8 @@ type Props = {
 };
 
 export default function ProfileFollowInfo({ profile }: Props) {
-  // const { follower } = profile;
-
+  const { bill } = profile;
+  let billSum = bill || 0;
   return (
     <Card sx={{ py: 3 }}>
       <Stack
@@ -21,7 +21,7 @@ export default function ProfileFollowInfo({ profile }: Props) {
         divider={<Divider orientation="vertical" flexItem />}
       >
         <Stack width={1} textAlign="center">
-          <Typography variant="h4">{fNumber(652216)}</Typography>
+          <Typography variant="h4">{fNumber(billSum)} ชิ้น</Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             ยอดซื้อรวม
           </Typography>
