@@ -23,6 +23,7 @@ import Logo from "../../components/Logo";
 import Image from "../../components/Image";
 // sections
 import { LoginForm } from "../../sections/auth/login";
+import _ from "lodash";
 
 // ----------------------------------------------------------------------
 
@@ -75,6 +76,16 @@ export default function Login() {
   const smUp = useResponsive("up", "sm");
   const mdUp = useResponsive("up", "md");
 
+  //Product 
+  const products = [
+    'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547956.jpg',
+    'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547960.jpg',
+    'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547963.jpg',
+    'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547965.jpg',
+  ]
+
+  var item = _.sample(products);
+
   return (
     <Page title="Login">
       <RootStyle>
@@ -92,7 +103,7 @@ export default function Login() {
 
         {mdUp && (
           <SectionStyle>
-            <Image src="/logo/login.jpeg" alt="login" />
+            <Image src={item} alt="login" />
           </SectionStyle>
         )}
 
