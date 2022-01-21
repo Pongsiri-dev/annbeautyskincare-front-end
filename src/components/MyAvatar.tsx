@@ -16,6 +16,7 @@ interface Props extends AvatarProps {
     url?: string;
   };
   firstName?: string;
+  url?:string;
 }
 
 export default function MyAvatar(props: Props) {
