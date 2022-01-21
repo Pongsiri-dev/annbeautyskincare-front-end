@@ -159,9 +159,7 @@ export default function HomeHugePackElements() {
                 >
                   <Image
                     alt={`screen ${index + 1}`}
-                    src={`/landing/screen_${isLight ? "light" : "dark"}_${
-                      index + 1
-                    }.jpeg`}
+                    src={`/landing/screen_light_${index + 1}.jpeg`}
                   />
                 </ScreenStyle>
               ))}
