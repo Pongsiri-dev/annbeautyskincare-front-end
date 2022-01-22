@@ -1,9 +1,9 @@
 // config
 import axios from "axios";
 // ----------------------------------------------------------------------
-
+//baseURL: 'http://appserverskincare-env.eba-aeumpumc.ap-southeast-1.elasticbeanstalk.com',
 const axiosInstance = axios.create({
-  baseURL: 'http://appserverskincare-env.eba-aeumpumc.ap-southeast-1.elasticbeanstalk.com',
+  baseURL: 'https://api.ann-beautyskincare.com',
 });
 
 axiosInstance.interceptors.response.use(
