@@ -123,6 +123,7 @@ export type UserAbout = {
   postCode?: string;
   bill?:number;
   url?: string;
+  team?:string;
 };
 
 export type UserData = {

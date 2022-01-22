@@ -1,11 +1,9 @@
-import axios from "axios";
 // config
-// import { HOST_API } from '../config';
-
+import axios from "axios";
 // ----------------------------------------------------------------------
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: 'http://appserverskincare-env.eba-aeumpumc.ap-southeast-1.elasticbeanstalk.com',
 });
 
 axiosInstance.interceptors.response.use(

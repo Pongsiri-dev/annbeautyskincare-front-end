@@ -6,9 +6,6 @@ import styled from "styled-components";
 import { PDFExport } from "@progress/kendo-react-pdf";
 import MyAvatar from "./MyAvatar";
 
-// @types
-// components
-import Image from "./Image";
 // ----------------------------------------------------------------------
 const customStylesLogo = {
   margin: {
@@ -497,6 +494,7 @@ export default function EmployeeCard({ profile }: Props) {
     lastName,
     level,
     telephone,
+    team,
     email,
     address,
     amphur,
@@ -547,9 +545,7 @@ export default function EmployeeCard({ profile }: Props) {
                 โทร <span>0955542399, 0886659142</span>
               </h6>
             </div>
-
             <br />
-
             <div className="card platinum back">
               <h2>super dealer</h2>
               <h3>ชุปเปอร์ ดีลเลอร์ วาเลนต้า คอฟฟี่ </h3>
@@ -564,7 +560,7 @@ export default function EmployeeCard({ profile }: Props) {
                   รหัส <span> xxxx xxxxxx</span>
                 </h5>
                 <h5>
-                  สายงาน <span> xxxx</span>
+                  สายงาน <span>{team}</span>
                 </h5>
                 <h5>
                   เบอร์โทร <span> 0{telephone}</span>
@@ -653,7 +649,7 @@ export default function EmployeeCard({ profile }: Props) {
               <ul>
                 <li>
                   <p>สายงาน </p>
-                  <span>xxxxx</span>
+                  <span>{team}</span>
                 </li>
                 <li>
                   <p>
