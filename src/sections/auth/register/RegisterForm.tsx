@@ -243,7 +243,7 @@ export default function UserNewForm() {
         formData.append("tombonCode", values.tombonCode);
         formData.append("tombon", values.tombon);
         formData.append("postCode", values.postCode);
-        formData.append("team", +values.team || 0);
+        formData.append("team", values.team);
         formData.append("bill", values.bill);
         formData.append("password", values.password);
         formData.append("status", values.status);
@@ -775,7 +775,6 @@ export default function UserNewForm() {
                   <TextField
                     fullWidth
                     label="รหัสแม่ทีม"
-                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {
                       const target = e.target as HTMLInputElement;
                       target.value = target.value.toString().slice(0, 9);
