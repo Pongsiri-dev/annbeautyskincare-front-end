@@ -5,6 +5,7 @@ import { UserAbout } from "src/@types/user";
 import styled from "styled-components";
 import { PDFExport } from "@progress/kendo-react-pdf";
 import MyAvatar from "./MyAvatar";
+import Iconify from "./Iconify";
 
 // ----------------------------------------------------------------------
 const customStylesLogo = {
@@ -270,10 +271,24 @@ img-fluid d-block mx-auto
   }
   .card.card-type.front .logo-profile {
     position: relative;
-    margin-left: -120px;
-    max-height: 200px;
-    z-index:999;
+    border-radius: 15%;
+    object-fit: scale-down;
+    object-position: center;
+    margin-top: 1%;
+    margin-left: 11%;
+    width:85%;
+    max-height: 80%;
   }
+  img.logo-profile {
+    height: 200px;
+}
+.contain {
+  font-size: 24px;
+  width: 350px;
+  margin-bottom:-3%;
+  margin-left:70%;
+}
+
   .card.card-type.front .logo {
     margin-right: initial;
     max-height: 120px;
@@ -492,6 +507,7 @@ type Props = {
 
 export default function EmployeeCard({ profile }: Props) {
   const {
+    id,
     firstName,
     lastName,
     level,
@@ -505,11 +521,8 @@ export default function EmployeeCard({ profile }: Props) {
     postCode,
     image
   } = profile;
-
   const pdfExportComponent = useRef(null);
-
   const [type, setType] = useState<string>("");
-
   useEffect(() => {
     switch (level) {
       case "Gold":
@@ -523,19 +536,38 @@ export default function EmployeeCard({ profile }: Props) {
     }
   }, [level]);
 
+  const [imgUrl, setImgUrl] = useState<any>();
+  useEffect(() => {
+    
+    const imageUrl=`https://api.ann-beautyskincare.com/api/v1/${id}/image/download`;
+    const getImg = async () => {
+    const response = await fetch(imageUrl);
+    const imageBlob = await response.blob();
+    const reader = new FileReader();
+    reader.readAsDataURL(imageBlob);
+    reader.onloadend = () => {
+      const base64data = reader.result || null;
+        setImgUrl(base64data);
+    };
+  };
+  getImg();
+  });
+
   const handleExportWithComponent = () => {
     const { current }: any = pdfExportComponent;
     if (current) {
-      console.log(current);
       current.save();
     }
   };
 
   return (
     <WrapperStyle>
-      <Stack justifyContent="center">
-        <Button size="large" variant="contained" onClick={handleExportWithComponent}>Export Card</Button>
-      </Stack>
+      <div className="contain">
+        <Button size="medium" variant="contained" onClick={handleExportWithComponent}>
+        <Iconify icon={"eva:cloud-download-fill"} width={20} height={20} />
+          &emsp;บันทึกบัตรตัวแทน
+        </Button>
+      </div>
       <PDFExport ref={pdfExportComponent} fileName="member-card.pdf" proxyURL="https://www.ann-beautyskincare.com">
         {level === "Platinum" ? (
           // {level !== "Platinum" ? (
@@ -606,7 +638,8 @@ export default function EmployeeCard({ profile }: Props) {
                     position: "relative",
                   }}
                 >
-                  <MyAvatar
+                  <img src={imgUrl} className="logo-profile" />
+                  {/* <MyAvatar
                     className="logo-profile"
                     image={image}
                     firstName={firstName}
@@ -618,9 +651,7 @@ export default function EmployeeCard({ profile }: Props) {
                       width: { xs: 80, md: 190 },
                       height: { xs: 80, md: 190 },
                     }}
-                  />
-                  
-                  {/* <img src={image?.url} className="logo-profile" /> */}
+                  /> */}
                 </li>
               </ul>
               <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
