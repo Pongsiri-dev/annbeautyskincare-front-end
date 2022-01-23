@@ -78,15 +78,12 @@ export default function Login() {
 
   //Product 
   const products = [
-    // 'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/annbeautiful-storage/7eefcedf-792b-4703-924f-edfcb5c0d4f4/avatar.jpeg,'
     'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547956.jpg',
     'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547960.jpg',
     'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547963.jpg',
     'https://annbeautiful-storage.s3.ap-southeast-1.amazonaws.com/products/S__2547965.jpg'
   ]
-
   var item = _.sample(products);
-
   return (
     <Page title="Login">
       <RootStyle>
@@ -99,7 +96,7 @@ export default function Login() {
         <Container maxWidth="sm">
           <ContentStyle>
             {/* <Alert severity="info" sx={{ mb: 3 }}>
-              Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
+
             </Alert> */}
             <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
               <Typography variant="h4" gutterBottom>

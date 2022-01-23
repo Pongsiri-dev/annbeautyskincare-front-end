@@ -72,6 +72,17 @@ export default function LoginForm() {
         navigate(PATH_DASHBOARD.user.profile);
       } catch (error) {
         console.error(error);
+
+        //code case pending status review
+        enqueueSnackbar('ข้อมูลกำลังถูกพิจารณา', {
+          variant: 'info',
+          action: (key) => (
+            <IconButtonAnimate size="medium" onClick={() => closeSnackbar(key)}>
+              <Iconify icon={'eva:close-fill'} />
+            </IconButtonAnimate>
+          ),
+        });
+
         resetForm();
         if (isMountedRef.current) {
           setSubmitting(false);
