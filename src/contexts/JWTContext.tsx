@@ -131,17 +131,17 @@ function AuthProvider({ children }: { children: ReactNode }) {
     initialize();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (username: string, password: string) => {
     const response = await axios.post("/api/auth/signin", {
-      usernameOrEmail: email,
+      usernameOrEmail: username,
       password,
     });
     const { accessToken } = response.data;
 
     setSession(accessToken);
 
-    const res = await axios.get("/api/user/me");
-    const { username } = res.data;
+    // const res = await axios.get("/api/user/me");
+    // const { usernameRes } = res.data;
 
     const { data } = await axios.get(`/api/user/username/${username}`);
     const user = data;

@@ -71,6 +71,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
+  window.localStorage.removeItem("accessToken")
   const { method } = useAuth();
 
   const smUp = useResponsive("up", "sm");

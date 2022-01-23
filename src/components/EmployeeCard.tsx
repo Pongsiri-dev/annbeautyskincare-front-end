@@ -1,10 +1,9 @@
 // @mui
-import { Stack, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { UserAbout } from "src/@types/user";
 import styled from "styled-components";
 import { PDFExport } from "@progress/kendo-react-pdf";
-import MyAvatar from "./MyAvatar";
 import Iconify from "./Iconify";
 
 // ----------------------------------------------------------------------
@@ -538,7 +537,6 @@ export default function EmployeeCard({ profile }: Props) {
 
   const [imgUrl, setImgUrl] = useState<any>();
   useEffect(() => {
-    
     const imageUrl=`https://api.ann-beautyskincare.com/api/v1/${id}/image/download`;
     const getImg = async () => {
     const response = await fetch(imageUrl);
@@ -551,7 +549,7 @@ export default function EmployeeCard({ profile }: Props) {
     };
   };
   getImg();
-  });
+  },[id]);
 
   const handleExportWithComponent = () => {
     const { current }: any = pdfExportComponent;
@@ -594,10 +592,10 @@ export default function EmployeeCard({ profile }: Props) {
                   รหัส <span> xxxx xxxxxx</span>
                 </h5>
                 <h5>
-                  สายงาน <span>{team}</span>
+                  สายงาน <span>{team || '-'}</span>
                 </h5>
                 <h5>
-                  เบอร์โทร <span> 0{telephone}</span>
+                  เบอร์โทร <span> {`0${telephone}` || '-'}</span>
                 </h5>
               </div>
               <div className="card-text">
