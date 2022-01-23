@@ -269,8 +269,10 @@ img-fluid d-block mx-auto
     border-radius: 20px !important;
   }
   .card.card-type.front .logo-profile {
+    position: relative;
     margin-left: -120px;
     max-height: 200px;
+    z-index:999;
   }
   .card.card-type.front .logo {
     margin-right: initial;
@@ -501,8 +503,7 @@ export default function EmployeeCard({ profile }: Props) {
     tombon,
     province,
     postCode,
-    image,
-    url,
+    image
   } = profile;
 
   const pdfExportComponent = useRef(null);
@@ -525,6 +526,7 @@ export default function EmployeeCard({ profile }: Props) {
   const handleExportWithComponent = () => {
     const { current }: any = pdfExportComponent;
     if (current) {
+      console.log(current);
       current.save();
     }
   };
@@ -534,7 +536,7 @@ export default function EmployeeCard({ profile }: Props) {
       <Stack justifyContent="center">
         <Button size="large" variant="contained" onClick={handleExportWithComponent}>Export Card</Button>
       </Stack>
-      <PDFExport ref={pdfExportComponent} fileName="member-card.pdf">
+      <PDFExport ref={pdfExportComponent} fileName="member-card.pdf" proxyURL="https://www.ann-beautyskincare.com">
         {level === "Platinum" ? (
           // {level !== "Platinum" ? (
           <div className="col bg-card">
@@ -617,6 +619,7 @@ export default function EmployeeCard({ profile }: Props) {
                       height: { xs: 80, md: 190 },
                     }}
                   />
+                  
                   {/* <img src={image?.url} className="logo-profile" /> */}
                 </li>
               </ul>
