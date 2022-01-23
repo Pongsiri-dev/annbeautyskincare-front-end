@@ -532,9 +532,9 @@ export default function EmployeeCard({ profile }: Props) {
   return (
     <WrapperStyle>
       <Stack justifyContent="center">
-        <Button onClick={handleExportWithComponent}>Export Card</Button>
+        <Button size="large" variant="contained" onClick={handleExportWithComponent}>Export Card</Button>
       </Stack>
-      <PDFExport ref={pdfExportComponent} fileName="member-card">
+      <PDFExport ref={pdfExportComponent} fileName="member-card.pdf">
         {level === "Platinum" ? (
           // {level !== "Platinum" ? (
           <div className="col bg-card">
