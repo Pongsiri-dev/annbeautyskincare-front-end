@@ -52,16 +52,16 @@ const navConfig = [
     items: [
       // MANAGEMENT : USER
       {
-        title: "user",
+        title: "ข้อมูลผู้ใช้งาน",
         path: PATH_DASHBOARD.user.root,
         icon: ICONS.user,
         children: [
-          { title: "profile", path: PATH_DASHBOARD.user.profile },
+          { title: "โปรไฟล์", path: PATH_DASHBOARD.user.profile },
           // { title: 'cards', path: PATH_DASHBOARD.user.cards },
-          { title: "list", path: PATH_DASHBOARD.user.list },
+          { title: "รายชื่อลูกทีม", path: PATH_DASHBOARD.user.list },
           // { title: 'create', path: PATH_DASHBOARD.user.newUser },
-          { title: "edit", path: PATH_DASHBOARD.user.editById },
-          { title: "account", path: PATH_DASHBOARD.user.account },
+          { title: "แก้ไขข้อมูล", path: PATH_DASHBOARD.user.editById },
+          { title: "ตั้งค่า", path: PATH_DASHBOARD.user.account },
         ],
       },
 
