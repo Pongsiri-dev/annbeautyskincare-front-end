@@ -160,7 +160,7 @@ export default function UserNewForm() {
     amphurCode: Yup.string().required("กรุณากรอกอำเภอ"),
     tombonCode: Yup.string().required("กรุณากรอกตำบล"),
     postCode: Yup.string().required("กรุณากรอกรหัสไปรษณีย์"),
-    bill: Yup.string().required("กรุณากรอกเงิน"),
+    bill: Yup.string().required("กรุณากรอกจำนวนสินค้า"),
   };
   // const [value, setValue] = useState(new Date("2014-08-18T21:11:54"));
   const [dateVal, setDateVal] = useState<Date | null>(null);
