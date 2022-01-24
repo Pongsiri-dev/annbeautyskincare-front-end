@@ -14,6 +14,7 @@ function UserProvider({ children }: { children: ReactNode }) {
       o.name = `${o.firstName} ${o.lastName}`;
     });
     setUserList(data);
+    window.localStorage.setItem('userObj',JSON.stringify(data));
   };
 
   useEffect(() => {

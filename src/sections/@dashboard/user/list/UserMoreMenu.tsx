@@ -1,5 +1,5 @@
 import { paramCase } from "change-case";
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 // @mui
 import { Menu, MenuItem, IconButton } from "@mui/material";
@@ -9,7 +9,9 @@ import { PATH_DASHBOARD } from "../../../../routes/paths";
 import Iconify from "../../../../components/Iconify";
 
 // ----------------------------------------------------------------------
-
+import { UserContext } from "src/contexts/UserContext";
+import _ from "lodash";
+  
 type Props = {
   // onDelete: VoidFunction;
   userName: string;
@@ -18,7 +20,18 @@ type Props = {
 export default function UserMoreMenu({ userName }: Props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const { userList } = useContext(UserContext);
+  const [data, setData] = useState();
+  
+  const storage = () =>{
+    window.localStorage.setItem('userSelected',JSON.stringify(data))
+  }
 
+  useEffect(() => {
+    const dt = _.find(userList,{'username':userName})
+    setData(dt);
+  }, [userName]);
+  
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -41,6 +54,7 @@ export default function UserMoreMenu({ userName }: Props) {
         </MenuItem> */}
 
         <MenuItem
+          onClick={storage}
           component={RouterLink}
           to={`${PATH_DASHBOARD.user.editById}/?id=${userName}`}
           sx={{ borderRadius: 1, typography: "body2" }}
@@ -49,7 +63,7 @@ export default function UserMoreMenu({ userName }: Props) {
             icon={"eva:edit-fill"}
             sx={{ mr: 2, width: 24, height: 24 }}
           />
-          Edit
+          แก้ไขข้อมูล
         </MenuItem>
       </Menu>
     </>

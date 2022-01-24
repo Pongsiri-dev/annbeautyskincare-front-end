@@ -49,6 +49,7 @@ import { IconButtonAnimate } from "src/components/animate";
 import Iconify from "src/components/Iconify";
 import { useSnackbar } from "notistack";
 import {TransitionProps} from '@mui/material/transitions'
+import { UserManager } from "src/@types/user";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -110,7 +111,11 @@ interface IFile {
   geoId: number;
 }
 
-export default function UserNewForm() {
+type UserNewFormProps = {
+  isEdit: boolean;
+  currentUser?: string;
+};
+export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
 
   //for alert
   const [open, setOpen] = React.useState(false);
@@ -121,14 +126,12 @@ export default function UserNewForm() {
       navigate(PATH_AUTH.login);
     }, 3000);
   };
-
-
   moment.locale("th");
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { pathname, search } = useLocation();
   const query = new URLSearchParams(search);
-  const isEdit = pathname.includes("edit");
+  // const isEdit = pathname.includes("edit");
   const context = useContext(AuthContext);
 
   const { register, update, user } = useAuth();
@@ -894,7 +897,7 @@ export default function UserNewForm() {
                       loading={isSubmitting}
                       disabled={!values.allow}
                     >
-                      {!isEdit ? "Create User" : "Save Changes"}
+                      {!isEdit ? "บันทึกข้อมูล" : "บันทึกข้อมูลแก้ไข"}
                     </LoadingButton>
                   </Box>
                 </div>

@@ -17,18 +17,19 @@ export default function UserCreate() {
   const { pathname } = useLocation();
   const { name = "" } = useParams();
   const isEdit = pathname.includes("edit");
+  // currentUser.find((user) => paramCase(user.name) === name);
   return (
-    <Page title="User: Edit User">
+    <Page title="แก้ไขข้อมูล">
       <Container maxWidth={themeStretch ? false : "lg"}>
         <HeaderBreadcrumbs
-          heading="Edit user"
+          heading="แก้ไขข้อมูล"
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "User", href: PATH_DASHBOARD.user.list },
-            // { name: !isEdit ? "New user" : capitalCase(name) },
+            { name: !isEdit ? "New user" : capitalCase(name) },
           ]}
         />
-        <RegisterForm />
+        <RegisterForm isEdit={isEdit} currentUser={JSON.stringify(window.localStorage.getItem('userSelected'))}/>
       </Container>
     </Page>
   );
