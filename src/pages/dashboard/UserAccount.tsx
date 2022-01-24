@@ -63,10 +63,10 @@ export default function UserAccount() {
   ];
 
   return (
-    <Page title="User: Account Settings">
+    <Page title="ตั้งค่า">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Account"
+          heading="ตั้งค่า"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'User', href: PATH_DASHBOARD.user.root },

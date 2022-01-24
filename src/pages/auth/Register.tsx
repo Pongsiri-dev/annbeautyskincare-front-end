@@ -96,7 +96,7 @@ export default function Register() {
         <Container>
           <ContentStyle>
             {/* เรียกใช้ Form */}
-            <UserNewForm />
+            <UserNewForm isEdit={false} />
 
             {!smUp && (
               <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>

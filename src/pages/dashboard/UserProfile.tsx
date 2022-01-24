@@ -105,10 +105,10 @@ export default function UserProfile() {
   ];
 
   return (
-    <Page title="User: Profile">
+    <Page title="โปร์ไฟล์">
       <Container maxWidth={themeStretch ? false : "lg"}>
         <HeaderBreadcrumbs
-          heading="Profile"
+          heading="โปร์ไฟล์"
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "User", href: PATH_DASHBOARD.user.root },

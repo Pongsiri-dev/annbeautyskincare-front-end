@@ -39,6 +39,7 @@ import {
   UserMoreMenu,
 } from "../../sections/@dashboard/user/list";
 import { UserContext } from "src/contexts/UserContext";
+import useAuth from "src/hooks/useAuth";
 
 // ----------------------------------------------------------------------
 
@@ -56,7 +57,7 @@ const TABLE_HEAD = [
 export default function UserList() {
   const theme = useTheme();
   const { themeStretch } = useSettings();
-
+  const { user } = useAuth();
   const { userList } = useContext(UserContext);
 
   const [page, setPage] = useState(0);
@@ -65,18 +66,6 @@ export default function UserList() {
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  // const fetchUsers = async () => {
-  //   const { data } = await axios.get("/api/user/userlist");
-  //   data.forEach((o: UserManager) => {
-  //     o.name = `${o.firstName} ${o.lastName}`;
-  //   });
-  //   setUserList(data);
-  // };
-
-  // useEffect(() => {
-  //   fetchUsers();
-  // }, []);
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
@@ -149,10 +138,10 @@ export default function UserList() {
   const isNotFound = !filteredUsers.length && Boolean(filterName);
 
   return (
-    <Page title="User: List">
+    <Page title="รายชื่อลูกทีม">
       <Container maxWidth={themeStretch ? false : "lg"}>
         <HeaderBreadcrumbs
-          heading="User List"
+          heading="รายชื่อลูกทีม"
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
             { name: "User", href: PATH_DASHBOARD.user.root },
@@ -240,13 +229,14 @@ export default function UserList() {
                               {status ? "ใช้งาน" : "ไม่ใช้งาน"}
                             </Label>
                           </TableCell>
-
+                          {user?.role[0].id === 2 && (
                           <TableCell align="right">
                             <UserMoreMenu
                               // onDelete={() => handleDeleteUser(id)}
                               userName={username}
                             />
                           </TableCell>
+                          )}
                         </TableRow>
                       );
                     })}
