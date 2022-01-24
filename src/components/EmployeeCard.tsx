@@ -285,7 +285,7 @@ img-fluid d-block mx-auto
   font-size: 24px;
   width: 350px;
   margin-bottom:-3%;
-  margin-left:70%;
+  margin-left:65%;
 }
 
   .card.card-type.front .logo {
@@ -563,7 +563,7 @@ export default function EmployeeCard({ profile }: Props) {
       <div className="contain">
         <Button size="medium" variant="contained" onClick={handleExportWithComponent}>
         <Iconify icon={"eva:cloud-download-fill"} width={20} height={20} />
-          &emsp;บันทึกบัตรตัวแทน
+          &emsp;ดาวน์โหลดบัตรตัวแทน
         </Button>
       </div>
       <PDFExport ref={pdfExportComponent} fileName="member-card.pdf" proxyURL="https://www.ann-beautyskincare.com">
@@ -572,6 +572,15 @@ export default function EmployeeCard({ profile }: Props) {
           <div className="col bg-card">
             <div className="card platinum front">
               <img src="/company/IMG-3075.png" className="logo" />
+              <li
+                  className="proImg"
+                  style={{
+                    marginLeft: "35%",
+                    marginTop: "-20%",
+                    position: "sticky"
+                  }}>
+                  <img src={imgUrl} className="logo-profile" />
+                </li>
               <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
               <h6>
                 โทร <span>0955542399, 0886659142</span>

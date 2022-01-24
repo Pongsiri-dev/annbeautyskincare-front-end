@@ -1,5 +1,4 @@
 import * as Yup from "yup";
-import * as React from 'react'
 import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
@@ -22,15 +21,7 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Alert,
-  useMediaQuery,
-  Slide,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Icon,
+  Alert
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
@@ -48,17 +39,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { IconButtonAnimate } from "src/components/animate";
 import Iconify from "src/components/Iconify";
 import { useSnackbar } from "notistack";
-import {TransitionProps} from '@mui/material/transitions'
-import { UserManager } from "src/@types/user";
 
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 // ----------------------------------------------------------------------
 type initialValues = {
   imgCardID: object;
@@ -118,14 +99,9 @@ type UserNewFormProps = {
 export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
 
   //for alert
-  const [open, setOpen] = React.useState(false);
+  
   const theme = useTheme();
-  const handleClose = () => {
-    setOpen(false);
-    setTimeout(() => {
-      navigate(PATH_AUTH.login);
-    }, 3000);
-  };
+  
   moment.locale("th");
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -286,7 +262,6 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                 </IconButtonAnimate>
               ),
             });
-            setOpen(true);
           } catch (error) {
             enqueueSnackbar(`${error.message}`, {
               variant: "error",
@@ -439,26 +414,6 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
 
   return (
     <FormikProvider value={formik}>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle><Iconify icon="eva:shield-fill" /> {"แจ้งเตือน"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            &emsp;ระบบกำลังส่งข้อมูลเพื่อไปตรวจสอบความถูกต้อง <br/>
-            &emsp;กรุณาติดต่อแอดมินหลังจากทำการสมัคร<br/><br/>
-
-            &emsp;ท่านจะสามารถเข้าใช้งานระบบได้หลังจากได้รับการตรวจสอบข้อมูล
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>ปิด</Button>
-        </DialogActions>
-      </Dialog>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Grid
           container
@@ -606,14 +561,14 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                 >
                   <TextField
                     fullWidth
-                    label="ชื่อจริง"
+                    label="* ชื่อจริง"
                     {...getFieldProps("firstName")}
                     error={Boolean(touched.firstName && errors.firstName)}
                     helperText={touched.firstName && errors.firstName}
                   />
                   <TextField
                     fullWidth
-                    label="นามสกุล"
+                    label="* นามสกุล"
                     {...getFieldProps("lastName")}
                     error={Boolean(touched.lastName && errors.lastName)}
                     helperText={touched.lastName && errors.lastName}
@@ -630,7 +585,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                       style={{ width: "100%" }}
                     >
                       <DatePicker
-                        label="วันเกิด"
+                        label="* วันเกิด"
                         maxDate={new Date()}
                         inputFormat="dd/MM/yyyy"
                         value={dateVal}
@@ -648,7 +603,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   <TextField
                     fullWidth
                     disabled={isEdit}
-                    label="เลขบัตรประชาชน"
+                    label="* เลขบัตรประชาชน"
                     type="number"
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {
@@ -667,14 +622,14 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                 >
                   <TextField
                     fullWidth
-                    label="Email ติดต่อ"
+                    label="* Email ติดต่อ"
                     {...getFieldProps("email")}
                     error={Boolean(touched.email && errors.email)}
                     helperText={touched.email && errors.email}
                   />
                   <TextField
                     fullWidth
-                    label="เบอร์โทรศัพท์"
+                    label="* เบอร์โทรศัพท์"
                     type="number"
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {
@@ -689,7 +644,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
 
                 <TextField
                   fullWidth
-                  label="Address"
+                  label="* ที่อยู่ เช่น เลขที่ ,ถนน ,อาคาร"
                   {...getFieldProps("address")}
                   error={Boolean(touched.address && errors.address)}
                   helperText={touched.address && errors.address}
@@ -702,7 +657,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   <TextField
                     select
                     fullWidth
-                    label="จังหวัด"
+                    label="* จังหวัด"
                     placeholder="provinceCode"
                     {...getFieldProps("provinceCode")}
                     SelectProps={{ native: true }}
@@ -719,7 +674,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   <TextField
                     select
                     fullWidth
-                    label="อำเภอ"
+                    label="* อำเภอ"
                     placeholder="amphurCode"
                     {...getFieldProps("amphurCode")}
                     SelectProps={{ native: true }}
@@ -742,7 +697,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   <TextField
                     select
                     fullWidth
-                    label="ตำบล"
+                    label="* ตำบล"
                     placeholder="tombonCode"
                     {...getFieldProps("tombonCode")}
                     SelectProps={{ native: true }}
@@ -758,7 +713,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   </TextField>
                   <TextField
                     fullWidth
-                    label="รหัสไปรษณีย์"
+                    label="* รหัสไปรษณีย์"
                     type="number"
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {
@@ -789,7 +744,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   />
                   <TextField
                     fullWidth
-                    label="จำนวนสินค้า (ชิ้น)"
+                    label="* จำนวนสินค้า (ชิ้น)"
                     type="number"
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onInput={(e) => {

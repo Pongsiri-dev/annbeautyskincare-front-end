@@ -1,7 +1,7 @@
 // config
 import axios from "axios";
 // ----------------------------------------------------------------------
-//baseURL: 'https://api.ann-beautyskincare.com',
+// baseURL: 'http://localhost:8080',
 const axiosInstance = axios.create({
   baseURL: 'https://api.ann-beautyskincare.com',
 });

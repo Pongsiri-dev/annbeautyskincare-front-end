@@ -52,8 +52,8 @@ const menuConfig = [
       {
         subheader: "ช่วยเหลือ",
         items: [
-          { title: "เปลี่ยนรหัสผ่าน", path: PATH_AUTH.resetPassword },
-          { title: "Verify code", path: PATH_AUTH.verify },
+          { title: "ขอสิทธิ์เข้าใช้งานระบบ", path: PATH_AUTH.resetPassword }
+          // { title: "Verify code", path: PATH_AUTH.verify },
         ],
       },
     ],
