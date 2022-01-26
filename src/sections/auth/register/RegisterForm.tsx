@@ -21,7 +21,7 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Alert
+  Alert,
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
@@ -97,11 +97,10 @@ type UserNewFormProps = {
   currentUser?: string;
 };
 export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
-
   //for alert
-  
+
   const theme = useTheme();
-  
+
   moment.locale("th");
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -245,6 +244,8 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
           } catch (error) {
             console.log(error);
             return;
+          } finally {
+            window.location.reload();
           }
         } else {
           formData.append("signID", values.signID);
@@ -310,6 +311,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
   let { values } = formik;
 
   const fetchData = async () => {
+    await new Promise((reslove) => {setTimeout(reslove, 1)})
     if (!province.length) {
       axios.get("api/province").then((res) => setProvince(res.data));
       axios.get("api/amphur").then((res) => setAmphur(res.data));
@@ -317,34 +319,37 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
     }
 
     if (isEdit) {
-      let ID = query.get("id");
-      if (!ID) {
-        ID = context?.user?.username;
-        if (!!ID) {
-          const { data } = await axios.get(`/api/user/username/${ID ?? ""}`);
-          const list: any = [];
-          setFieldValue("birthDay", data["birthDay"]);
-          let convertDate: any = moment(data["birthDay"], "DD-MM-YYYY");
-          setDateVal(convertDate);
-          Object.keys(data).map((o) => {
-            if (
-              !["provinceCode", "amphurCode", "tombonCode", "image"].includes(o)
-            ) {
-              list.push(setFieldValue(o, data[o]));
-            }
-          });
-          await Promise.all(list);
-          const imgProfile = {
-            path: null,
-            preview: data.image.url,
-          };
-          setFieldValue("imgProfile", imgProfile);
-          setFieldValue("provinceCode", data["provinceCode"]);
-          setFieldValue("amphurCode", data["amphurCode"]);
-          setFieldValue("tombonCode", data["tombonCode"]);
-          setFieldValue("allow", true);
-        }
+      let data: any;
+      if (query.get("id")) {
+        data = JSON.parse(localStorage.getItem("userSelected") || "");
+        data.image = {
+          url: data.url,
+        };
+      } else {
+        data = context?.user;
       }
+      // const { data } = await axios.get(`/api/user/username/${ID ?? ""}`);
+      const list: any = [];
+      setFieldValue("birthDay", data["birthDay"]);
+      let convertDate: any = moment(data["birthDay"], "DD-MM-YYYY");
+      setDateVal(convertDate);
+      Object.keys(data).map((o) => {
+        if (
+          !["provinceCode", "amphurCode", "tombonCode", "image"].includes(o)
+        ) {
+          list.push(setFieldValue(o, data[o]));
+        }
+      });
+      await Promise.all(list);
+      const imgProfile = {
+        path: null,
+        preview: data.image.url,
+      };
+      setFieldValue("imgProfile", imgProfile);
+      setFieldValue("provinceCode", data["provinceCode"]);
+      setFieldValue("amphurCode", data["amphurCode"]);
+      setFieldValue("tombonCode", data["tombonCode"]);
+      setFieldValue("allow", true);
     }
   };
 
@@ -861,7 +866,6 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
         </Grid>
       </Form>
     </FormikProvider>
-    
   );
 }
 

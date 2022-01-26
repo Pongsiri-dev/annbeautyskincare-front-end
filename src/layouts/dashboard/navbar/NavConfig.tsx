@@ -31,11 +31,11 @@ const navConfig = [
   {
     subheader: "general",
     items: [
-      {
-        title: "ranking",
-        path: PATH_DASHBOARD.general.ranking,
-        icon: ICONS.ecommerce,
-      },
+      // {
+      //   title: "ranking",
+      //   path: PATH_DASHBOARD.general.ranking,
+      //   icon: ICONS.ecommerce,
+      // },
       {
         title: "approve",
         path: PATH_DASHBOARD.general.approve,

@@ -206,8 +206,6 @@ export default function Approve() {
                       email,
                       telephone,
                       level,
-                      status,
-                      username,
                     } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 

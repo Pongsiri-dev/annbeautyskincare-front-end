@@ -4,6 +4,7 @@ import { List, Box, ListSubheader } from "@mui/material";
 //
 import { NavSectionProps } from "./type";
 import { NavListRoot } from "./NavList";
+import useAuth from "src/hooks/useAuth";
 
 // ----------------------------------------------------------------------
 
@@ -27,24 +28,35 @@ export default function NavSection({
   isCollapse = false,
   ...other
 }: NavSectionProps) {
+  const { user } = useAuth();
   return (
     <Box {...other}>
       {navConfig.map((group) => (
-        <List key={group.subheader} disablePadding sx={{ px: 2 }}>
-          <ListSubheaderStyle
-            sx={{
-              ...(isCollapse && {
-                opacity: 0,
-              }),
-            }}
-          >
-            {group.subheader}
-          </ListSubheaderStyle>
+        <>
+          {group.subheader === "general" && user?.role[0].id != "2" ? (
+            <></>
+          ) : (
+            <List key={group.subheader} disablePadding sx={{ px: 2 }}>
+              <ListSubheaderStyle
+                sx={{
+                  ...(isCollapse && {
+                    opacity: 0,
+                  }),
+                }}
+              >
+                {group.subheader}
+              </ListSubheaderStyle>
 
-          {group.items.map((list) => (
-            <NavListRoot key={list.title} list={list} isCollapse={isCollapse} />
-          ))}
-        </List>
+              {group.items.map((list) => (
+                <NavListRoot
+                  key={list.title}
+                  list={list}
+                  isCollapse={isCollapse}
+                />
+              ))}
+            </List>
+          )}
+        </>
       ))}
     </Box>
   );
