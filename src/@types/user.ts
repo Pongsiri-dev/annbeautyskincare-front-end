@@ -91,6 +91,7 @@ export type UserManager = {
     url?: string;
   };
   url?:string;
+  team?:string;
 };
 export type UserAbout = {
   id?: number;

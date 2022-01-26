@@ -48,12 +48,9 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 export default function UserProfile() {
   const { themeStretch } = useSettings();
   const { user } = useAuth();
-
   const { userList } = useContext(UserContext);
-
   const [userFriend, setUserFriend] = useState([]);
   const [userAbout, setUserAbout] = useState<UserAbout>({});
-
   const [currentTab, setCurrentTab] = useState("profile");
   const [findFriends, setFindFriends] = useState("");
 
@@ -62,14 +59,23 @@ export default function UserProfile() {
   }, [user]);
 
   useEffect(() => {
-    const data = lodash.cloneDeep(userList);
-    data.forEach((o: UserManager, index: number) => {
-      o.name = `${o.firstName} ${o.lastName}`;
-      o.avatarUrl = `https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_${
-        index + 1
-      }.jpg`;
-    });
-    setUserFriend(data);
+    if (user?.role[0].name === "ROLE_USER") {
+      const data: any = lodash.filter(userList, (v) => {
+        return lodash.startsWith(v.team, user.team);
+      });
+      //compose data
+      setUserFriend(data);
+    } else {
+      const data = lodash.cloneDeep(userList);
+      data.forEach((o: UserManager, index: number) => {
+        o.name = `${o.firstName} ${o.lastName}`;
+        o.avatarUrl = `https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_${
+          index + 1
+        }.jpg`;
+      });
+      //compose data
+      setUserFriend(data);
+    }
   }, [userList]);
 
   async function fetchAbout() {
