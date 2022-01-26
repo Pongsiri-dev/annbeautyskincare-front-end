@@ -1,8 +1,8 @@
+import * as React from "react";
+import * as Yup from "yup";
 import { filter } from "lodash";
-import { sentenceCase } from "change-case";
 import { useContext, useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import axios from "src/utils/axios";
+import _ from "lodash";
 // @mui
 import { useTheme } from "@mui/material/styles";
 import {
@@ -10,7 +10,6 @@ import {
   Table,
   Avatar,
   Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -18,6 +17,15 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Slide,
+  Dialog,
+  DialogContent,
+  Stack,
+  TextField,
+  Alert,
+  DialogTitle,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
@@ -28,7 +36,6 @@ import { UserManager } from "../../@types/user";
 // components
 import Page from "../../components/Page";
 import Label from "../../components/Label";
-import Iconify from "../../components/Iconify";
 import Scrollbar from "../../components/Scrollbar";
 import SearchNotFound from "../../components/SearchNotFound";
 import HeaderBreadcrumbs from "../../components/HeaderBreadcrumbs";
@@ -40,32 +47,109 @@ import {
 } from "../../sections/@dashboard/user/list";
 import { UserContext } from "src/contexts/UserContext";
 import useAuth from "src/hooks/useAuth";
-
+import { Form, FormikProvider, useFormik } from "formik";
+import axiosInstance from "src/utils/axios";
+import useIsMountedRef from "src/hooks/useIsMountedRef";
+import { LoadingButton } from "@mui/lab";
+import Iconify from "../../components/Iconify";
 // ----------------------------------------------------------------------
 
+import { TransitionProps } from "@mui/material/transitions";
+
 const TABLE_HEAD = [
+  { id: "url", label: "", alignRight: false },
   { id: "name", label: "ชื่อ", alignRight: false },
   { id: "email", label: "อีเมลล์", alignRight: false },
   { id: "telephone", label: "เบอร์โทรศัพท์", alignRight: false },
   { id: "level", label: "ระดับ", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
+  { id: "team", label: "ลำดับลูกทีม", alignRight: false },
   { id: "" },
 ];
 
+type InitialValues = {
+  id: any;
+  team: string;
+  afterSubmit: string;
+};
 // ----------------------------------------------------------------------
 
 export default function UserList() {
   const theme = useTheme();
+  const isMountedRef = useIsMountedRef();
   const { themeStretch } = useSettings();
   const { user } = useAuth();
-  const { userList } = useContext(UserContext);
-
+  let { userList } = useContext(UserContext);
+  const [userData, setUserData] = useState<any>({});
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
+  let [filteredUsers, setFilteredUsers] = useState<any>([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const handleOpen = () => {
+    setOpenAlert(true);
+  };
+  const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+      children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>
+  ) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+  const Schema = Yup.object().shape({
+    team: Yup.string().required("จำเป็นต้องกรอกอีเมล์ที่ใช้สมัคร"),
+  });
+  const formik = useFormik<InitialValues>({
+    initialValues: {
+      team: "",
+      id: "",
+      afterSubmit: "",
+    },
+    validationSchema: Schema,
+    onSubmit: async (values, { setErrors, setSubmitting }) => {
+      setOpen(false);
+      try {
+        values.id = userData;
+        await axiosInstance
+          .post("/api/user/updateTeam", {
+            team: user?.team + "-" + values.team,
+            id: values.id,
+          })
+          .then((res: any) => {
+            if (res?.statusCode === "ok" || res?.statusCodeValue === 200) {
+              userList = res?.body;
+            }
+            // fetchUsers();
+            handleClose(true);
+          })
+          .finally(() => {
+            handleClose(true);
+            setOpenAlert(false);
+            window.location.reload();
+          });
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        if (isMountedRef.current) {
+          setSubmitting(false);
+        }
+      } catch (error) {
+        if (isMountedRef.current) {
+          setSubmitting(false);
+          setErrors({ afterSubmit: error.message });
+        }
+      }
+    },
+  });
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+  const fetchUsers = async () => {
+    const { data } = await axiosInstance.get("/api/user/userlist");
+    setFilteredUsers(data);
+  };
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
@@ -111,31 +195,36 @@ export default function UserList() {
     setFilterName(filterName);
     setPage(0);
   };
-
-  // const handleDeleteUser = (userId: string) => {
-  //   const deleteUser = userList.filter((user) => user.id !== userId);
-  //   setSelected([]);
-  //   setUserList(deleteUser);
-  // };
-
-  // const handleDeleteMultiUser = (selected: string[]) => {
-  //   const deleteUsers = userList.filter(
-  //     (user) => !selected.includes(user.name)
-  //   );
-  //   setSelected([]);
-  //   setUserList(deleteUsers);
-  // };
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList.length) : 0;
-
-  const filteredUsers = applySortFilter(
-    userList,
-    getComparator(order, orderBy),
-    filterName
-  );
-
   const isNotFound = !filteredUsers.length && Boolean(filterName);
+
+  const handleClickOpen = (data: any) => {
+    setUserData(data);
+    setOpen(true);
+  };
+  const handleClose = (val: boolean) => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (user?.role[0].name === "ROLE_USER") {
+      const data: any = _.filter(userList, (v) => {
+        if (v.id !== user.id) {
+          return _.startsWith(v.team, user.team);
+        }
+      });
+      setFilteredUsers(data);
+      applySortFilter(data, getComparator(order, orderBy), filterName);
+    } else {
+      let obk = applySortFilter(
+        userList,
+        getComparator(order, orderBy),
+        filterName
+      );
+      setFilteredUsers(obk);
+    }
+  }, [userList]);
 
   return (
     <Page title="รายชื่อลูกทีม">
@@ -147,16 +236,6 @@ export default function UserList() {
             { name: "User", href: PATH_DASHBOARD.user.root },
             { name: "List" },
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.user.newUser}
-          //     startIcon={<Iconify icon={"eva:plus-fill"} />}
-          //   >
-          //     New User
-          //   </Button>
-          // }
         />
 
         <Card>
@@ -174,7 +253,7 @@ export default function UserList() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={userList.length}
+                  rowCount={filteredUsers.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -182,15 +261,17 @@ export default function UserList() {
                 <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
+                    .map((row: any) => {
                       const {
                         id,
+                        url,
                         name,
                         email,
                         telephone,
                         level,
                         status,
                         username,
+                        team,
                       } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
@@ -203,13 +284,13 @@ export default function UserList() {
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
-                          {/* <TableCell padding="checkbox">
-                            <Checkbox checked={isItemSelected} onClick={() => handleClick(name)} />
-                          </TableCell> */}
+                          <TableCell padding="checkbox">
+                            {/* <Checkbox checked={isItemSelected} onClick={() => handleClick(name)} /> */}
+                            <Avatar alt={name} src={url} sx={{ mr: 2 }} />
+                          </TableCell>
                           <TableCell
                             sx={{ display: "flex", alignItems: "center" }}
                           >
-                            {/* <Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} /> */}
                             <Typography variant="subtitle2" noWrap>
                               {name}
                             </Typography>
@@ -229,13 +310,29 @@ export default function UserList() {
                               {status ? "ใช้งาน" : "ไม่ใช้งาน"}
                             </Label>
                           </TableCell>
+                          {team != "" && team != "0" && team != user?.team ? (
+                            <TableCell>{team}</TableCell>
+                          ) : (
+                            <TableCell>
+                              <Button
+                                size="small"
+                                variant="contained"
+                                color="info"
+                                onClick={() => {
+                                  handleClickOpen(row.id);
+                                }}
+                              >
+                                ผูกรหัสลูกทีม
+                              </Button>
+                            </TableCell>
+                          )}
                           {user?.role[0].id === 2 && (
-                          <TableCell align="right">
-                            <UserMoreMenu
-                              // onDelete={() => handleDeleteUser(id)}
-                              userName={username}
-                            />
-                          </TableCell>
+                            <TableCell align="right">
+                              <UserMoreMenu
+                                // onDelete={() => handleDeleteUser(id)}
+                                userName={username}
+                              />
+                            </TableCell>
                           )}
                         </TableRow>
                       );
@@ -260,15 +357,104 @@ export default function UserList() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={userList.length}
+            count={filteredUsers.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(e, page) => setPage(page)}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
+
+        {/* Dialog */}
+        <Dialog
+          open={open}
+          onClose={() => handleClose(false)}
+          maxWidth="sm"
+          fullWidth
+        >
+          <DialogContent>
+            <FormikProvider value={formik}>
+              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <Stack spacing={3}>
+                  {errors.afterSubmit && (
+                    <Alert severity="error">{errors.afterSubmit}</Alert>
+                  )}
+
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={{ xs: 3, sm: 2 }}
+                    mt={2}
+                  >
+                    <TextField
+                      fullWidth
+                      label="รหัสแม่ทีม"
+                      value={user?.team}
+                      disabled
+                    />
+                    <TextField
+                      {...getFieldProps("team")}
+                      fullWidth
+                      label="รหัสผูกลูกทีม"
+                      error={Boolean(touched.team && errors.team)}
+                      helperText={touched.team && errors.team}
+                    />
+                  </Stack>
+                  <Stack
+                    direction={{ xs: "row" }}
+                    justifyContent="center"
+                    spacing={{ xs: 3, sm: 2 }}
+                    mt={2}
+                  >
+                    <Button
+                      size="small"
+                      color="error"
+                      variant="contained"
+                      onClick={() => handleClose(false)}
+                    >
+                      ปิด
+                    </Button>
+                    <Button
+                      disabled={!(formik.isValid && formik.dirty)}
+                      onClick={handleOpen}
+                      size="medium"
+                      type="submit"
+                      variant="contained"
+                    >
+                      ผูกรหัสลูกทีม
+                    </Button>
+                  </Stack>
+                </Stack>
+              </Form>
+            </FormikProvider>
+          </DialogContent>
+        </Dialog>
+        {/* End Dialog Form*/}
+        {/* ================================================ */}
+        {/* Dialog Alert */}
+        <Dialog
+          open={openAlert}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>
+            <Iconify icon="eva:shield-fill" /> {"แจ้งเตือน"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              &emsp;ระบบกำลังส่งข้อมูลเพื่อไปตรวจสอบความถูกต้อง <br />
+              &emsp;กรุณารอสักครู่...
+              <br />
+            </DialogContentText>
+          </DialogContent>
+          {/* <DialogActions>
+            <Button onClick={handleClose(true)}>ปิด</Button>
+          </DialogActions> */}
+        </Dialog>
+        {/* End Dialog Alert */}
       </Container>
     </Page>
   );
