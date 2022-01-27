@@ -226,6 +226,15 @@ export default function UserList() {
     }
   }, [userList]);
 
+  useEffect(() => {
+    let obk = applySortFilter(
+      userList,
+      getComparator(order, orderBy),
+      filterName
+    );
+    setFilteredUsers(obk);
+  }, [filterName, order, orderBy]);
+
   return (
     <Page title="รายชื่อลูกทีม">
       <Container maxWidth={themeStretch ? false : "lg"}>
