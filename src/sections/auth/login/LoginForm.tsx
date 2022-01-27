@@ -1,8 +1,8 @@
-import * as Yup from 'yup';
-import { useState } from 'react';
-import { useSnackbar } from 'notistack';
-import { Link as RouterLink } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
+import * as Yup from "yup";
+import { useState } from "react";
+import { useSnackbar } from "notistack";
+import { Link as RouterLink } from "react-router-dom";
+import { useFormik, Form, FormikProvider } from "formik";
 import { useNavigate } from "react-router-dom";
 // @mui
 import {
@@ -14,16 +14,16 @@ import {
   IconButton,
   InputAdornment,
   FormControlLabel,
-} from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+} from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 // routes
-import { PATH_AUTH, PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_AUTH, PATH_DASHBOARD } from "../../../routes/paths";
 // hooks
-import useAuth from '../../../hooks/useAuth';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import useAuth from "../../../hooks/useAuth";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // components
-import Iconify from '../../../components/Iconify';
-import { IconButtonAnimate } from '../../../components/animate';
+import Iconify from "../../../components/Iconify";
+import { IconButtonAnimate } from "../../../components/animate";
 // utils
 import axios from "src/utils/axios";
 
@@ -41,28 +41,28 @@ export default function LoginForm() {
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  const [alertErr, setAlertErr] = useState(false);
   const LoginSchema = Yup.object().shape({
-    username: Yup.string().required('กรุณากรอกเลขบัตรประชาชน'),
-    password: Yup.string().required('กรุณากรอกรหัสผ่าน'),
+    username: Yup.string().required("กรุณากรอกเลขบัตรประชาชน"),
+    password: Yup.string().required("กรุณากรอกรหัสผ่าน"),
   });
 
   const formik = useFormik<InitialValues>({
     initialValues: {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
       remember: true,
     },
     validationSchema: LoginSchema,
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
       try {
         await login(values.username, values.password);
-        enqueueSnackbar('Login success', {
-          variant: 'success',
+        enqueueSnackbar("Login success", {
+          variant: "success",
           action: (key) => (
             <IconButtonAnimate size="small" onClick={() => closeSnackbar(key)}>
-              <Iconify icon={'eva:close-fill'} />
+              <Iconify icon={"eva:close-fill"} />
             </IconButtonAnimate>
           ),
         });
@@ -71,18 +71,23 @@ export default function LoginForm() {
         }
         navigate(PATH_DASHBOARD.user.profile);
       } catch (error) {
-        console.error(error);
-
+        if (error.status == "401") {
+          console.log(error.status);
+          setAlertErr(true);
+        } else {
+          enqueueSnackbar("ข้อมูลกำลังถูกพิจารณา", {
+            variant: "info",
+            action: (key) => (
+              <IconButtonAnimate
+                size="medium"
+                onClick={() => closeSnackbar(key)}
+              >
+                <Iconify icon={"eva:close-fill"} />
+              </IconButtonAnimate>
+            ),
+          });
+        }
         //code case pending status review
-        enqueueSnackbar('ข้อมูลกำลังถูกพิจารณา', {
-          variant: 'info',
-          action: (key) => (
-            <IconButtonAnimate size="medium" onClick={() => closeSnackbar(key)}>
-              <Iconify icon={'eva:close-fill'} />
-            </IconButtonAnimate>
-          ),
-        });
-
         resetForm();
         if (isMountedRef.current) {
           setSubmitting(false);
@@ -92,7 +97,8 @@ export default function LoginForm() {
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+    formik;
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
@@ -102,7 +108,20 @@ export default function LoginForm() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
+          {alertErr && (
+            <Alert severity="error">
+              {
+                "สิทธิ์การเข้าของคุณหมดอายุ เข้าเมนูช่วยเหลือเพื่อขอสิทธิ์การเข้าใช้งาน"
+              }
+              <Link
+                component={RouterLink}
+                variant="subtitle2"
+                to={PATH_AUTH.resetPassword}
+              >
+                ช่วยเหลือ
+              </Link>
+            </Alert>
+          )}
 
           <TextField
             fullWidth
@@ -113,7 +132,7 @@ export default function LoginForm() {
               const target = e.target as HTMLInputElement;
               target.value = target.value.toString().slice(0, 13);
             }}
-            {...getFieldProps('username')}
+            {...getFieldProps("username")}
             error={Boolean(touched.username && errors.username)}
             helperText={touched.username && errors.username}
           />
@@ -121,14 +140,16 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="current-password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             label="รหัสผ่าน"
-            {...getFieldProps('password')}
+            {...getFieldProps("password")}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleShowPassword} edge="end">
-                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                    <Iconify
+                      icon={showPassword ? "eva:eye-fill" : "eva:eye-off-fill"}
+                    />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -138,9 +159,19 @@ export default function LoginForm() {
           />
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ my: 2 }}
+        >
           <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
+            control={
+              <Checkbox
+                {...getFieldProps("remember")}
+                checked={values.remember}
+              />
+            }
             label="Remember me"
           />
 

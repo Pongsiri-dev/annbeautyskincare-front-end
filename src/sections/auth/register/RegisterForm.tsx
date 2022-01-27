@@ -29,7 +29,7 @@ import axios from "src/utils/axios";
 //hook
 import useAuth from "../../../hooks/useAuth";
 // routes
-import { PATH_AUTH, PATH_DASHBOARD } from "../../../routes/paths";
+import { PATH_DASHBOARD } from "../../../routes/paths";
 // components
 import Label from "../../../components/Label";
 import { UploadAvatar } from "../../../components/upload";
@@ -100,7 +100,6 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
   //for alert
 
   const theme = useTheme();
-
   moment.locale("th");
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -311,7 +310,9 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
   let { values } = formik;
 
   const fetchData = async () => {
-    await new Promise((reslove) => {setTimeout(reslove, 1)})
+    await new Promise((reslove) => {
+      setTimeout(reslove, 1);
+    });
     if (!province.length) {
       axios.get("api/province").then((res) => setProvince(res.data));
       axios.get("api/amphur").then((res) => setAmphur(res.data));
@@ -326,29 +327,31 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
           url: data.url,
         };
       } else {
-        data = context?.user;
+        data = JSON.parse(localStorage.getItem("userSelected") || "");
       }
       // const { data } = await axios.get(`/api/user/username/${ID ?? ""}`);
       const list: any = [];
-      setFieldValue("birthDay", data["birthDay"]);
-      let convertDate: any = moment(data["birthDay"], "DD-MM-YYYY");
+      setFieldValue("birthDay", data?.birthDay);
+      let convertDate: any = moment(data?.birthDay, "DD-MM-YYYY");
       setDateVal(convertDate);
-      Object.keys(data).map((o) => {
-        if (
-          !["provinceCode", "amphurCode", "tombonCode", "image"].includes(o)
-        ) {
-          list.push(setFieldValue(o, data[o]));
-        }
-      });
+      if (data) {
+        Object.keys(data).map((o) => {
+          if (
+            !["provinceCode", "amphurCode", "tombonCode", "image"].includes(o)
+          ) {
+            list.push(setFieldValue(o, data[o]));
+          }
+        });
+      }
       await Promise.all(list);
       const imgProfile = {
         path: null,
-        preview: data.image.url,
+        preview: data?.image.url,
       };
       setFieldValue("imgProfile", imgProfile);
-      setFieldValue("provinceCode", data["provinceCode"]);
-      setFieldValue("amphurCode", data["amphurCode"]);
-      setFieldValue("tombonCode", data["tombonCode"]);
+      setFieldValue("provinceCode", data?.provinceCode);
+      setFieldValue("amphurCode", data?.amphurCode);
+      setFieldValue("tombonCode", data?.tombonCode);
       setFieldValue("allow", true);
     }
   };
@@ -730,37 +733,37 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                     helperText={touched.postCode && errors.postCode}
                   />
                 </Stack>
-
-                <Stack
-                  direction={{ xs: "column", sm: "row" }}
-                  spacing={{ xs: 3, sm: 2 }}
-                >
-                  <TextField
-                    fullWidth
-                    label="รหัสแม่ทีม"
-                    onInput={(e) => {
-                      const target = e.target as HTMLInputElement;
-                      target.value = target.value.toString().slice(0, 9);
-                    }}
-                    {...getFieldProps("team")}
-                    error={Boolean(touched.team && errors.team)}
-                    helperText={touched.team && errors.team}
-                  />
-                  <TextField
-                    fullWidth
-                    label="* จำนวนสินค้า (ชิ้น)"
-                    type="number"
-                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                    onInput={(e) => {
-                      const target = e.target as HTMLInputElement;
-                      target.value = target.value.toString().slice(0, 9);
-                    }}
-                    {...getFieldProps("bill")}
-                    error={Boolean(touched.bill && errors.bill)}
-                    helperText={touched.bill && errors.bill}
-                  />
-                </Stack>
-
+                {!isEdit && (
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={{ xs: 3, sm: 2 }}
+                  >
+                    <TextField
+                      fullWidth
+                      label="รหัสแม่ทีม"
+                      onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        target.value = target.value.toString().slice(0, 9);
+                      }}
+                      {...getFieldProps("team")}
+                      error={Boolean(touched.team && errors.team)}
+                      helperText={touched.team && errors.team}
+                    />
+                    <TextField
+                      fullWidth
+                      label="* จำนวนสินค้า (ชิ้น)"
+                      type="number"
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                      onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        target.value = target.value.toString().slice(0, 9);
+                      }}
+                      {...getFieldProps("bill")}
+                      error={Boolean(touched.bill && errors.bill)}
+                      helperText={touched.bill && errors.bill}
+                    />
+                  </Stack>
+                )}
                 <Stack
                   direction={{ xs: "column", sm: "row" }}
                   spacing={{ xs: 3, sm: 2 }}
