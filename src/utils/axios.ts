@@ -3,7 +3,8 @@ import axios from "axios";
 // ----------------------------------------------------------------------
 // baseURL: 'http://localhost:8080',
 const axiosInstance = axios.create({
-  baseURL: 'https://api.ann-beautyskincare.com',
+  // baseURL: "http://localhost:8080",
+  baseURL: "https://api.ann-beautyskincare.com",
 });
 
 axiosInstance.interceptors.response.use(
