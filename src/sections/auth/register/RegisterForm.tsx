@@ -29,7 +29,7 @@ import axios from "src/utils/axios";
 //hook
 import useAuth from "../../../hooks/useAuth";
 // routes
-import { PATH_DASHBOARD } from "../../../routes/paths";
+import { PATH_AUTH, PATH_DASHBOARD } from "../../../routes/paths";
 // components
 import Label from "../../../components/Label";
 import { UploadAvatar } from "../../../components/upload";
@@ -262,6 +262,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                 </IconButtonAnimate>
               ),
             });
+            navigate(PATH_AUTH.login);
           } catch (error) {
             enqueueSnackbar(`${error.message}`, {
               variant: "error",

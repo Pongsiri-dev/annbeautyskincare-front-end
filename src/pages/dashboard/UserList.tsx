@@ -146,10 +146,10 @@ export default function UserList() {
   });
   const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  const fetchUsers = async () => {
-    const { data } = await axiosInstance.get("/api/user/userlist");
-    setFilteredUsers(data);
-  };
+  // const fetchUsers = async () => {
+  //   const { data } = await axiosInstance.get("/api/user/userlist");
+  //   setFilteredUsers(data);
+  // };
 
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc";
