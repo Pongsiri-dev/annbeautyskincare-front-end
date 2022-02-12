@@ -448,7 +448,7 @@ img-fluid d-block mx-auto
       margin-left: 2px;
     }
     .card.card-type.front .logo {
-      max-height: 85px;
+      max-height: 120px;
       margin-top: 5px;
     }
     .card.card-type.front h5 {
@@ -612,7 +612,7 @@ export default function EmployeeCard({ profile }: Props) {
         </Button>
       </div>
       <PDFExport ref={pdfExportComponent} fileName="member-card.pdf" proxyURL="https://www.ann-beautyskincare.com">
-        {/* {level === "Platinum" ? ( */}
+        {level === "Platinum" ? (
           <div className="col bg-card ">
             <div className="card platinum front">
               <img src="/company/IMG-3075.png" className="logo" />
@@ -676,7 +676,7 @@ export default function EmployeeCard({ profile }: Props) {
               </div>
             </div>
           </div>
-        // ) : (
+         ) : (
           <div className="col bg-card ">
             <div className={type + " card card-type front"}>
               <ul>
@@ -769,7 +769,7 @@ export default function EmployeeCard({ profile }: Props) {
               </ul>
             </div>
           </div>
-        // )}
+        )}
       </PDFExport>
     </WrapperStyle>
   );
