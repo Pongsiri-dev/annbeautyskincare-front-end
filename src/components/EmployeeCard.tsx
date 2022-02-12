@@ -448,7 +448,7 @@ img-fluid d-block mx-auto
       margin-left: 2px;
     }
     .card.card-type.front .logo {
-      max-height: 120px;
+      max-height: 85px;
       margin-top: 5px;
     }
     .card.card-type.front h5 {
@@ -516,6 +516,15 @@ img-fluid d-block mx-auto
       font-size: 20px;
       margin-bottom: 20px;
     }
+    .card.platinum.back h6{
+      margin-bottom: 0px;
+    }
+    .card.platinum.back h5{
+      margin-bottom: 0px;
+    }
+    .card.platinum.back h2{
+      line-height: 15px;
+    }
     .card.card-type.front h6 {
       font-size: 20px;
       position: absolute;
@@ -534,7 +543,7 @@ img-fluid d-block mx-auto
       height: 100px;
     }
    .card.platinum.back {
-      padding: 0px 20px 10px 25px;
+      padding: 35px 20px 10px 25px
     }
   }
   @media only screen and (min-width: 992px) {
