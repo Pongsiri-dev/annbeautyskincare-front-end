@@ -53,6 +53,9 @@ const WrapperStyle = styled.div`
     font-weight: bold;
     src: url(/fonts/card/DB-Heavent-Bd-Cond.ttf);
   }
+  .position-relative{
+    position: relative;
+  }
   /* 
 img-fluid d-block mx-auto 
 */
@@ -78,6 +81,7 @@ img-fluid d-block mx-auto
   h6 {
     font-weight: 400;
   }
+
 
   .card {
     position: relative;
@@ -412,7 +416,7 @@ img-fluid d-block mx-auto
       margin-bottom: 10px;
     }
     .card.platinum.back {
-      padding: 40px 20px 10px 25px;
+      padding: 100px 20px 10px 25px;
     }
     .card.platinum.back h2 {
       font-size: 24px;
@@ -444,12 +448,15 @@ img-fluid d-block mx-auto
       margin-left: 2px;
     }
     .card.card-type.front .logo {
-      max-height: 120px;
+      max-height: 85px;
       margin-top: 5px;
     }
     .card.card-type.front h5 {
-      font-size: 20px;
-      margin-bottom: 20px;
+      font-size: 25px;
+      margin-bottom: 45px;
+    }
+    .card.card-type.back h2 {
+      margin-bottom: 15px;
     }
     .card.card-type.back {
       padding: 10px 15px 15px 20px;
@@ -490,6 +497,44 @@ img-fluid d-block mx-auto
     .card {
       height: 350px;
       width: 595px;
+    }
+    img.logo-profile {
+      height: 180px;
+  }
+  }
+  @media only screen and (max-width: 500px) {
+    .w-30{
+      width: 17px;
+    }
+    .contain {
+      font-size: 24px;
+      width: 350px;
+      margin-bottom: -3%;
+      margin-left: 40%;
+    }
+    .card.card-type.front h5 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .card.card-type.front h6 {
+      font-size: 20px;
+      position: absolute;
+      bottom: 0;
+      margin-bottom: 0px;
+      color: #84673f;
+      text-align: center;
+      width: 100%;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      font-family: DB-Heavent-Cond;
+  }
+    img.logo-profile {
+      height: 100px;
+    }
+   .card.platinum.back {
+      padding: 0px 20px 10px 25px;
     }
   }
   @media only screen and (min-width: 992px) {
@@ -567,17 +612,18 @@ export default function EmployeeCard({ profile }: Props) {
         </Button>
       </div>
       <PDFExport ref={pdfExportComponent} fileName="member-card.pdf" proxyURL="https://www.ann-beautyskincare.com">
-        {level === "Platinum" ? (
-          // {level !== "Platinum" ? (
-          <div className="col bg-card">
+        {/* {level === "Platinum" ? ( */}
+          <div className="col bg-card ">
             <div className="card platinum front">
               <img src="/company/IMG-3075.png" className="logo" />
               <li
                   className="proImg"
                   style={{
                     marginLeft: "35%",
-                    marginTop: "-20%",
-                    position: "sticky"
+                    marginTop: "0%",
+                    position: "absolute",
+                    top: "10%",
+                    listStyle: "none"
                   }}>
                   <img src={imgUrl} className="logo-profile" />
                 </li>
@@ -630,8 +676,8 @@ export default function EmployeeCard({ profile }: Props) {
               </div>
             </div>
           </div>
-        ) : (
-          <div className="col bg-card">
+        // ) : (
+          <div className="col bg-card ">
             <div className={type + " card card-type front"}>
               <ul>
                 <li>
@@ -641,8 +687,10 @@ export default function EmployeeCard({ profile }: Props) {
                   className="proImg"
                   style={{
                     marginLeft: "25%",
-                    marginTop: "-22%",
-                    position: "relative",
+                    marginTop: "0%",
+                    position: "absolute",
+                    top: "10%",
+                    listStyle: "none"
                   }}
                 >
                   <img src={imgUrl} className="logo-profile" />
@@ -682,7 +730,7 @@ export default function EmployeeCard({ profile }: Props) {
 
                 <li>
                   <p>
-                    <img src="/company/facebook.png" alt="" />{" "}
+                    <img src="/company/facebook.png" className="w-30" alt="" />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
@@ -694,7 +742,7 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>
-                    <img src="/company/line1.png" alt="" />{" "}
+                    <img src="/company/line1.png" className="w-30" alt="" />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
@@ -704,7 +752,7 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>
-                    <img src="/company/instagram.png" alt="" />{" "}
+                    <img src="/company/instagram.png" className="w-30" alt="" />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
@@ -714,14 +762,14 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>
-                    <img src="/company/tiktok.png" width={36} alt="" />{" "}
+                    <img src="/company/tiktok.png" className="w-30" width={36} alt="" />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
               </ul>
             </div>
           </div>
-        )}
+        // )}
       </PDFExport>
     </WrapperStyle>
   );
