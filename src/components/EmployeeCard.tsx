@@ -572,6 +572,10 @@ export default function EmployeeCard({ profile }: Props) {
     province,
     postCode,
     image,
+    facebook,
+    instagram,
+    youtube,
+    tiktok,
   } = profile;
   const pdfExportComponent = useRef(null);
   const [type, setType] = useState<string>("");
@@ -645,9 +649,6 @@ export default function EmployeeCard({ profile }: Props) {
                 <img src={imgUrl} className="logo-profile" />
               </li>
               <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
-              <h6>
-                โทร <span>0955542399, 0886659142</span>
-              </h6>
             </div>
             <br />
             <div className="card platinum back">
@@ -655,7 +656,7 @@ export default function EmployeeCard({ profile }: Props) {
               <h3>ชุปเปอร์ ดีลเลอร์ วาเลนต้า คอฟฟี่ </h3>
               <div className="card-text">
                 <h5>
-                  Name
+                  ชื่อ
                   <span>
                     {firstName} {lastName}
                   </span>
@@ -673,22 +674,22 @@ export default function EmployeeCard({ profile }: Props) {
               <div className="card-text">
                 <h6>
                   <img src="/company/facebook.png" alt="" />{" "}
-                  <span> xxxx xxxxxx</span>
+                  <span> {`${facebook}`}</span>
                 </h6>
                 <h6>
                   <img src="/company/line1.png" alt="" />{" "}
-                  <span> xxxx xxxxxx</span>
+                  <span> {`${youtube}`}</span>
                 </h6>
               </div>
 
               <div className="card-text">
                 <h6>
                   <img src="/company/instagram.png" alt="" />{" "}
-                  <span> xxxx xxxxxx</span>
+                  <span> {`${instagram}`}</span>
                 </h6>
                 <h6>
                   <img src="/company/tiktok.png" alt="" />{" "}
-                  <span> xxxx xxxxxx</span>
+                  <span> {`${tiktok}`}</span>
                 </h6>
               </div>
             </div>
@@ -727,10 +728,6 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
               </ul>
               <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
-              <h6>
-                โทร <span>0955542399, 0886659142</span>
-              </h6>
-              {/* <p>{url}</p> */}
             </div>
             <br />
             <div className={type + " card card-type back"}>
@@ -749,7 +746,7 @@ export default function EmployeeCard({ profile }: Props) {
                   <p>
                     <img src="/company/facebook.png" className="w-30" alt="" />{" "}
                   </p>
-                  <span>xxxxx</span>
+                  <span>{`${facebook}`}</span>
                 </li>
               </ul>
               <ul>
@@ -761,7 +758,7 @@ export default function EmployeeCard({ profile }: Props) {
                   <p>
                     <img src="/company/line1.png" className="w-30" alt="" />{" "}
                   </p>
-                  <span>xxxxx</span>
+                  <span>{`${youtube}`}</span>
                 </li>
                 <li>
                   <p>รหัส </p>
@@ -771,7 +768,7 @@ export default function EmployeeCard({ profile }: Props) {
                   <p>
                     <img src="/company/instagram.png" className="w-30" alt="" />{" "}
                   </p>
-                  <span>xxxxx</span>
+                  <span>{`${instagram}`}</span>
                 </li>
                 <li>
                   <p>เบอร์โทร </p>
@@ -786,7 +783,7 @@ export default function EmployeeCard({ profile }: Props) {
                       alt=""
                     />{" "}
                   </p>
-                  <span>xxxxx</span>
+                  <span>{`${tiktok}`}</span>
                 </li>
               </ul>
             </div>

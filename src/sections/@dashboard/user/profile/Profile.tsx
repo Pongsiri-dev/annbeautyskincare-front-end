@@ -16,16 +16,12 @@ type Props = {
 export default function Profile({ myProfile }: Props) {
   return (
     <Grid container spacing={3} justifyContent="center">
-      <Grid item >
+      <Grid item>
         <Stack spacing={3}>
           <ProfileFollowInfo profile={myProfile} />
-          {/* <ProfileAbout profile={myProfile} /> */}
           <EmployeeCard profile={myProfile} />
         </Stack>
       </Grid>
-
-      {/* <Grid item xs={12} md={5}>
-      </Grid> */}
     </Grid>
   );
 }

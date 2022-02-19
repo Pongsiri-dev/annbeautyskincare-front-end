@@ -90,8 +90,8 @@ export type UserManager = {
   img?: {
     url?: string;
   };
-  url?:string;
-  team?:string;
+  url?: string;
+  team?: string;
 };
 export type UserAbout = {
   id?: number;
@@ -122,9 +122,13 @@ export type UserAbout = {
   tombonCode?: string;
   tombon?: string;
   postCode?: string;
-  bill?:number;
+  bill?: number;
   url?: string;
-  team?:string;
+  team?: string;
+  facebook?: string;
+  instagram?: string;
+  youtube?: string;
+  tiktok?: string;
 };
 
 export type UserData = {
