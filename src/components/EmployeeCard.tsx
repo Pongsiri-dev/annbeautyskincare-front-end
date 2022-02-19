@@ -140,7 +140,7 @@ img-fluid d-block mx-auto
     font-size: 30px;
     position: absolute;
     bottom: 0;
-    margin-bottom: 55px;
+    margin-bottom: 15px;
     color: #a29358;
     text-align: center;
     width: 100%;
@@ -273,16 +273,19 @@ img-fluid d-block mx-auto
   }
   .card.card-type.front .logo-profile {
     position: relative;
-    border-radius: 15%;
     object-fit: scale-down;
     object-position: center;
     margin-top: 1%;
-    margin-left: 11%;
-    width: 85%;
-    max-height: 80%;
+    min-height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 1rem;
   }
   img.logo-profile {
-    height: 200px;
+    min-height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 1rem;
   }
   .contain {
     font-size: 24px;
@@ -497,11 +500,10 @@ img-fluid d-block mx-auto
       height: 350px;
       width: 595px;
     }
-    img.logo-profile {
-      height: 180px;
-    }
+    
   }
   @media only screen and (max-width: 500px) {
+
     .w-30 {
       width: 17px;
     }
@@ -513,7 +515,11 @@ img-fluid d-block mx-auto
     }
     .card.card-type.front h5 {
       font-size: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+    }
+    .card.platinum.front h5 {
+      margin-bottom: 10px;
+      font-family: DB-Heavent-Cond;
     }
     .card.platinum.back h6 {
       margin-bottom: 0px;
@@ -539,7 +545,16 @@ img-fluid d-block mx-auto
       font-family: DB-Heavent-Cond;
     }
     img.logo-profile {
-      height: 100px;
+      min-height: 100px;
+      width: 100px;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+    .card.card-type.front .logo-profile{
+      min-height: 100px;
+      width: 100px;
+      object-fit: cover;
+      border-radius: 1rem;
     }
     .card.platinum.back {
       padding: 35px 20px 10px 25px;
@@ -632,18 +647,20 @@ export default function EmployeeCard({ profile }: Props) {
         fileName="member-card.pdf"
         proxyURL="https://www.ann-beautyskincare.com"
       >
-        {level === "Platinum" ? (
+      {level === "Platinum" ? (
           <div className="col bg-card ">
             <div className="card platinum front">
               <img src="/company/IMG-3075.png" className="logo" />
               <li
                 className="proImg"
                 style={{
-                  marginLeft: "35%",
                   marginTop: "0%",
                   position: "absolute",
-                  top: "10%",
+                  top: "6%",
                   listStyle: "none",
+                  left: "50%",
+                  transform: "translate(-50%, 0)",
+
                 }}
               >
                 <img src={imgUrl} className="logo-profile" />
@@ -704,11 +721,12 @@ export default function EmployeeCard({ profile }: Props) {
                 <li
                   className="proImg"
                   style={{
-                    marginLeft: "25%",
                     marginTop: "0%",
                     position: "absolute",
                     top: "10%",
                     listStyle: "none",
+                    left: "58%",
+                    transform: "translate(-42%, 0px)",
                   }}
                 >
                   <img src={imgUrl} className="logo-profile" />
