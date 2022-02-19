@@ -1,18 +1,13 @@
+import * as React from "react";
 // @mui
 import { Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { UserAbout } from "src/@types/user";
 import styled from "styled-components";
-import { PDFExport } from "@progress/kendo-react-pdf";
+import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import Iconify from "./Iconify";
 
 // ----------------------------------------------------------------------
-const customStylesLogo = {
-  margin: {
-    right: "4%",
-  },
-};
-
 const WrapperStyle = styled.div`
   width: 100%;
   box-shadow: 0 0 2px 0 rgb(145 158 171 / 20%),
@@ -500,10 +495,8 @@ img-fluid d-block mx-auto
       height: 350px;
       width: 595px;
     }
-    
   }
   @media only screen and (max-width: 500px) {
-
     .w-30 {
       width: 17px;
     }
@@ -550,7 +543,7 @@ img-fluid d-block mx-auto
       object-fit: cover;
       border-radius: 1rem;
     }
-    .card.card-type.front .logo-profile{
+    .card.card-type.front .logo-profile {
       min-height: 100px;
       width: 100px;
       object-fit: cover;
@@ -592,7 +585,8 @@ export default function EmployeeCard({ profile }: Props) {
     youtube,
     tiktok,
   } = profile;
-  const pdfExportComponent = useRef(null);
+  const container = React.useRef<HTMLDivElement>(null);
+  const pdfExportComponent = React.useRef<PDFExport>(null);
   const [type, setType] = useState<string>("");
   useEffect(() => {
     switch (level) {
@@ -623,10 +617,17 @@ export default function EmployeeCard({ profile }: Props) {
     getImg();
   }, [id]);
 
+  const exportPDFWithMethod = () => {
+    let element = container.current || document.body;
+    savePDF(element, {
+      paperSize: "auto",
+      margin: 40,
+      fileName: `Report for ${new Date().getFullYear()}`,
+    });
+  };
   const handleExportWithComponent = () => {
-    const { current }: any = pdfExportComponent;
-    if (current) {
-      current.save();
+    if (pdfExportComponent.current) {
+      pdfExportComponent.current.save();
     }
   };
 
@@ -645,92 +646,94 @@ export default function EmployeeCard({ profile }: Props) {
       <PDFExport
         ref={pdfExportComponent}
         fileName="member-card.pdf"
-        proxyURL="https://www.ann-beautyskincare.com"
+        paperSize="auto"
+        margin={40}
+        author="KendoReact Team"
       >
-      {level === "Platinum" ? (
-          <div className="col bg-card ">
-            <div className="card platinum front">
-              <img src="/company/IMG-3075.png" className="logo" />
-              <li
-                className="proImg"
-                style={{
-                  marginTop: "0%",
-                  position: "absolute",
-                  top: "6%",
-                  listStyle: "none",
-                  left: "50%",
-                  transform: "translate(-50%, 0)",
-
-                }}
-              >
-                <img src={imgUrl} className="logo-profile" />
-              </li>
-              <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
-            </div>
-            <br />
-            <div className="card platinum back">
-              <h2>super dealer</h2>
-              <h3>ชุปเปอร์ ดีลเลอร์ วาเลนต้า คอฟฟี่ </h3>
-              <div className="card-text">
-                <h5>
-                  ชื่อ
-                  <span>
-                    {firstName} {lastName}
-                  </span>
-                </h5>
-                <h5>
-                  รหัส <span> xxxx xxxxxx</span>
-                </h5>
-                <h5>
-                  สายงาน <span>{team || "-"}</span>
-                </h5>
-                <h5>
-                  เบอร์โทร <span> {`0${telephone}` || "-"}</span>
-                </h5>
-              </div>
-              <div className="card-text">
-                <h6>
-                  <img src="/company/facebook.png" alt="" />{" "}
-                  <span> {`${facebook}`}</span>
-                </h6>
-                <h6>
-                  <img src="/company/line1.png" alt="" />{" "}
-                  <span> {`${youtube}`}</span>
-                </h6>
-              </div>
-
-              <div className="card-text">
-                <h6>
-                  <img src="/company/instagram.png" alt="" />{" "}
-                  <span> {`${instagram}`}</span>
-                </h6>
-                <h6>
-                  <img src="/company/tiktok.png" alt="" />{" "}
-                  <span> {`${tiktok}`}</span>
-                </h6>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="col bg-card ">
-            <div className={type + " card card-type front"}>
-              <ul>
-                <li>
-                  <img src="/company/IMG-3075.png" className="logo" />
-                </li>
+        <div ref={container}>
+          {level === "Platinum" ? (
+            <div className="col bg-card ">
+              <div className="card platinum front">
+                <img src="/company/IMG-3075.png" className="logo" />
                 <li
                   className="proImg"
                   style={{
                     marginTop: "0%",
                     position: "absolute",
-                    top: "10%",
+                    top: "6%",
                     listStyle: "none",
-                    left: "58%",
-                    transform: "translate(-42%, 0px)",
+                    left: "50%",
+                    transform: "translate(-50%, 0)",
                   }}
                 >
                   <img src={imgUrl} className="logo-profile" />
-                  {/* <MyAvatar
+                </li>
+                <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
+              </div>
+              <br />
+              <div className="card platinum back">
+                <h2>super dealer</h2>
+                <h3>ชุปเปอร์ ดีลเลอร์ วาเลนต้า คอฟฟี่ </h3>
+                <div className="card-text">
+                  <h5>
+                    ชื่อ
+                    <span>
+                      {firstName} {lastName}
+                    </span>
+                  </h5>
+                  <h5>
+                    รหัส <span></span>
+                  </h5>
+                  <h5>
+                    สายงาน <span>{team || "-"}</span>
+                  </h5>
+                  <h5>
+                    เบอร์โทร <span> {`0${telephone}` || "-"}</span>
+                  </h5>
+                </div>
+                <div className="card-text">
+                  <h6>
+                    <img src="/company/facebook.png" alt="" />{" "}
+                    <span> {`${facebook}`}</span>
+                  </h6>
+                  <h6>
+                    <img src="/company/line1.png" alt="" />{" "}
+                    <span> {`${youtube}`}</span>
+                  </h6>
+                </div>
+
+                <div className="card-text">
+                  <h6>
+                    <img src="/company/instagram.png" alt="" />{" "}
+                    <span> {`${instagram}`}</span>
+                  </h6>
+                  <h6>
+                    <img src="/company/tiktok.png" alt="" />{" "}
+                    <span> {`${tiktok}`}</span>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="col bg-card ">
+              <div className={type + " card card-type front"}>
+                <ul>
+                  <li>
+                    <img src="/company/IMG-3075.png" className="logo" />
+                  </li>
+                  <li
+                    className="proImg"
+                    style={{
+                      marginTop: "0%",
+                      position: "absolute",
+                      top: "10%",
+                      listStyle: "none",
+                      left: "58%",
+                      transform: "translate(-42%, 0px)",
+                    }}
+                  >
+                    <img src={imgUrl} className="logo-profile" />
+                    {/* <MyAvatar
                     className="logo-profile"
                     image={image}
                     firstName={firstName}
@@ -743,70 +746,79 @@ export default function EmployeeCard({ profile }: Props) {
                       height: { xs: 80, md: 190 },
                     }}
                   /> */}
-                </li>
-              </ul>
-              <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
-            </div>
-            <br />
-            <div className={type + " card card-type back"}>
-              <img src="/company/IMG-5218.png" className="logo" />
-              <h2>
-                <span>
-                  คุณ {firstName} {lastName}
-                </span>
-              </h2>
-              <ul>
-                <li>
-                  <h6>ชุปเปอร์ ดีลเลอร์ โกล วาเลนต้า คอฟฟี่ </h6>
-                </li>
+                  </li>
+                </ul>
+                <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
+              </div>
+              <br />
+              <div className={type + " card card-type back"}>
+                <img src="/company/IMG-5218.png" className="logo" />
+                <h2>
+                  <span>
+                    คุณ {firstName} {lastName}
+                  </span>
+                </h2>
+                <ul>
+                  <li>
+                    <h6>ชุปเปอร์ ดีลเลอร์ โกล วาเลนต้า คอฟฟี่ </h6>
+                  </li>
 
-                <li>
-                  <p>
-                    <img src="/company/facebook.png" className="w-30" alt="" />{" "}
-                  </p>
-                  <span>{`${facebook}`}</span>
-                </li>
-              </ul>
-              <ul>
-                <li>
-                  <p>สายงาน </p>
-                  <span>{team}</span>
-                </li>
-                <li>
-                  <p>
-                    <img src="/company/line1.png" className="w-30" alt="" />{" "}
-                  </p>
-                  <span>{`${youtube}`}</span>
-                </li>
-                <li>
-                  <p>รหัส </p>
-                  <span>xxxxx</span>
-                </li>
-                <li>
-                  <p>
-                    <img src="/company/instagram.png" className="w-30" alt="" />{" "}
-                  </p>
-                  <span>{`${instagram}`}</span>
-                </li>
-                <li>
-                  <p>เบอร์โทร </p>
-                  <span>0{telephone}</span>
-                </li>
-                <li>
-                  <p>
-                    <img
-                      src="/company/tiktok.png"
-                      className="w-30"
-                      width={36}
-                      alt=""
-                    />{" "}
-                  </p>
-                  <span>{`${tiktok}`}</span>
-                </li>
-              </ul>
+                  <li>
+                    <p>
+                      <img
+                        src="/company/facebook.png"
+                        className="w-30"
+                        alt=""
+                      />{" "}
+                    </p>
+                    <span>{`${facebook}`}</span>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                    <p>สายงาน </p>
+                    <span>{team}</span>
+                  </li>
+                  <li>
+                    <p>
+                      <img src="/company/line1.png" className="w-30" alt="" />{" "}
+                    </p>
+                    <span>{`${youtube}`}</span>
+                  </li>
+                  <li>
+                    <p>รหัส </p>
+                    <span></span>
+                  </li>
+                  <li>
+                    <p>
+                      <img
+                        src="/company/instagram.png"
+                        className="w-30"
+                        alt=""
+                      />{" "}
+                    </p>
+                    <span>{`${instagram}`}</span>
+                  </li>
+                  <li>
+                    <p>เบอร์โทร </p>
+                    <span>0{telephone}</span>
+                  </li>
+                  <li>
+                    <p>
+                      <img
+                        src="/company/tiktok.png"
+                        className="w-30"
+                        width={36}
+                        alt=""
+                      />{" "}
+                    </p>
+                    <span>{`${tiktok}`}</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </PDFExport>
     </WrapperStyle>
   );
