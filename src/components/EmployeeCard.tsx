@@ -53,7 +53,7 @@ const WrapperStyle = styled.div`
     font-weight: bold;
     src: url(/fonts/card/DB-Heavent-Bd-Cond.ttf);
   }
-  .position-relative{
+  .position-relative {
     position: relative;
   }
   /* 
@@ -81,7 +81,6 @@ img-fluid d-block mx-auto
   h6 {
     font-weight: 400;
   }
-
 
   .card {
     position: relative;
@@ -279,18 +278,18 @@ img-fluid d-block mx-auto
     object-position: center;
     margin-top: 1%;
     margin-left: 11%;
-    width:85%;
+    width: 85%;
     max-height: 80%;
   }
   img.logo-profile {
     height: 200px;
-}
-.contain {
-  font-size: 24px;
-  width: 350px;
-  margin-bottom:-3%;
-  margin-left:65%;
-}
+  }
+  .contain {
+    font-size: 24px;
+    width: 350px;
+    margin-bottom: -3%;
+    margin-left: 65%;
+  }
 
   .card.card-type.front .logo {
     margin-right: initial;
@@ -500,10 +499,10 @@ img-fluid d-block mx-auto
     }
     img.logo-profile {
       height: 180px;
-  }
+    }
   }
   @media only screen and (max-width: 500px) {
-    .w-30{
+    .w-30 {
       width: 17px;
     }
     .contain {
@@ -516,13 +515,13 @@ img-fluid d-block mx-auto
       font-size: 20px;
       margin-bottom: 20px;
     }
-    .card.platinum.back h6{
+    .card.platinum.back h6 {
       margin-bottom: 0px;
     }
-    .card.platinum.back h5{
+    .card.platinum.back h5 {
       margin-bottom: 0px;
     }
-    .card.platinum.back h2{
+    .card.platinum.back h2 {
       line-height: 15px;
     }
     .card.card-type.front h6 {
@@ -538,12 +537,12 @@ img-fluid d-block mx-auto
       -ms-flex-pack: center;
       justify-content: center;
       font-family: DB-Heavent-Cond;
-  }
+    }
     img.logo-profile {
       height: 100px;
     }
-   .card.platinum.back {
-      padding: 35px 20px 10px 25px
+    .card.platinum.back {
+      padding: 35px 20px 10px 25px;
     }
   }
   @media only screen and (min-width: 992px) {
@@ -572,7 +571,7 @@ export default function EmployeeCard({ profile }: Props) {
     tombon,
     province,
     postCode,
-    image
+    image,
   } = profile;
   const pdfExportComponent = useRef(null);
   const [type, setType] = useState<string>("");
@@ -591,19 +590,19 @@ export default function EmployeeCard({ profile }: Props) {
 
   const [imgUrl, setImgUrl] = useState<any>();
   useEffect(() => {
-    const imageUrl=`https://api.ann-beautyskincare.com/api/v1/${id}/image/download`;
+    const imageUrl = `https://api.ann-beautyskincare.com/api/v1/${id}/image/download`;
     const getImg = async () => {
-    const response = await fetch(imageUrl);
-    const imageBlob = await response.blob();
-    const reader = new FileReader();
-    reader.readAsDataURL(imageBlob);
-    reader.onloadend = () => {
-      const base64data = reader.result || null;
+      const response = await fetch(imageUrl);
+      const imageBlob = await response.blob();
+      const reader = new FileReader();
+      reader.readAsDataURL(imageBlob);
+      reader.onloadend = () => {
+        const base64data = reader.result || null;
         setImgUrl(base64data);
+      };
     };
-  };
-  getImg();
-  },[id]);
+    getImg();
+  }, [id]);
 
   const handleExportWithComponent = () => {
     const { current }: any = pdfExportComponent;
@@ -615,28 +614,37 @@ export default function EmployeeCard({ profile }: Props) {
   return (
     <WrapperStyle>
       <div className="contain">
-        <Button size="medium" variant="contained" onClick={handleExportWithComponent}>
-        <Iconify icon={"eva:cloud-download-fill"} width={20} height={20} />
+        <Button
+          size="medium"
+          variant="contained"
+          onClick={handleExportWithComponent}
+        >
+          <Iconify icon={"eva:cloud-download-fill"} width={20} height={20} />
           &emsp;ดาวน์โหลดบัตรตัวแทน
         </Button>
       </div>
-      <PDFExport ref={pdfExportComponent} fileName="member-card.pdf" proxyURL="https://www.ann-beautyskincare.com">
+      <PDFExport
+        ref={pdfExportComponent}
+        fileName="member-card.pdf"
+        proxyURL="https://www.ann-beautyskincare.com"
+      >
         {level === "Platinum" ? (
           <div className="col bg-card ">
             <div className="card platinum front">
               <img src="/company/IMG-3075.png" className="logo" />
               <li
-                  className="proImg"
-                  style={{
-                    marginLeft: "35%",
-                    marginTop: "0%",
-                    position: "absolute",
-                    top: "10%",
-                    listStyle: "none"
-                  }}>
-                  <img src={imgUrl} className="logo-profile" />
-                </li>
-              <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
+                className="proImg"
+                style={{
+                  marginLeft: "35%",
+                  marginTop: "0%",
+                  position: "absolute",
+                  top: "10%",
+                  listStyle: "none",
+                }}
+              >
+                <img src={imgUrl} className="logo-profile" />
+              </li>
+              <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
               <h6>
                 โทร <span>0955542399, 0886659142</span>
               </h6>
@@ -656,10 +664,10 @@ export default function EmployeeCard({ profile }: Props) {
                   รหัส <span> xxxx xxxxxx</span>
                 </h5>
                 <h5>
-                  สายงาน <span>{team || '-'}</span>
+                  สายงาน <span>{team || "-"}</span>
                 </h5>
                 <h5>
-                  เบอร์โทร <span> {`0${telephone}` || '-'}</span>
+                  เบอร์โทร <span> {`0${telephone}` || "-"}</span>
                 </h5>
               </div>
               <div className="card-text">
@@ -685,7 +693,7 @@ export default function EmployeeCard({ profile }: Props) {
               </div>
             </div>
           </div>
-         ) : (
+        ) : (
           <div className="col bg-card ">
             <div className={type + " card card-type front"}>
               <ul>
@@ -699,7 +707,7 @@ export default function EmployeeCard({ profile }: Props) {
                     marginTop: "0%",
                     position: "absolute",
                     top: "10%",
-                    listStyle: "none"
+                    listStyle: "none",
                   }}
                 >
                   <img src={imgUrl} className="logo-profile" />
@@ -718,7 +726,7 @@ export default function EmployeeCard({ profile }: Props) {
                   /> */}
                 </li>
               </ul>
-              <h5>บริษัท 776/112 พัฒนาการ38 หมู่บ้านเดอะคอนเนค </h5>
+              <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
               <h6>
                 โทร <span>0955542399, 0886659142</span>
               </h6>
@@ -771,7 +779,12 @@ export default function EmployeeCard({ profile }: Props) {
                 </li>
                 <li>
                   <p>
-                    <img src="/company/tiktok.png" className="w-30" width={36} alt="" />{" "}
+                    <img
+                      src="/company/tiktok.png"
+                      className="w-30"
+                      width={36}
+                      alt=""
+                    />{" "}
                   </p>
                   <span>xxxxx</span>
                 </li>
