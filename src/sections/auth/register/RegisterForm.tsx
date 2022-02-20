@@ -443,6 +443,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
               <Box sx={{ mb: 5 }}>
                 <UploadAvatar
                   accept="image/*"
+                  maxSize={500000}
                   file={values.imgProfile}
                   onDrop={(file) => handleDrop(file, "imgProfile")}
                   error={Boolean(touched.imgProfile && errors.imgProfile)}
@@ -454,11 +455,11 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                         mx: "auto",
                         display: "block",
                         textAlign: "center",
-                        color: "red",
+                        color: "text.secondary",
                       }}
                     >
                       Allowed *.jpeg, *.jpg, *.png
-                      <br /> max size of 1 MB
+                      <br /> max size of {fData(500000)}
                     </Typography>
                   }
                 />
@@ -515,6 +516,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                 <Box sx={{ mb: 5 }}>
                   <UploadAvatar
                     accept="image/*"
+                    maxSize={500000}
                     file={values.imgCardID}
                     onDrop={(file) => handleDrop(file, "imgCardID")}
                     error={Boolean(touched.imgCardID && errors.imgCardID)}
@@ -526,11 +528,11 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                           mx: "auto",
                           display: "block",
                           textAlign: "center",
-                          color: "red",
+                          color: "text.secondary",
                         }}
                       >
                         Allowed *.jpeg, *.jpg, *.png
-                        <br /> max size of 1 MB
+                        <br /> max size of {fData(500000)}
                       </Typography>
                     }
                   />
