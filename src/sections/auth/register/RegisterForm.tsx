@@ -451,7 +451,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   file={values.imgProfile}
                   maxSize={3145728}
                   onDrop={(file) => handleDrop(file, "imgProfile")}
-                  error={Boolean(touched.imgProfile && errors.imgProfile)}
+                  // error={Boolean(touched.imgProfile && errors.imgProfile)}
                   caption={
                     <Typography
                       variant="caption"
