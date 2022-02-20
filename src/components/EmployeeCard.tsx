@@ -529,6 +529,19 @@ img-fluid d-block mx-auto
       padding: 100px 20px 10px 25px;
     }
   }
+  @media (min-width: 844px) and (max-width: 900px) {
+      .card {
+        width: 100%;
+        height: 270px;
+    }
+  }
+   @media (min-width: 666px) and (max-width: 736px) {
+    .card {
+      width: 100%;
+      height: 260px;
+  }
+  
+  }
   @media only screen and (max-width: 500px) {
     .w-30 {
       width: 17px;
