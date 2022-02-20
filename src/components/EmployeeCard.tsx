@@ -59,7 +59,6 @@ img-fluid d-block mx-auto
     .mb-x {
       display: none !important;
     }
-    
   }
   @media only screen and (min-width: 992px) {
     /* PC */
@@ -508,7 +507,7 @@ img-fluid d-block mx-auto
       width: 350px;
       margin-bottom: -3%;
       margin-left: 42%;
-  }
+    }
   }
   @media only screen and (width: 768px) {
     /* IPAD */
@@ -522,7 +521,7 @@ img-fluid d-block mx-auto
       margin-bottom: -1%;
       margin-left: 66%;
     }
-    .card ul li{
+    .card ul li {
       width: 40%;
     }
     .card.platinum.back {
@@ -530,17 +529,16 @@ img-fluid d-block mx-auto
     }
   }
   @media (min-width: 844px) and (max-width: 900px) {
-      .card {
-        width: 100%;
-        height: 270px;
+    .card {
+      width: 100%;
+      height: 270px;
     }
   }
-   @media (min-width: 666px) and (max-width: 736px) {
+  @media (min-width: 666px) and (max-width: 736px) {
     .card {
       width: 100%;
       height: 260px;
-  }
-  
+    }
   }
   @media only screen and (max-width: 500px) {
     .w-30 {
@@ -741,22 +739,22 @@ export default function EmployeeCard({ profile }: Props) {
                 <div className="card-text">
                   <h6>
                     <img src="/company/facebook.png" alt="" />{" "}
-                    <span> {`${facebook}`}</span>
+                    <span> {`${facebook}` || ""}</span>
                   </h6>
                   <h6>
                     <img src="/company/line1.png" alt="" />{" "}
-                    <span> {`${youtube}`}</span>
+                    <span> {`${youtube}` || ""}</span>
                   </h6>
                 </div>
 
                 <div className="card-text">
                   <h6>
                     <img src="/company/instagram.png" alt="" />{" "}
-                    <span> {`${instagram}`}</span>
+                    <span> {`${instagram}` || ""}</span>
                   </h6>
                   <h6>
                     <img src="/company/tiktok.png" alt="" />{" "}
-                    <span> {`${tiktok}`}</span>
+                    <span> {`${tiktok}` || ""}</span>
                   </h6>
                 </div>
               </div>
@@ -780,19 +778,6 @@ export default function EmployeeCard({ profile }: Props) {
                     }}
                   >
                     <img src={imgUrl} className="logo-profile" />
-                    {/* <MyAvatar
-                    className="logo-profile"
-                    image={image}
-                    firstName={firstName}
-                    sx={{
-                      mx: "auto",
-                      borderWidth: 1,
-                      borderStyle: "none",
-                      borderColor: "common.white",
-                      width: { xs: 80, md: 190 },
-                      height: { xs: 80, md: 190 },
-                    }}
-                  /> */}
                   </li>
                 </ul>
                 <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
@@ -818,7 +803,7 @@ export default function EmployeeCard({ profile }: Props) {
                         alt=""
                       />{" "}
                     </p>
-                    <span>{`${facebook}`}</span>
+                    <span>{`${facebook}` || ""}</span>
                   </li>
                 </ul>
                 <ul>
@@ -830,7 +815,7 @@ export default function EmployeeCard({ profile }: Props) {
                     <p>
                       <img src="/company/line1.png" className="w-30" alt="" />{" "}
                     </p>
-                    <span>{`${youtube}`}</span>
+                    <span>{`${youtube}` || ""}</span>
                   </li>
                   <li>
                     <p>รหัส </p>
@@ -844,7 +829,7 @@ export default function EmployeeCard({ profile }: Props) {
                         alt=""
                       />{" "}
                     </p>
-                    <span>{`${instagram}`}</span>
+                    <span>{`${instagram} || ""`}</span>
                   </li>
                   <li>
                     <p>เบอร์โทร </p>
@@ -859,7 +844,7 @@ export default function EmployeeCard({ profile }: Props) {
                         alt=""
                       />{" "}
                     </p>
-                    <span>{`${tiktok}`}</span>
+                    <span>{`${tiktok} || ""`}</span>
                   </li>
                 </ul>
               </div>
