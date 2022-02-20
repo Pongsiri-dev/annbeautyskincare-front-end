@@ -158,11 +158,16 @@ function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (formData: any) => {
-    const response = await axios({
+    await axios({
       method: "post",
       url: "api/auth/signup",
       data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Access-Control-Allow-Methods":
+          "GET, POST, OPTIONS, PUT, PATCH, DELETE",
+        "Access-Control-Allow-Headers": "X-Requested-With,content-type",
+      },
     });
     // const { accessToken, user } = response.data;
 
