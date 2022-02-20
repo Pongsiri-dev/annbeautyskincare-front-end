@@ -59,6 +59,7 @@ img-fluid d-block mx-auto
     .mb-x {
       display: none !important;
     }
+    
   }
   @media only screen and (min-width: 992px) {
     /* PC */
@@ -400,6 +401,9 @@ img-fluid d-block mx-auto
     .card.platinum.front {
       background-size: 100% auto, 50px, 50px, 100% 100%;
     }
+    .card.platinum.back {
+      padding: 16px 20px 10px 25px;
+    }
     .card.platinum.front .logo {
       max-height: 80px;
       margin-top: 10px;
@@ -411,9 +415,6 @@ img-fluid d-block mx-auto
     .card.platinum.front h6 {
       font-size: 18px;
       margin-bottom: 10px;
-    }
-    .card.platinum.back {
-      padding: 100px 20px 10px 25px;
     }
     .card.platinum.back h2 {
       font-size: 24px;
@@ -488,6 +489,24 @@ img-fluid d-block mx-auto
       margin-right: 5px;
       margin-top: 30px;
     }
+    img.logo-profile {
+      min-height: 100px;
+      width: 100px;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+    .card.card-type.front .logo-profile {
+      min-height: 100px;
+      width: 100px;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+    .contain {
+      font-size: 24px;
+      width: 350px;
+      margin-bottom: -3%;
+      margin-left: 42%;
+  }
   }
   @media only screen and (width: 768px) {
     /* IPAD */
@@ -495,6 +514,18 @@ img-fluid d-block mx-auto
       height: 350px;
       width: 595px;
     }
+    .contain {
+      font-size: 24px;
+      width: 350px;
+      margin-bottom: -1%;
+      margin-left: 66%;
+    }
+    .card ul li{
+      width: 40%;
+    }
+    .card.platinum.back {
+      padding: 100px 20px 10px 25px;
+  }
   }
   @media only screen and (max-width: 500px) {
     .w-30 {
