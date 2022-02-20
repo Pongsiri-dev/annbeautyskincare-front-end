@@ -459,11 +459,11 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                         mx: "auto",
                         display: "block",
                         textAlign: "center",
-                        color: "text.secondary",
+                        color: "red",
                       }}
                     >
                       Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
+                      <br /> max size of 2 MB
                     </Typography>
                   }
                 />
@@ -531,11 +531,11 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                           mx: "auto",
                           display: "block",
                           textAlign: "center",
-                          color: "text.secondary",
+                          color: "red",
                         }}
                       >
                         Allowed *.jpeg, *.jpg, *.png, *.gif
-                        <br /> max size of {fData(3145728)}
+                        <br /> max size of 2 MB
                       </Typography>
                     }
                   />
