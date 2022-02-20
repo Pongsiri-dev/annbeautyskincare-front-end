@@ -110,15 +110,6 @@ export default function Register() {
           <ContentStyle>
             {/* เรียกใช้ Form */}
             <UserNewForm isEdit={false} />
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              ลดความระเอียดภาพ {""}
-              <a
-                href="https://imagecompressor.io/compress-to-exact-size"
-                target={"_bank"}
-              >
-                ลิ้งค์
-              </a>
-            </Typography>
             {!smUp && (
               <Typography variant="body2" sx={{ mt: 3, textAlign: "center" }}>
                 เข้าสู่ระบบด้วยบัญชีที่มีอยู่แล้ว{" "}
