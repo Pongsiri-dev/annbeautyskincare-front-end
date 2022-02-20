@@ -449,7 +449,6 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                 <UploadAvatar
                   accept="image/*"
                   file={values.imgProfile}
-                  maxSize={3145728}
                   onDrop={(file) => handleDrop(file, "imgProfile")}
                   // error={Boolean(touched.imgProfile && errors.imgProfile)}
                   caption={
@@ -522,7 +521,6 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   <UploadAvatar
                     accept="image/*"
                     file={values.imgCardID}
-                    maxSize={3145728}
                     onDrop={(file) => handleDrop(file, "imgCardID")}
                     error={Boolean(touched.imgCardID && errors.imgCardID)}
                     caption={
