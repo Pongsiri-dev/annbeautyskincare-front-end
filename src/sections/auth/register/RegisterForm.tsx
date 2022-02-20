@@ -277,16 +277,11 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
             });
             setErrors(error.message);
             console.log(error);
-            return;
+            // return;
           }
         }
         resetForm();
         setSubmitting(false);
-        // enqueueSnackbar(!isEdit ? "Create success" : "Update success", {
-        //   variant: "success",
-        // });
-        // navigate(PATH_DASHBOARD.user.profile);
-        // navigate(PATH_AUTH.login);
       } catch (error) {
         console.error(error);
         if (isMountedRef.current) {
@@ -450,7 +445,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   accept="image/*"
                   file={values.imgProfile}
                   onDrop={(file) => handleDrop(file, "imgProfile")}
-                  // error={Boolean(touched.imgProfile && errors.imgProfile)}
+                  error={Boolean(touched.imgProfile && errors.imgProfile)}
                   caption={
                     <Typography
                       variant="caption"
@@ -462,8 +457,8 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                         color: "red",
                       }}
                     >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of 2 MB
+                      Allowed *.jpeg, *.jpg, *.png
+                      <br /> max size of 1 MB
                     </Typography>
                   }
                 />
@@ -534,8 +529,8 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                           color: "red",
                         }}
                       >
-                        Allowed *.jpeg, *.jpg, *.png, *.gif
-                        <br /> max size of 2 MB
+                        Allowed *.jpeg, *.jpg, *.png
+                        <br /> max size of 1 MB
                       </Typography>
                     }
                   />
