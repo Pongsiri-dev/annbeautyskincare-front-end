@@ -497,6 +497,7 @@ img-fluid d-block mx-auto
     }
     .card.card-type.front .logo-profile {
       min-height: 100px;
+      height: 100px;
       width: 100px;
       object-fit: cover;
       border-radius: 1rem;
@@ -525,7 +526,7 @@ img-fluid d-block mx-auto
     }
     .card.platinum.back {
       padding: 100px 20px 10px 25px;
-  }
+    }
   }
   @media only screen and (max-width: 500px) {
     .w-30 {
