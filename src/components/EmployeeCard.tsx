@@ -733,28 +733,28 @@ export default function EmployeeCard({ profile }: Props) {
                     สายงาน <span>{team || "-"}</span>
                   </h5>
                   <h5>
-                    เบอร์โทร <span> {`0${telephone}` || "-"}</span>
+                    เบอร์โทร <span> {`0${telephone}`}</span>
                   </h5>
                 </div>
                 <div className="card-text">
                   <h6>
                     <img src="/company/facebook.png" alt="" />{" "}
-                    <span> {`${facebook}` || ""}</span>
+                    <span> {`${facebook || ""}`}</span>
                   </h6>
                   <h6>
                     <img src="/company/line1.png" alt="" />{" "}
-                    <span> {`${youtube}` || ""}</span>
+                    <span> {`${youtube || ""}`}</span>
                   </h6>
                 </div>
 
                 <div className="card-text">
                   <h6>
                     <img src="/company/instagram.png" alt="" />{" "}
-                    <span> {`${instagram}` || ""}</span>
+                    <span> {`${instagram || ""}`}</span>
                   </h6>
                   <h6>
                     <img src="/company/tiktok.png" alt="" />{" "}
-                    <span> {`${tiktok}` || ""}</span>
+                    <span> {`${tiktok || ""}`}</span>
                   </h6>
                 </div>
               </div>
@@ -803,7 +803,7 @@ export default function EmployeeCard({ profile }: Props) {
                         alt=""
                       />{" "}
                     </p>
-                    <span>{`${facebook}` || ""}</span>
+                    <span>{`${facebook || ""}`}</span>
                   </li>
                 </ul>
                 <ul>
@@ -815,7 +815,7 @@ export default function EmployeeCard({ profile }: Props) {
                     <p>
                       <img src="/company/line1.png" className="w-30" alt="" />{" "}
                     </p>
-                    <span>{`${youtube}` || ""}</span>
+                    <span>{`${youtube || ""}`}</span>
                   </li>
                   <li>
                     <p>รหัส </p>
@@ -829,7 +829,7 @@ export default function EmployeeCard({ profile }: Props) {
                         alt=""
                       />{" "}
                     </p>
-                    <span>{`${instagram} || ""`}</span>
+                    <span>{`${instagram || ""}`}</span>
                   </li>
                   <li>
                     <p>เบอร์โทร </p>
@@ -844,7 +844,7 @@ export default function EmployeeCard({ profile }: Props) {
                         alt=""
                       />{" "}
                     </p>
-                    <span>{`${tiktok} || ""`}</span>
+                    <span>{`${tiktok || ""}`}</span>
                   </li>
                 </ul>
               </div>
