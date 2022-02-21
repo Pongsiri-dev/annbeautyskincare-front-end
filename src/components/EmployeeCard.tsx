@@ -650,12 +650,28 @@ export default function EmployeeCard({ profile }: Props) {
     }
   }, [level]);
 
+  const [imgUrl, setImgUrl] = useState<any>();
+  useEffect(() => {
+    const imageUrl = `https://api.ann-beautyskincare.com/api/v1/${id}/image/download`;
+    const getImg = async () => {
+      const response = await fetch(imageUrl);
+      const imageBlob = await response.blob();
+      const reader = new FileReader();
+      reader.readAsDataURL(imageBlob);
+      reader.onloadend = () => {
+        const base64data = reader.result || null;
+        setImgUrl(base64data);
+      };
+    };
+    getImg();
+  }, [id]);
+
   const exportPDFWithMethod = () => {
     let element = container.current || document.body;
     savePDF(element, {
       paperSize: "auto",
       margin: 40,
-      fileName: `Report for ${new Date().getFullYear()}`,
+      fileName: `member-card.pdf`,
     });
   };
   const handleExportWithComponent = () => {
@@ -681,13 +697,12 @@ export default function EmployeeCard({ profile }: Props) {
         fileName="member-card.pdf"
         paperSize="auto"
         margin={40}
-        author="KendoReact Team"
       >
         <div ref={container}>
           {level === "Platinum" ? (
             <div className="col bg-card ">
               <div className="card platinum front">
-                <img src="/company/IMG-3075.png" className="logo" />
+                <img src="/company/IMG-3075.png" className="logo" alt="logo" />
                 <li
                   className="proImg"
                   style={{
@@ -699,7 +714,7 @@ export default function EmployeeCard({ profile }: Props) {
                     transform: "translate(-50%, 0)",
                   }}
                 >
-                  <img src={url} className="logo-profile" />
+                  <img src={imgUrl} className="logo-profile" alt="profile" />
                 </li>
                 <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
               </div>
@@ -752,7 +767,11 @@ export default function EmployeeCard({ profile }: Props) {
               <div className={type + " card card-type front"}>
                 <ul>
                   <li>
-                    <img src="/company/IMG-3075.png" className="logo" />
+                    <img
+                      src="/company/IMG-3075.png"
+                      className="logo"
+                      alt="logo"
+                    />
                   </li>
                   <li
                     className="proImg"
@@ -765,14 +784,14 @@ export default function EmployeeCard({ profile }: Props) {
                       transform: "translate(-42%, 0px)",
                     }}
                   >
-                    <img src={url} className="logo-profile" />
+                    <img src={imgUrl} className="logo-profile" alt="profile" />
                   </li>
                 </ul>
                 <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
               </div>
               <br />
               <div className={type + " card card-type back"}>
-                <img src="/company/IMG-5218.png" className="logo" />
+                <img src="/company/IMG-5218.png" className="logo" alt="logo" />
                 <h2>
                   <span>
                     คุณ {firstName} {lastName}
