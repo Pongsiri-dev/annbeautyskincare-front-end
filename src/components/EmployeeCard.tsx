@@ -280,6 +280,7 @@ img-fluid d-block mx-auto
   img.logo-profile {
     min-height: 150px;
     width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 1rem;
   }
@@ -491,6 +492,7 @@ img-fluid d-block mx-auto
     }
     img.logo-profile {
       min-height: 100px;
+      height: 100px;
       width: 100px;
       object-fit: cover;
       border-radius: 1rem;
@@ -584,6 +586,7 @@ img-fluid d-block mx-auto
     img.logo-profile {
       min-height: 100px;
       width: 100px;
+      height: 100px;
       object-fit: cover;
       border-radius: 1rem;
     }
