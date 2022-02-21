@@ -650,22 +650,6 @@ export default function EmployeeCard({ profile }: Props) {
     }
   }, [level]);
 
-  const [imgUrl, setImgUrl] = useState<any>();
-  // useEffect(() => {
-  //   const imageUrl = `https://api.ann-beautyskincare.com/api/v1/${id}/image/download`;
-  //   const getImg = async () => {
-  //     const response = await fetch(imageUrl);
-  //     const imageBlob = await response.blob();
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(imageBlob);
-  //     reader.onloadend = () => {
-  //       const base64data = reader.result || null;
-  //       setImgUrl(base64data);
-  //     };
-  //   };
-  //   getImg();
-  // }, [id]);
-
   const exportPDFWithMethod = () => {
     let element = container.current || document.body;
     savePDF(element, {
