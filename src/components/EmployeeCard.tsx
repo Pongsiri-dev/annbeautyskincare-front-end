@@ -629,6 +629,7 @@ export default function EmployeeCard({ profile }: Props) {
     instagram,
     youtube,
     tiktok,
+    url,
   } = profile;
   const container = React.useRef<HTMLDivElement>(null);
   const pdfExportComponent = React.useRef<PDFExport>(null);
@@ -711,7 +712,7 @@ export default function EmployeeCard({ profile }: Props) {
                     transform: "translate(-50%, 0)",
                   }}
                 >
-                  <img src={imgUrl} className="logo-profile" />
+                  <img src={url} className="logo-profile" />
                 </li>
                 <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
               </div>
@@ -777,7 +778,7 @@ export default function EmployeeCard({ profile }: Props) {
                       transform: "translate(-42%, 0px)",
                     }}
                   >
-                    <img src={imgUrl} className="logo-profile" />
+                    <img src={url} className="logo-profile" />
                   </li>
                 </ul>
                 <h5>ตัวแทน บริษัท แอนบิวตี้ฟูลสกินแคร์</h5>
