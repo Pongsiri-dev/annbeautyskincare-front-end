@@ -85,7 +85,6 @@ const AuthContext = createContext<JWTContextType | null>(null);
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(JWTReducer, initialState);
-
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -139,14 +138,14 @@ function AuthProvider({ children }: { children: ReactNode }) {
       password,
     });
     const { accessToken } = response.data;
-
     setSession(accessToken);
-
-    // const res = await axios.get("/api/user/me");
-    // const { usernameRes } = res.data;
+    const res = await axios.get("/api/user/me");
+    const { id } = res.data;
+    localStorage.setItem("me", JSON.stringify(id));
 
     const { data } = await axios.get(`/api/user/username/${username}`);
     const user = data;
+    localStorage.setItem("userSelected", JSON.stringify(user));
 
     // setSession(accessToken);
     dispatch({
