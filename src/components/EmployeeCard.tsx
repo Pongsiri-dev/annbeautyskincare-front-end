@@ -652,6 +652,7 @@ export default function EmployeeCard({ profile }: Props) {
 
   const [imgUrl, setImgUrl] = useState<any>();
   useEffect(() => {
+    let id = localStorage.getItem("me");
     const imageUrl = `https://api.ann-beautyskincare.com/api/v1/${id}/image/download`;
     const getImg = async () => {
       const response = await fetch(imageUrl);
