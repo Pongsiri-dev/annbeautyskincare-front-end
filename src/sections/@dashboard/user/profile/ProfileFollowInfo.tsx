@@ -23,7 +23,7 @@ export default function ProfileFollowInfo({ profile }: Props) {
         <Stack width={1} textAlign="center">
           <Typography variant="h4">{fNumber(billSum)} ชิ้น</Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            ยอดซื้อรวม
+            ยอดที่สั่งซื้อ
           </Typography>
         </Stack>
       </Stack>
