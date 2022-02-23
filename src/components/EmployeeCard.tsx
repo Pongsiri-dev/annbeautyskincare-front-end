@@ -373,7 +373,7 @@ img-fluid d-block mx-auto
     color: #84673f;
     font-family: DB-Heavent-Cond;
     width: 50%;
-    margin-top: 10px;
+    margin-top: 8px;
     display: flex;
   }
 
