@@ -281,7 +281,7 @@ export default function UserList() {
                         status,
                         username,
                         team,
-                        team_status,
+                        teamStatus,
                       } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
@@ -320,7 +320,7 @@ export default function UserList() {
                               {status ? "ใช้งาน" : "ไม่ใช้งาน"}
                             </Label>
                           </TableCell>
-                          <TableCell>{team + "-" + team_status}</TableCell>
+                          <TableCell>{team + "-" + teamStatus}</TableCell>
                           {/* {team != "" && team != "0" && team != user?.team ? (
                             <TableCell>{team + "-" + team_status}</TableCell>
                           ) : (
