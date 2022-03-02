@@ -61,6 +61,7 @@ type initialValues = {
   tombon: string;
   postCode: string;
   signID: string;
+  flag: string;
 };
 interface IProvince {
   id: number;
@@ -122,6 +123,17 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
   const [amphur, setAmphur] = useState<IAmphur[]>([]);
   const [tombon, setTombon] = useState<ITumbon[]>([]);
 
+  const flagOptions = [
+    {
+      label: "แม่ทีม",
+      value: "Y",
+    },
+    {
+      label: "ลูกทีม",
+      value: "N",
+    },
+  ];
+
   const EditUser = {
     imgProfile: Yup.object().required("กรุณาใส่รูปประจำตัว"),
     firstName: Yup.string().required("กรุณากรอกชื่อ"),
@@ -146,6 +158,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
     password: Yup.string().required("กรุณากรอกรหัสผ่าน"),
     imgCardID: Yup.object().required("กรุณาใส่รูปบัตรประชาชน"),
     signID: Yup.string().required("กรุณากรอกลายเซ็น"),
+    flag: Yup.string().required("กรุณากรอกสถานะผู้ใช้งาน"),
   };
 
   const UserSchema = Yup.object().shape(isEdit ? EditUser : CreateUser);
@@ -177,6 +190,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
       allow: false,
       status: 1,
       afterSubmit: "",
+      flag: "N",
     },
     validationSchema: UserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
@@ -224,6 +238,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
         formData.append("bill", values.bill);
         formData.append("password", values.password);
         formData.append("status", values.status);
+        formData.append("flag", values.flag);
         if (isEdit) {
           try {
             formData.append("imgCardID", null);
@@ -735,6 +750,22 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                     spacing={{ xs: 3, sm: 2 }}
                   >
                     <TextField
+                      select
+                      fullWidth
+                      label="สถานะผู้ใช้งาน"
+                      placeholder="flag"
+                      {...getFieldProps("flag")}
+                      SelectProps={{ native: true }}
+                      error={Boolean(touched.flag && errors.flag)}
+                      helperText={touched.flag && errors.flag}
+                    >
+                      {flagOptions.map((option) => (
+                        <option key={option.label} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </TextField>
+                    <TextField
                       fullWidth
                       label="รหัสแม่ทีม"
                       onInput={(e) => {
@@ -745,19 +776,6 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                       error={Boolean(touched.team && errors.team)}
                       helperText={touched.team && errors.team}
                     />
-                    <TextField
-                      fullWidth
-                      label="* จำนวนสินค้า (ชิ้น)"
-                      type="number"
-                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                      onInput={(e) => {
-                        const target = e.target as HTMLInputElement;
-                        target.value = target.value.toString().slice(0, 9);
-                      }}
-                      {...getFieldProps("bill")}
-                      error={Boolean(touched.bill && errors.bill)}
-                      helperText={touched.bill && errors.bill}
-                    />
                   </Stack>
                 )}
                 <Stack
@@ -766,18 +784,37 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                 >
                   <TextField
                     fullWidth
+                    label="* จำนวนสินค้า (ชิ้น)"
+                    type="number"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      target.value = target.value.toString().slice(0, 9);
+                    }}
+                    {...getFieldProps("bill")}
+                    error={Boolean(touched.bill && errors.bill)}
+                    helperText={touched.bill && errors.bill}
+                  />
+                  <TextField
+                    fullWidth
                     label="ชื่อเข้าใช้งาน"
                     disabled
                     {...getFieldProps("cardid")}
                     error={Boolean(touched.cardid && errors.cardid)}
                     helperText={touched.cardid && errors.cardid}
                   />
+                </Stack>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 3, sm: 2 }}
+                >
                   {!isEdit && (
                     <TextField
                       fullWidth
                       label="รหัสผ่าน"
                       type="password"
                       autoComplete="off"
+                      style={{ width: "calc(50% - 8px)" }}
                       {...getFieldProps("password")}
                       error={Boolean(touched.password && errors.password)}
                       helperText={touched.password && errors.password}
