@@ -281,6 +281,7 @@ export default function UserList() {
                         status,
                         username,
                         team,
+                        team_status,
                       } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
@@ -319,8 +320,9 @@ export default function UserList() {
                               {status ? "ใช้งาน" : "ไม่ใช้งาน"}
                             </Label>
                           </TableCell>
-                          {team != "" && team != "0" && team != user?.team ? (
-                            <TableCell>{team}</TableCell>
+                          <TableCell>{team + "-" + team_status}</TableCell>
+                          {/* {team != "" && team != "0" && team != user?.team ? (
+                            <TableCell>{team + "-" + team_status}</TableCell>
                           ) : (
                             <TableCell>
                               <Button
@@ -334,7 +336,7 @@ export default function UserList() {
                                 ผูกรหัสลูกทีม
                               </Button>
                             </TableCell>
-                          )}
+                          )} */}
                           {user?.role[0].id === 2 && (
                             <TableCell align="right">
                               <UserMoreMenu
