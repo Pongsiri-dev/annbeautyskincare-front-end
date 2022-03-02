@@ -125,6 +125,7 @@ export type UserAbout = {
   bill?: number;
   url?: string;
   team?: string;
+  team_status?: any;
   facebook?: string;
   instagram?: string;
   youtube?: string;

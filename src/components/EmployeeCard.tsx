@@ -621,6 +621,7 @@ export default function EmployeeCard({ profile }: Props) {
     level,
     telephone,
     team,
+    team_status,
     email,
     address,
     amphur,
@@ -731,7 +732,7 @@ export default function EmployeeCard({ profile }: Props) {
                     </span>
                   </h5>
                   <h5>
-                    รหัส <span></span>
+                    รหัส <span>{team + "-" + team_status}</span>
                   </h5>
                   <h5>
                     สายงาน <span>{team || "-"}</span>
@@ -827,7 +828,7 @@ export default function EmployeeCard({ profile }: Props) {
                   </li>
                   <li>
                     <p>รหัส </p>
-                    <span></span>
+                    <span>{team + "-" + team_status}</span>
                   </li>
                   <li>
                     <p>
