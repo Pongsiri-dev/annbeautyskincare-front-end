@@ -321,7 +321,9 @@ export default function UserList() {
                             </Label>
                           </TableCell>
                           <TableCell>
-                            {team + "-" + teamStatus == "0" ? "" : teamStatus}
+                            {teamStatus == 0 || teamStatus == "0"
+                              ? team
+                              : team + "-" + teamStatus}
                           </TableCell>
                           {/* {team != "" && team != "0" && team != user?.team ? (
                             <TableCell>{team + "-" + team_status}</TableCell>

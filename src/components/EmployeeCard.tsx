@@ -668,14 +668,6 @@ export default function EmployeeCard({ profile }: Props) {
     getImg();
   }, [id]);
 
-  const exportPDFWithMethod = () => {
-    let element = container.current || document.body;
-    savePDF(element, {
-      paperSize: "auto",
-      margin: 40,
-      fileName: `member-card.pdf`,
-    });
-  };
   const handleExportWithComponent = () => {
     if (pdfExportComponent.current) {
       pdfExportComponent.current.save();
@@ -734,7 +726,7 @@ export default function EmployeeCard({ profile }: Props) {
                   <h5>
                     รหัส{" "}
                     <span>
-                      {team + "-" + team_status == "0" ? "" : team_status}
+                      {team_status == 0 ? team : team + "-" + team_status}
                     </span>
                   </h5>
                   <h5>
@@ -832,7 +824,7 @@ export default function EmployeeCard({ profile }: Props) {
                   <li>
                     <p>รหัส </p>
                     <span>
-                      {team + "-" + team_status == "0" ? "" : team_status}
+                      {team_status == 0 ? team : team + "-" + team_status}
                     </span>
                   </li>
                   <li>
