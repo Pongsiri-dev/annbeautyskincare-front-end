@@ -320,10 +320,13 @@ export default function UserList() {
                               {status ? "ใช้งาน" : "ไม่ใช้งาน"}
                             </Label>
                           </TableCell>
-                          <TableCell>{team + "-" + teamStatus}</TableCell>
+                          <TableCell>
+                            {team + "-" + teamStatus == "0" ? "" : teamStatus}
+                          </TableCell>
                           {/* {team != "" && team != "0" && team != user?.team ? (
                             <TableCell>{team + "-" + team_status}</TableCell>
-                          ) : (
+                          ) 
+                          : (
                             <TableCell>
                               <Button
                                 size="small"
