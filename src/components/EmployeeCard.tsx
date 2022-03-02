@@ -732,7 +732,10 @@ export default function EmployeeCard({ profile }: Props) {
                     </span>
                   </h5>
                   <h5>
-                    รหัส <span>{team + "-" + team_status}</span>
+                    รหัส{" "}
+                    <span>
+                      {team + "-" + team_status == "0" ? "" : team_status}
+                    </span>
                   </h5>
                   <h5>
                     สายงาน <span>{team || "-"}</span>
@@ -828,7 +831,9 @@ export default function EmployeeCard({ profile }: Props) {
                   </li>
                   <li>
                     <p>รหัส </p>
-                    <span>{team + "-" + team_status}</span>
+                    <span>
+                      {team + "-" + team_status == "0" ? "" : team_status}
+                    </span>
                   </li>
                   <li>
                     <p>
