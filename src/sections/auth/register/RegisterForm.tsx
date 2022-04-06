@@ -770,7 +770,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                       label="รหัสแม่ทีม"
                       onInput={(e) => {
                         const target = e.target as HTMLInputElement;
-                        target.value = target.value.toString().slice(0, 9);
+                        target.value = target.value.toString().slice(0);
                       }}
                       {...getFieldProps("team")}
                       error={Boolean(touched.team && errors.team)}
