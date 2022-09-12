@@ -90,7 +90,7 @@ export default function HomeHero() {
 
         <HeroImgStyle
           alt="hero"
-          src="https://minimals.cc/assets/images/home/hero.png"
+          src="https://minimal-assets-api.vercel.app/assets/images/home/hero.png"
           variants={varFade().inUp}
         />
 
